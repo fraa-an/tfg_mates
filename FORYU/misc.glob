@@ -1,0 +1,177 @@
+DIGEST 281f7eab72c687c438930e749814b4ec
+FLenguajeYul.misc
+R27:35 Stdlib.Bool.Bool <> <> lib
+R65:89 Stdlib.Logic.Classical_Pred_Type <> <> lib
+R119:122 Stdlib.Lists.List <> <> lib
+R152:157 Stdlib.ZArith.ZArith <> <> lib
+R187:192 Stdlib.Strings.String <> <> lib
+R222:234 Stdlib.Numbers.DecimalString <> <> lib
+R266:278 Stdlib.Lists.List ListNotations <> mod
+mod 290:293 <> Misc
+def 310:320 Misc z_to_string
+R327:327 Corelib.Numbers.BinNums <> Z ind
+binder 323:323 <> z:1
+R332:337 Stdlib.Strings.String <> string ind
+R344:365 Stdlib.Numbers.DecimalString NilEmpty string_of_int def
+R368:375 Stdlib.ZArith.BinInt Z to_int def
+R377:377 LenguajeYul.misc <> z:1 var
+def 395:405 Misc n_to_string
+R412:412 Corelib.Numbers.BinNums <> N ind
+binder 408:408 <> n:2
+R417:422 Stdlib.Strings.String <> string ind
+R429:451 Stdlib.Numbers.DecimalString NilEmpty string_of_uint def
+R454:462 Stdlib.NArith.BinNat N to_uint def
+R464:464 LenguajeYul.misc <> n:2 var
+R613:623 Stdlib.Bool.Bool <> reflect_iff thm
+R574:584 Stdlib.Bool.Bool <> reflect_iff thm
+R750:767 Stdlib.Bool.Bool <> not_true_iff_false thm
+R707:717 Stdlib.Bool.Bool <> reflect_iff thm
+R1006:1012 Corelib.Init.Logic <> eq_refl constr
+prf 1026:1050 Misc not_exists_iff_forall_not
+binder 1061:1061 <> A:3
+R1069:1072 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1068:1068 LenguajeYul.misc <> A:3 var
+binder 1064:1064 <> P:4
+R1086:1086 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1102:1108 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1124:1124 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1087:1088 Corelib.Init.Logic <> ::type_scope:'~'_x not
+R1089:1095 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R1097:1098 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 1096:1096 <> x:5
+R1099:1099 LenguajeYul.misc <> P:4 var
+R1101:1101 LenguajeYul.misc <> x:5 var
+binder 1116:1116 <> x:6
+R1119:1120 Corelib.Init.Logic <> ::type_scope:'~'_x not
+R1121:1121 LenguajeYul.misc <> P:4 var
+R1123:1123 LenguajeYul.misc <> x:6 var
+R1209:1222 Stdlib.Logic.Classical_Pred_Type <> not_ex_all_not thm
+R1209:1222 Stdlib.Logic.Classical_Pred_Type <> not_ex_all_not thm
+sec 1414:1428 Misc ListInDecidable
+var 1444:1444 Misc.ListInDecidable A
+var 1469:1474 Misc.ListInDecidable eq_dec
+R1490:1490 LenguajeYul.misc <> Misc.ListInDecidable.A var
+binder 1485:1485 <> x:9
+binder 1487:1487 <> y:10
+R1493:1499 Corelib.Init.Specif <> sumbool ind
+R1509:1510 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R1508:1508 LenguajeYul.misc <> x:9 var
+R1511:1511 LenguajeYul.misc <> y:10 var
+R1503:1503 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1502:1502 LenguajeYul.misc <> x:9 var
+R1504:1504 LenguajeYul.misc <> y:10 var
+prf 1530:1547 Misc prove_in_decidable
+R1563:1563 LenguajeYul.misc <> Misc.ListInDecidable.A var
+binder 1559:1559 <> x:13
+R1572:1575 Corelib.Init.Datatypes <> list ind
+R1577:1577 LenguajeYul.misc <> Misc.ListInDecidable.A var
+binder 1567:1568 <> l':14
+R1590:1608 Stdlib.Logic.Decidable <> decidable def
+R1611:1612 Stdlib.Lists.List <> In def
+R1616:1617 LenguajeYul.misc <> l':14 var
+R1614:1614 LenguajeYul.misc <> x:13 var
+R1664:1682 Stdlib.Logic.Decidable <> decidable def
+R1701:1706 Stdlib.Lists.List <> In_dec abbrev
+R1708:1713 LenguajeYul.misc <> Misc.ListInDecidable.eq_dec var
+R1701:1706 Stdlib.Lists.List <> In_dec abbrev
+R1708:1713 LenguajeYul.misc <> Misc.ListInDecidable.eq_dec var
+R1817:1831 LenguajeYul.misc Misc.ListInDecidable <> sec
+sec 1847:1855 Misc NoDupBool
+var 1871:1871 Misc.NoDupBool A
+var 1894:1896 Misc.NoDupBool eqb
+R1901:1904 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1900:1900 LenguajeYul.misc <> Misc.NoDupBool.A var
+R1906:1909 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1905:1905 LenguajeYul.misc <> Misc.NoDupBool.A var
+R1910:1913 Corelib.Init.Datatypes <> bool ind
+var 1931:1936 Misc.NoDupBool eqb_eq
+binder 1947:1947 <> x:19
+binder 1949:1949 <> y:20
+R1966:1970 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1959:1961 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1952:1954 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R1956:1956 LenguajeYul.misc <> x:19 var
+R1958:1958 LenguajeYul.misc <> y:20 var
+R1962:1965 Corelib.Init.Datatypes <> true constr
+R1972:1974 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1971:1971 LenguajeYul.misc <> x:19 var
+R1975:1975 LenguajeYul.misc <> y:20 var
+var 1993:1998 Misc.NoDupBool eq_dec
+R2014:2014 LenguajeYul.misc <> Misc.NoDupBool.A var
+binder 2009:2009 <> x:23
+binder 2011:2011 <> y:24
+R2017:2023 Corelib.Init.Specif <> sumbool ind
+R2033:2034 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R2032:2032 LenguajeYul.misc <> x:23 var
+R2035:2035 LenguajeYul.misc <> y:24 var
+R2027:2027 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R2026:2026 LenguajeYul.misc <> x:23 var
+R2028:2028 LenguajeYul.misc <> y:24 var
+def 2053:2058 Misc nodupb
+R2065:2068 Corelib.Init.Datatypes <> list ind
+R2070:2070 LenguajeYul.misc <> Misc.NoDupBool.A var
+binder 2061:2061 <> l:27
+R2075:2078 Corelib.Init.Datatypes <> bool ind
+R2095:2095 LenguajeYul.misc <> l:27 var
+R2110:2111 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R2116:2119 Corelib.Init.Datatypes <> true constr
+R2130:2133 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R2143:2149 Stdlib.Lists.List <> existsb def
+R2152:2154 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2178:2183 LenguajeYul.misc <> nodupb:28 def
+R2167:2171 Corelib.Init.Datatypes <> false constr
+prf 2219:2229 Misc nodupb_spec
+binder 2240:2240 <> l:30
+R2261:2264 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R2243:2249 Stdlib.Bool.Bool <> Is_true def
+R2252:2257 LenguajeYul.misc Misc nodupb def
+R2259:2259 LenguajeYul.misc <> l:30 var
+R2265:2269 Stdlib.Lists.List <> NoDup ind
+R2271:2271 LenguajeYul.misc <> l:30 var
+R2348:2356 Stdlib.Lists.List <> NoDup_nil constr
+R2348:2356 Stdlib.Lists.List <> NoDup_nil constr
+R2392:2398 Stdlib.Lists.List <> existsb def
+R2401:2403 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2392:2398 Stdlib.Lists.List <> existsb def
+R2401:2403 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2471:2477 Stdlib.Bool.Bool <> Is_true def
+R2538:2555 Stdlib.Bool.Bool <> not_true_iff_false thm
+R2538:2555 Stdlib.Bool.Bool <> not_true_iff_false thm
+R2538:2555 Stdlib.Bool.Bool <> not_true_iff_false thm
+R2598:2611 Stdlib.Lists.List <> existsb_exists thm
+R2614:2616 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2598:2611 Stdlib.Lists.List <> existsb_exists thm
+R2614:2616 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2598:2611 Stdlib.Lists.List <> existsb_exists thm
+R2614:2616 LenguajeYul.misc <> Misc.NoDupBool.eqb var
+R2657:2681 LenguajeYul.misc Misc not_exists_iff_forall_not thm
+R2657:2681 LenguajeYul.misc Misc not_exists_iff_forall_not thm
+R2657:2681 LenguajeYul.misc Misc not_exists_iff_forall_not thm
+R2762:2778 Stdlib.Logic.Decidable <> not_and thm
+R2762:2778 Stdlib.Logic.Decidable <> not_and thm
+R2967:2976 Stdlib.Lists.List <> NoDup_cons constr
+R2967:2976 Stdlib.Lists.List <> NoDup_cons constr
+R3011:3016 LenguajeYul.misc <> Misc.NoDupBool.eqb_eq var
+R3011:3016 LenguajeYul.misc <> Misc.NoDupBool.eqb_eq var
+R3011:3016 LenguajeYul.misc <> Misc.NoDupBool.eqb_eq var
+R3081:3098 LenguajeYul.misc Misc prove_in_decidable thm
+R3081:3098 LenguajeYul.misc Misc prove_in_decidable thm
+R3119:3124 LenguajeYul.misc <> Misc.NoDupBool.eq_dec var
+R3119:3124 LenguajeYul.misc <> Misc.NoDupBool.eq_dec var
+R3142:3150 LenguajeYul.misc Misc.NoDupBool <> sec
+prf 3200:3205 Misc len_eq
+binder 3220:3220 <> A:31
+R3236:3239 Corelib.Init.Datatypes <> list ind
+R3241:3241 LenguajeYul.misc <> A:31 var
+binder 3230:3230 <> x:32
+binder 3232:3232 <> y:33
+R3250:3253 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R3246:3248 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R3245:3245 LenguajeYul.misc <> x:32 var
+R3249:3249 LenguajeYul.misc <> y:33 var
+R3267:3269 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R3254:3264 Stdlib.Lists.List <> length abbrev
+R3266:3266 LenguajeYul.misc <> x:32 var
+R3270:3280 Stdlib.Lists.List <> length abbrev
+R3282:3282 LenguajeYul.misc <> y:33 var
+R3351:3354 LenguajeYul.misc Misc <> mod

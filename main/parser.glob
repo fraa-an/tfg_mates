@@ -1,0 +1,141 @@
+DIGEST 6fbee6523869e9ffd13cc7365e2ed8d1
+Fmain.parser
+R15:28 Stdlib.Strings.String <> <> lib
+R46:50 Stdlib.Strings.Ascii <> <> lib
+R68:77 Stdlib.Lists.List <> <> lib
+R87:99 Stdlib.Lists.List ListNotations <> mod
+R117:133 main.fran_dialect <> <> lib
+ind 147:154 <> yul_expr
+constr 163:170 <> YulConst
+constr 189:193 <> YulOp
+R177:181 main.fran_dialect U32 t rec
+binder 173:173 <> v:3
+R201:212 main.fran_dialect EVM_opcode t ind
+binder 196:197 <> op:4
+R223:226 Corelib.Init.Datatypes <> list ind
+R228:235 main.parser <> yul_expr:1 ind
+binder 216:219 <> args:5
+scheme 147:154 <> yul_expr_rect
+scheme 147:154 <> yul_expr_ind
+scheme 147:154 <> yul_expr_rec
+scheme 147:154 <> yul_expr_sind
+def 251:263 <> lista_strings
+R270:275 Stdlib.Strings.String <> string ind
+binder 266:266 <> s:6
+R280:283 Corelib.Init.Datatypes <> list ind
+R285:289 Stdlib.Strings.Ascii <> ascii ind
+binder 306:306 <> s:7
+R321:321 main.parser <> s:7 var
+R347:348 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R356:361 Stdlib.Strings.String <> String constr
+R372:375 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R376:376 main.parser <> f:8 var
+binder 304:304 <> f:10
+R392:392 main.parser <> f:10 var
+R394:394 main.parser <> s:6 var
+def 409:418 <> es_espacio
+R425:429 Stdlib.Strings.Ascii <> ascii ind
+binder 421:421 <> c:11
+R434:437 Corelib.Init.Datatypes <> bool ind
+R450:461 Stdlib.Strings.Ascii <> nat_of_ascii def
+R463:463 main.parser <> c:11 var
+R494:497 Corelib.Init.Datatypes <> true constr
+R494:497 Corelib.Init.Datatypes <> true constr
+R494:497 Corelib.Init.Datatypes <> true constr
+R494:497 Corelib.Init.Datatypes <> true constr
+R509:513 Corelib.Init.Datatypes <> false constr
+def 534:543 <> es_simbolo
+R550:554 Stdlib.Strings.Ascii <> ascii ind
+binder 546:546 <> c:12
+R559:562 Corelib.Init.Datatypes <> bool ind
+R575:575 main.parser <> c:12 var
+R605:608 Corelib.Init.Datatypes <> true constr
+R605:608 Corelib.Init.Datatypes <> true constr
+R605:608 Corelib.Init.Datatypes <> true constr
+R619:623 Corelib.Init.Datatypes <> false constr
+def 647:658 <> tokeniza_aux
+R665:668 Corelib.Init.Datatypes <> list ind
+R670:674 Stdlib.Strings.Ascii <> ascii ind
+binder 661:661 <> s:14
+R695:700 Stdlib.Strings.String <> string ind
+binder 678:691 <> palabra_actual:15
+R705:708 Corelib.Init.Datatypes <> list ind
+R710:715 Stdlib.Strings.String <> string ind
+R728:728 main.parser <> s:14 var
+R739:740 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R748:754 Corelib.Init.Nat <> ltb def
+R759:771 Stdlib.Strings.String <> length def
+R773:786 main.parser <> palabra_actual:15 var
+R816:817 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R794:794 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R809:809 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R795:808 main.parser <> palabra_actual:15 var
+R824:827 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R846:855 main.parser <> es_espacio def
+R1013:1022 main.parser <> es_simbolo def
+R1236:1247 main.parser <> tokeniza_aux:16 def
+R1270:1273 Stdlib.Strings.String <> ::string_scope:x_'++'_x not
+R1256:1269 main.parser <> palabra_actual:15 var
+R1274:1279 Stdlib.Strings.String <> String constr
+R1051:1056 Stdlib.Strings.String <> String constr
+binder 1043:1046 <> simb:18
+R1086:1097 main.parser <> tokeniza_aux:16 def
+binder 1078:1081 <> cola:19
+R1122:1128 Corelib.Init.Nat <> ltb def
+R1133:1145 Stdlib.Strings.String <> length def
+R1147:1160 main.parser <> palabra_actual:15 var
+R1208:1211 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1204:1207 main.parser <> simb:18 var
+R1212:1215 main.parser <> cola:19 var
+R1182:1185 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1168:1181 main.parser <> palabra_actual:15 var
+R1190:1193 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1186:1189 main.parser <> simb:18 var
+R1194:1197 main.parser <> cola:19 var
+R884:895 main.parser <> tokeniza_aux:16 def
+binder 876:879 <> cola:20
+R920:926 Corelib.Init.Nat <> ltb def
+R931:943 Stdlib.Strings.String <> length def
+R945:958 main.parser <> palabra_actual:15 var
+R994:997 main.parser <> cola:20 var
+R980:983 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R966:979 main.parser <> palabra_actual:15 var
+R984:987 main.parser <> cola:20 var
+def 1306:1313 <> tokeniza
+R1320:1325 Stdlib.Strings.String <> string ind
+binder 1316:1316 <> s:21
+R1330:1333 Corelib.Init.Datatypes <> list ind
+R1335:1340 Stdlib.Strings.String <> string ind
+R1347:1358 main.parser <> tokeniza_aux def
+R1361:1373 main.parser <> lista_strings def
+R1375:1375 main.parser <> s:21 var
+def 1394:1408 <> string_a_opcode
+R1415:1420 Stdlib.Strings.String <> string ind
+binder 1411:1411 <> s:22
+R1425:1430 Corelib.Init.Datatypes <> option ind
+R1432:1443 main.fran_dialect EVM_opcode t ind
+R1453:1462 Stdlib.Strings.String <> string_dec def
+R1464:1464 main.parser <> s:22 var
+R1568:1577 Stdlib.Strings.String <> string_dec def
+R1579:1579 main.parser <> s:22 var
+R1622:1631 Stdlib.Strings.String <> string_dec def
+R1633:1633 main.parser <> s:22 var
+R1676:1685 Stdlib.Strings.String <> string_dec def
+R1687:1687 main.parser <> s:22 var
+R1727:1730 Corelib.Init.Datatypes <> None constr
+R1700:1703 Corelib.Init.Datatypes <> Some constr
+R1705:1718 main.fran_dialect EVM_opcode DIV constr
+R1646:1649 Corelib.Init.Datatypes <> Some constr
+R1651:1664 main.fran_dialect EVM_opcode MUL constr
+R1592:1595 Corelib.Init.Datatypes <> Some constr
+R1597:1610 main.fran_dialect EVM_opcode SUB constr
+R1477:1480 Corelib.Init.Datatypes <> Some constr
+R1482:1495 main.fran_dialect EVM_opcode ADD constr
+def 1743:1752 <> parsea_nat
+R1759:1764 Stdlib.Strings.String <> string ind
+binder 1755:1755 <> s:23
+R1769:1774 Corelib.Init.Datatypes <> option ind
+R1776:1778 Corelib.Init.Datatypes <> nat ind
+R1791:1791 main.parser <> s:23 var
+R1815:1818 Corelib.Init.Datatypes <> None constr
+R1829:1832 Corelib.Init.Datatypes <> Some constr

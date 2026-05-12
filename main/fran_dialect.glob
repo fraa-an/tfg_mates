@@ -1,0 +1,2126 @@
+DIGEST 53ee574fd966ada427bb3df36934cda0
+Fmain.fran_dialect
+R20:33 Stdlib.Strings.String <> <> lib
+R56:65 Stdlib.Lists.List <> <> lib
+R88:92 Stdlib.Strings.Ascii <> <> lib
+R135:153 LenguajeYul.dialect <> <> lib
+R171:186 LenguajeYul.misc <> <> lib
+R216:228 Stdlib.ZArith.ZArith <> <> lib
+R258:267 Stdlib.Lists.List <> <> lib
+R277:289 Stdlib.Lists.List ListNotations <> mod
+R312:328 Stdlib.Strings.HexString <> <> lib
+R358:371 Stdlib.Strings.String <> <> lib
+R401:422 Stdlib.Logic.ProofIrrelevance <> <> lib
+R452:455 Stdlib.Bool.Bool <> <> lib
+mod 487:489 <> U32
+def 506:512 U32 modulus
+R518:518 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 539:543 U32 Valid
+R551:551 Corelib.Numbers.BinNums <> Z ind
+binder 546:548 <> val:1
+R568:571 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R575:577 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R572:574 main.fran_dialect <> val:1 var
+R572:574 main.fran_dialect <> val:1 var
+R578:584 main.fran_dialect U32 modulus def
+rec 689:689 U32 t
+proj 703:705 U32 val
+proj 716:723 U32 is_valid
+R709:709 Corelib.Numbers.BinNums <> Z ind
+R727:731 main.fran_dialect U32 Valid def
+R733:735 main.fran_dialect <> val:3 meth
+def 756:758 U32 eqb
+R766:766 main.fran_dialect U32 t rec
+binder 761:761 <> x:5
+binder 763:763 <> y:6
+R770:773 Corelib.Init.Datatypes <> bool ind
+R782:786 Stdlib.ZArith.BinInt Z eqb def
+R789:791 main.fran_dialect U32 val proj
+R793:793 main.fran_dialect <> x:5 var
+R797:799 main.fran_dialect U32 val proj
+R801:801 main.fran_dialect <> y:6 var
+prf 870:877 U32 eqb_spec
+R894:894 main.fran_dialect U32 t rec
+binder 888:888 <> x:7
+binder 890:890 <> y:8
+R897:903 Corelib.Init.Datatypes <> reflect ind
+R914:916 main.fran_dialect U32 eqb def
+R918:918 main.fran_dialect <> x:7 var
+R920:920 main.fran_dialect <> y:8 var
+R907:909 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R906:906 main.fran_dialect <> x:7 var
+R910:910 main.fran_dialect <> y:8 var
+R960:962 main.fran_dialect U32 eqb def
+R980:989 Stdlib.ZArith.BinInt Z eqb_spec thm
+R1000:1002 main.fran_dialect U32 val proj
+R992:994 main.fran_dialect U32 val proj
+R980:989 Stdlib.ZArith.BinInt Z eqb_spec thm
+R1000:1002 main.fran_dialect U32 val proj
+R992:994 main.fran_dialect U32 val proj
+R1038:1045 Corelib.Init.Datatypes <> ReflectT constr
+R1038:1045 Corelib.Init.Datatypes <> ReflectT constr
+R1154:1170 Stdlib.Logic.ProofIrrelevance <> proof_irrelevance prfax
+R1154:1170 Stdlib.Logic.ProofIrrelevance <> proof_irrelevance prfax
+R1186:1193 Corelib.Init.Datatypes <> ReflectF constr
+R1186:1193 Corelib.Init.Datatypes <> ReflectF constr
+prf 1371:1376 U32 eqb_eq
+binder 1387:1387 <> x:9
+binder 1389:1389 <> y:10
+R1406:1410 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1399:1401 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1392:1394 main.fran_dialect U32 eqb def
+R1396:1396 main.fran_dialect <> x:9 var
+R1398:1398 main.fran_dialect <> y:10 var
+R1402:1405 Corelib.Init.Datatypes <> true constr
+R1412:1414 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1411:1411 main.fran_dialect <> x:9 var
+R1415:1415 main.fran_dialect <> y:10 var
+R1472:1479 main.fran_dialect U32 eqb_spec thm
+prf 1555:1561 U32 eqb_neq
+binder 1572:1572 <> x:11
+binder 1574:1574 <> y:12
+R1592:1596 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1584:1587 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R1577:1579 main.fran_dialect U32 eqb def
+R1581:1581 main.fran_dialect <> x:11 var
+R1583:1583 main.fran_dialect <> y:12 var
+R1588:1591 Corelib.Init.Datatypes <> true constr
+R1598:1601 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R1597:1597 main.fran_dialect <> x:11 var
+R1602:1602 main.fran_dialect <> y:12 var
+R1661:1668 main.fran_dialect U32 eqb_spec thm
+R1661:1668 main.fran_dialect U32 eqb_spec thm
+prf 1745:1757 U32 eqb_neq_false
+binder 1768:1768 <> x:13
+binder 1770:1770 <> y:14
+R1788:1792 Corelib.Init.Logic <> ::type_scope:x_'<->'_x not
+R1780:1782 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1773:1775 main.fran_dialect U32 eqb def
+R1777:1777 main.fran_dialect <> x:13 var
+R1779:1779 main.fran_dialect <> y:14 var
+R1783:1787 Corelib.Init.Datatypes <> false constr
+R1794:1797 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R1793:1793 main.fran_dialect <> x:13 var
+R1798:1798 main.fran_dialect <> y:14 var
+R1857:1864 main.fran_dialect U32 eqb_spec thm
+R1857:1864 main.fran_dialect U32 eqb_spec thm
+prf 1917:1924 U32 eqb_refl
+R1938:1938 main.fran_dialect U32 t rec
+binder 1935:1935 <> x:15
+R1948:1950 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1941:1943 main.fran_dialect U32 eqb def
+R1945:1945 main.fran_dialect <> x:15 var
+R1947:1947 main.fran_dialect <> x:15 var
+R1951:1954 Corelib.Init.Datatypes <> true constr
+R2006:2011 main.fran_dialect U32 eqb_eq thm
+def 2131:2136 U32 eq_dec
+R2144:2144 main.fran_dialect U32 t rec
+binder 2139:2139 <> x:16
+binder 2141:2141 <> y:17
+R2148:2154 Corelib.Init.Specif <> sumbool ind
+R2164:2165 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R2163:2163 main.fran_dialect <> x:16 var
+R2166:2166 main.fran_dialect <> y:17 var
+R2158:2158 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R2157:2157 main.fran_dialect <> x:16 var
+R2159:2159 main.fran_dialect <> y:17 var
+R2201:2208 main.fran_dialect U32 eqb_spec thm
+R2201:2208 main.fran_dialect U32 eqb_spec thm
+def 2312:2315 U32 to_t
+R2322:2322 Corelib.Numbers.BinNums <> Z ind
+binder 2318:2318 <> z:18
+R2327:2327 main.fran_dialect U32 t rec
+R2336:2337 main.fran_dialect U32 mk constr
+R2341:2345 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R2340:2340 main.fran_dialect <> z:18 var
+R2346:2352 main.fran_dialect U32 modulus def
+R2387:2401 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R2387:2401 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+def 2458:2461 U32 zero
+R2464:2464 main.fran_dialect U32 t rec
+R2469:2472 main.fran_dialect U32 to_t def
+def 2490:2492 U32 one
+R2495:2495 main.fran_dialect U32 t rec
+R2500:2503 main.fran_dialect U32 to_t def
+def 2521:2529 U32 two_to_31
+R2532:2532 main.fran_dialect U32 t rec
+R2537:2540 main.fran_dialect U32 to_t def
+R2544:2544 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 2569:2575 U32 of_bool
+R2581:2584 Corelib.Init.Datatypes <> bool ind
+binder 2578:2578 <> b:19
+R2588:2592 main.fran_dialect U32 t rec
+R2604:2604 main.fran_dialect <> b:19 var
+R2620:2623 main.fran_dialect U32 zero def
+R2611:2613 main.fran_dialect U32 one def
+def 2825:2840 U32 get_signed_value
+R2850:2854 main.fran_dialect U32 t rec
+binder 2843:2847 <> value:20
+R2858:2858 Corelib.Numbers.BinNums <> Z ind
+R2867:2867 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2905:2909 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2916:2916 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R2868:2868 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R2891:2897 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R2904:2904 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R2869:2869 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2879:2883 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2890:2890 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2870:2872 main.fran_dialect U32 val proj
+R2874:2878 main.fran_dialect <> value:20 var
+R2885:2887 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2899:2901 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R2911:2913 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 2933:2935 U32 add
+R2943:2947 main.fran_dialect U32 t rec
+binder 2938:2938 <> a:21
+binder 2940:2940 <> b:22
+R2951:2955 main.fran_dialect U32 t rec
+R2964:2967 main.fran_dialect U32 to_t def
+R2971:2971 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2977:2981 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2987:2987 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R2972:2974 main.fran_dialect U32 val proj
+R2976:2976 main.fran_dialect <> a:21 var
+R2982:2984 main.fran_dialect U32 val proj
+R2986:2986 main.fran_dialect <> b:22 var
+def 3006:3008 U32 sub
+R3016:3020 main.fran_dialect U32 t rec
+binder 3011:3011 <> a:23
+binder 3013:3013 <> b:24
+R3024:3028 main.fran_dialect U32 t rec
+R3037:3040 main.fran_dialect U32 to_t def
+R3044:3044 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R3050:3054 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R3060:3060 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R3045:3047 main.fran_dialect U32 val proj
+R3049:3049 main.fran_dialect <> a:23 var
+R3055:3057 main.fran_dialect U32 val proj
+R3059:3059 main.fran_dialect <> b:24 var
+def 3079:3081 U32 mul
+R3089:3093 main.fran_dialect U32 t rec
+binder 3084:3084 <> a:25
+binder 3086:3086 <> b:26
+R3097:3101 main.fran_dialect U32 t rec
+R3110:3113 main.fran_dialect U32 to_t def
+R3117:3117 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3123:3127 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3133:3133 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R3118:3120 main.fran_dialect U32 val proj
+R3122:3122 main.fran_dialect <> a:25 var
+R3128:3130 main.fran_dialect U32 val proj
+R3132:3132 main.fran_dialect <> b:26 var
+def 3152:3154 U32 div
+R3162:3166 main.fran_dialect U32 t rec
+binder 3157:3157 <> a:27
+binder 3159:3159 <> b:28
+R3170:3174 main.fran_dialect U32 t rec
+R3186:3186 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R3192:3196 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R3187:3189 main.fran_dialect U32 val proj
+R3191:3191 main.fran_dialect <> b:28 var
+R3214:3217 main.fran_dialect U32 to_t def
+R3220:3224 Stdlib.ZArith.BinInt Z div def
+R3227:3229 main.fran_dialect U32 val proj
+R3231:3231 main.fran_dialect <> a:27 var
+R3235:3237 main.fran_dialect U32 val proj
+R3239:3239 main.fran_dialect <> b:28 var
+R3204:3207 main.fran_dialect U32 zero def
+def 3258:3261 U32 sdiv
+R3269:3273 main.fran_dialect U32 t rec
+binder 3264:3264 <> x:29
+binder 3266:3266 <> y:30
+R3277:3281 main.fran_dialect U32 t rec
+R3295:3295 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R3301:3305 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R3296:3298 main.fran_dialect U32 val proj
+R3300:3300 main.fran_dialect <> y:30 var
+R3347:3362 main.fran_dialect U32 get_signed_value def
+R3364:3364 main.fran_dialect <> x:29 var
+binder 3341:3342 <> zx:31
+R3387:3402 main.fran_dialect U32 get_signed_value def
+R3404:3404 main.fran_dialect <> y:30 var
+binder 3381:3382 <> zy:32
+R3417:3420 main.fran_dialect U32 to_t def
+R3425:3427 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R3423:3424 main.fran_dialect <> zx:31 var
+R3428:3429 main.fran_dialect <> zy:32 var
+R3313:3316 main.fran_dialect U32 zero def
+prf 3442:3454 U32 val_mod_valid
+R3472:3472 main.fran_dialect U32 t rec
+binder 3466:3466 <> x:33
+binder 3468:3468 <> y:34
+R3491:3494 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R3486:3489 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R3481:3483 main.fran_dialect U32 val proj
+R3485:3485 main.fran_dialect <> y:34 var
+R3496:3500 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R3516:3519 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R3506:3510 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R3501:3503 main.fran_dialect U32 val proj
+R3505:3505 main.fran_dialect <> x:33 var
+R3511:3513 main.fran_dialect U32 val proj
+R3515:3515 main.fran_dialect <> y:34 var
+R3506:3510 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R3501:3503 main.fran_dialect U32 val proj
+R3505:3505 main.fran_dialect <> x:33 var
+R3511:3513 main.fran_dialect U32 val proj
+R3515:3515 main.fran_dialect <> y:34 var
+R3520:3526 main.fran_dialect U32 modulus def
+R3581:3595 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R3598:3600 main.fran_dialect U32 val proj
+R3606:3608 main.fran_dialect U32 val proj
+R3581:3595 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R3598:3600 main.fran_dialect U32 val proj
+R3606:3608 main.fran_dialect U32 val proj
+R3629:3636 main.fran_dialect U32 is_valid proj
+R3629:3636 main.fran_dialect U32 is_valid proj
+R3678:3680 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R3681:3683 main.fran_dialect U32 val proj
+R3678:3680 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R3681:3683 main.fran_dialect U32 val proj
+R3701:3713 Stdlib.ZArith.BinInt Z lt_eq_cases thm
+R3701:3713 Stdlib.ZArith.BinInt Z lt_eq_cases thm
+R3835:3849 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R3852:3854 main.fran_dialect U32 val proj
+R3860:3862 main.fran_dialect U32 val proj
+R3835:3849 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R3852:3854 main.fran_dialect U32 val proj
+R3860:3862 main.fran_dialect U32 val proj
+R3965:3967 main.fran_dialect U32 val proj
+R3943:3952 Stdlib.ZArith.BinInt Z lt_trans thm
+R3965:3967 main.fran_dialect U32 val proj
+R3943:3952 Stdlib.ZArith.BinInt Z lt_trans thm
+def 4040:4046 U32 mod_evm
+R4054:4058 main.fran_dialect U32 t rec
+binder 4049:4049 <> x:35
+binder 4051:4051 <> y:36
+R4062:4066 main.fran_dialect U32 t rec
+R4081:4088 Stdlib.ZArith.BinInt Z eq_dec def
+R4091:4093 main.fran_dialect U32 val proj
+R4095:4095 main.fran_dialect <> y:36 var
+R4111:4114 Corelib.Init.Specif <> left constr
+R4121:4124 main.fran_dialect U32 zero def
+R4133:4137 Corelib.Init.Specif <> right constr
+R4155:4156 main.fran_dialect U32 mk constr
+R4164:4168 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R4159:4161 main.fran_dialect U32 val proj
+R4163:4163 main.fran_dialect <> x:35 var
+R4169:4171 main.fran_dialect U32 val proj
+R4173:4173 main.fran_dialect <> y:36 var
+R4177:4189 main.fran_dialect U32 val_mod_valid thm
+R4191:4191 main.fran_dialect <> x:35 var
+R4193:4193 main.fran_dialect <> y:36 var
+def 4228:4231 U32 smod
+R4239:4243 main.fran_dialect U32 t rec
+binder 4234:4234 <> x:37
+binder 4236:4236 <> y:38
+R4247:4251 main.fran_dialect U32 t rec
+R4265:4265 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R4271:4275 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R4266:4268 main.fran_dialect U32 val proj
+R4270:4270 main.fran_dialect <> y:38 var
+R4316:4331 main.fran_dialect U32 get_signed_value def
+R4333:4333 main.fran_dialect <> x:37 var
+binder 4311:4311 <> x:39
+R4355:4370 main.fran_dialect U32 get_signed_value def
+R4372:4372 main.fran_dialect <> y:38 var
+binder 4350:4350 <> y:40
+R4385:4388 main.fran_dialect U32 to_t def
+R4392:4396 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R4391:4391 main.fran_dialect <> x:39 var
+R4397:4397 main.fran_dialect <> y:40 var
+R4283:4286 main.fran_dialect U32 zero def
+def 4419:4421 U32 exp
+R4429:4433 main.fran_dialect U32 t rec
+binder 4424:4424 <> x:41
+binder 4426:4426 <> y:42
+R4437:4441 main.fran_dialect U32 t rec
+R4452:4455 main.fran_dialect U32 to_t def
+R4458:4458 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R4464:4468 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R4474:4474 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R4459:4461 main.fran_dialect U32 val proj
+R4463:4463 main.fran_dialect <> x:41 var
+R4469:4471 main.fran_dialect U32 val proj
+R4473:4473 main.fran_dialect <> y:42 var
+def 4492:4494 U32 not
+R4500:4504 main.fran_dialect U32 t rec
+binder 4497:4497 <> x:43
+R4508:4512 main.fran_dialect U32 t rec
+R4523:4526 main.fran_dialect U32 to_t def
+R4543:4545 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R4533:4536 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R4542:4542 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R4530:4530 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R4537:4539 main.fran_dialect U32 val proj
+R4541:4541 main.fran_dialect <> x:43 var
+def 4564:4565 U32 lt
+R4573:4577 main.fran_dialect U32 t rec
+binder 4568:4568 <> x:44
+binder 4570:4570 <> y:45
+R4581:4585 main.fran_dialect U32 t rec
+R4599:4599 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R4605:4610 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R4616:4616 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R4600:4602 main.fran_dialect U32 val proj
+R4604:4604 main.fran_dialect <> x:44 var
+R4611:4613 main.fran_dialect U32 val proj
+R4615:4615 main.fran_dialect <> y:45 var
+R4632:4635 main.fran_dialect U32 zero def
+R4623:4625 main.fran_dialect U32 one def
+def 4652:4653 U32 gt
+R4661:4665 main.fran_dialect U32 t rec
+binder 4656:4656 <> x:46
+binder 4658:4658 <> y:47
+R4669:4673 main.fran_dialect U32 t rec
+R4685:4685 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>?'_x not
+R4691:4696 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>?'_x not
+R4702:4702 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>?'_x not
+R4686:4688 main.fran_dialect U32 val proj
+R4690:4690 main.fran_dialect <> x:46 var
+R4697:4699 main.fran_dialect U32 val proj
+R4701:4701 main.fran_dialect <> y:47 var
+R4718:4721 main.fran_dialect U32 zero def
+R4709:4711 main.fran_dialect U32 one def
+def 4769:4771 U32 slt
+R4779:4783 main.fran_dialect U32 t rec
+binder 4774:4774 <> x:48
+binder 4776:4776 <> y:49
+R4787:4791 main.fran_dialect U32 t rec
+R4809:4824 main.fran_dialect U32 get_signed_value def
+R4826:4826 main.fran_dialect <> x:48 var
+binder 4804:4804 <> x:50
+R4844:4859 main.fran_dialect U32 get_signed_value def
+R4861:4861 main.fran_dialect <> y:49 var
+binder 4839:4839 <> y:51
+R4874:4877 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R4873:4873 main.fran_dialect <> x:50 var
+R4878:4878 main.fran_dialect <> y:51 var
+R4894:4897 main.fran_dialect U32 zero def
+R4885:4887 main.fran_dialect U32 one def
+def 4916:4918 U32 sgt
+R4926:4930 main.fran_dialect U32 t rec
+binder 4921:4921 <> x:52
+binder 4923:4923 <> y:53
+R4934:4938 main.fran_dialect U32 t rec
+R4956:4971 main.fran_dialect U32 get_signed_value def
+R4973:4973 main.fran_dialect <> x:52 var
+binder 4951:4951 <> x:54
+R4991:5006 main.fran_dialect U32 get_signed_value def
+R5008:5008 main.fran_dialect <> y:53 var
+binder 4986:4986 <> y:55
+R5021:5025 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>?'_x not
+R5020:5020 main.fran_dialect <> x:54 var
+R5026:5026 main.fran_dialect <> y:55 var
+R5042:5045 main.fran_dialect U32 zero def
+R5033:5035 main.fran_dialect U32 one def
+def 5062:5063 U32 eq
+R5071:5075 main.fran_dialect U32 t rec
+binder 5066:5066 <> x:56
+binder 5068:5068 <> y:57
+R5079:5083 main.fran_dialect U32 t rec
+R5095:5095 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5101:5106 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5112:5112 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5096:5098 main.fran_dialect U32 val proj
+R5100:5100 main.fran_dialect <> x:56 var
+R5107:5109 main.fran_dialect U32 val proj
+R5111:5111 main.fran_dialect <> y:57 var
+R5128:5131 main.fran_dialect U32 zero def
+R5119:5121 main.fran_dialect U32 one def
+def 5150:5155 U32 iszero
+R5161:5165 main.fran_dialect U32 t rec
+binder 5158:5158 <> x:58
+R5169:5173 main.fran_dialect U32 t rec
+R5185:5185 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5191:5195 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5186:5188 main.fran_dialect U32 val proj
+R5190:5190 main.fran_dialect <> x:58 var
+R5212:5215 main.fran_dialect U32 zero def
+R5203:5205 main.fran_dialect U32 one def
+def 5234:5236 U32 and
+R5244:5248 main.fran_dialect U32 t rec
+binder 5239:5239 <> x:59
+binder 5241:5241 <> y:60
+R5252:5256 main.fran_dialect U32 t rec
+R5265:5268 main.fran_dialect U32 to_t def
+R5271:5276 Stdlib.ZArith.BinInt Z land def
+R5279:5281 main.fran_dialect U32 val proj
+R5283:5283 main.fran_dialect <> x:59 var
+R5287:5289 main.fran_dialect U32 val proj
+R5291:5291 main.fran_dialect <> y:60 var
+def 5369:5370 U32 or
+R5378:5382 main.fran_dialect U32 t rec
+binder 5373:5373 <> x:61
+binder 5375:5375 <> y:62
+R5386:5390 main.fran_dialect U32 t rec
+R5399:5402 main.fran_dialect U32 to_t def
+R5405:5409 Stdlib.ZArith.BinInt Z lor def
+R5412:5414 main.fran_dialect U32 val proj
+R5416:5416 main.fran_dialect <> x:61 var
+R5420:5422 main.fran_dialect U32 val proj
+R5424:5424 main.fran_dialect <> y:62 var
+def 5443:5445 U32 xor
+R5453:5457 main.fran_dialect U32 t rec
+binder 5448:5448 <> x:63
+binder 5450:5450 <> y:64
+R5461:5465 main.fran_dialect U32 t rec
+R5474:5477 main.fran_dialect U32 to_t def
+R5480:5485 Stdlib.ZArith.BinInt Z lxor def
+R5488:5490 main.fran_dialect U32 val proj
+R5492:5492 main.fran_dialect <> x:63 var
+R5496:5498 main.fran_dialect U32 val proj
+R5500:5500 main.fran_dialect <> y:64 var
+def 5519:5522 U32 byte
+R5530:5534 main.fran_dialect U32 t rec
+binder 5525:5525 <> n:65
+binder 5527:5527 <> x:66
+R5538:5542 main.fran_dialect U32 t rec
+R5571:5574 main.fran_dialect U32 to_t def
+R5578:5579 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R5611:5616 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R5580:5580 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5586:5590 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5610:5610 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5581:5583 main.fran_dialect U32 val proj
+R5585:5585 main.fran_dialect <> x:66 var
+R5593:5596 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5609:5609 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5599:5602 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R5608:5608 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R5603:5605 main.fran_dialect U32 val proj
+R5607:5607 main.fran_dialect <> n:65 var
+def 5695:5697 U32 shl
+R5705:5709 main.fran_dialect U32 t rec
+binder 5700:5700 <> x:67
+binder 5702:5702 <> y:68
+R5713:5717 main.fran_dialect U32 t rec
+R5726:5729 main.fran_dialect U32 to_t def
+R5732:5732 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R5738:5742 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R5754:5754 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R5733:5735 main.fran_dialect U32 val proj
+R5737:5737 main.fran_dialect <> y:68 var
+R5744:5747 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5753:5753 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5748:5750 main.fran_dialect U32 val proj
+R5752:5752 main.fran_dialect <> x:67 var
+def 5772:5774 U32 shr
+R5782:5786 main.fran_dialect U32 t rec
+binder 5777:5777 <> x:69
+binder 5779:5779 <> y:70
+R5790:5794 main.fran_dialect U32 t rec
+R5803:5806 main.fran_dialect U32 to_t def
+R5809:5809 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5815:5819 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5831:5831 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R5810:5812 main.fran_dialect U32 val proj
+R5814:5814 main.fran_dialect <> y:70 var
+R5821:5824 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5830:5830 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R5825:5827 main.fran_dialect U32 val proj
+R5829:5829 main.fran_dialect <> x:69 var
+def 5908:5910 U32 sar
+R5926:5930 main.fran_dialect U32 t rec
+binder 5913:5917 <> shift:71
+binder 5919:5923 <> value:72
+R5934:5938 main.fran_dialect U32 t rec
+R5967:5982 main.fran_dialect U32 get_signed_value def
+R5984:5988 main.fran_dialect <> value:72 var
+binder 5951:5962 <> signed_value:73
+R6030:6033 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R6049:6049 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R6018:6029 main.fran_dialect <> signed_value:73 var
+R6035:6038 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R6048:6048 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R6039:6041 main.fran_dialect U32 val proj
+R6043:6047 main.fran_dialect <> shift:71 var
+binder 6001:6013 <> shifted_value:74
+R6058:6061 main.fran_dialect U32 to_t def
+R6063:6075 main.fran_dialect <> shifted_value:74 var
+def 6154:6176 U32 _count_constructors_pos
+R6182:6189 Corelib.Numbers.BinNums <> positive ind
+binder 6179:6179 <> p:75
+R6193:6195 Corelib.Init.Datatypes <> nat ind
+R6210:6210 main.fran_dialect <> p:75 var
+R6223:6224 Corelib.Numbers.BinNums <> xH constr
+R6237:6238 Corelib.Numbers.BinNums <> xO constr
+R6246:6246 Corelib.Init.Datatypes <> S constr
+R6249:6271 main.fran_dialect <> _count_constructors_pos:76 def
+R6283:6284 Corelib.Numbers.BinNums <> xI constr
+R6292:6292 Corelib.Init.Datatypes <> S constr
+R6295:6317 main.fran_dialect <> _count_constructors_pos:76 def
+def 6401:6421 U32 _count_constructors_Z
+R6427:6427 Corelib.Numbers.BinNums <> Z ind
+binder 6424:6424 <> z:78
+R6431:6433 Corelib.Init.Datatypes <> nat ind
+R6448:6448 main.fran_dialect <> z:78 var
+R6461:6462 Corelib.Numbers.BinNums <> Z0 constr
+R6475:6478 Corelib.Numbers.BinNums <> Zpos constr
+R6485:6507 main.fran_dialect U32 _count_constructors_pos def
+R6517:6520 Corelib.Numbers.BinNums <> Zneg constr
+R6527:6549 main.fran_dialect U32 _count_constructors_pos def
+def 6576:6578 U32 clz
+R6584:6588 main.fran_dialect U32 t rec
+binder 6581:6581 <> x:80
+R6592:6596 main.fran_dialect U32 t rec
+R6618:6620 main.fran_dialect U32 val proj
+R6622:6622 main.fran_dialect <> x:80 var
+binder 6609:6613 <> x_val:81
+R6642:6649 Stdlib.ZArith.BinInt Z of_nat def
+R6652:6672 main.fran_dialect U32 _count_constructors_Z def
+R6674:6678 main.fran_dialect <> x_val:81 var
+binder 6635:6637 <> len:82
+R6688:6691 main.fran_dialect U32 to_t def
+R6696:6698 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R6699:6701 main.fran_dialect <> len:82 var
+def 6720:6725 U32 addmod
+R6735:6739 main.fran_dialect U32 t rec
+binder 6728:6728 <> x:83
+binder 6730:6730 <> y:84
+binder 6732:6732 <> m:85
+R6743:6747 main.fran_dialect U32 t rec
+R6756:6759 main.fran_dialect U32 to_t def
+R6763:6763 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6781:6787 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6793:6793 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6764:6764 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R6770:6774 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R6780:6780 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R6765:6767 main.fran_dialect U32 val proj
+R6769:6769 main.fran_dialect <> x:83 var
+R6775:6777 main.fran_dialect U32 val proj
+R6779:6779 main.fran_dialect <> y:84 var
+R6788:6790 main.fran_dialect U32 val proj
+R6792:6792 main.fran_dialect <> m:85 var
+def 6871:6876 U32 mulmod
+R6886:6890 main.fran_dialect U32 t rec
+binder 6879:6879 <> x:86
+binder 6881:6881 <> y:87
+binder 6883:6883 <> m:88
+R6894:6898 main.fran_dialect U32 t rec
+R6906:6909 main.fran_dialect U32 to_t def
+R6913:6913 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6931:6937 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6943:6943 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R6914:6914 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R6920:6924 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R6930:6930 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R6915:6917 main.fran_dialect U32 val proj
+R6919:6919 main.fran_dialect <> x:86 var
+R6925:6927 main.fran_dialect U32 val proj
+R6929:6929 main.fran_dialect <> y:87 var
+R6938:6940 main.fran_dialect U32 val proj
+R6942:6942 main.fran_dialect <> m:88 var
+def 7179:7188 U32 signextend
+R7198:7202 main.fran_dialect U32 t rec
+binder 7191:7192 <> ai:89
+binder 7194:7195 <> ax:90
+R7206:7210 main.fran_dialect U32 t rec
+R7229:7231 main.fran_dialect U32 val proj
+R7233:7234 main.fran_dialect <> ai:89 var
+binder 7223:7223 <> i:91
+R7254:7256 main.fran_dialect U32 val proj
+R7258:7259 main.fran_dialect <> ax:90 var
+binder 7248:7248 <> x:92
+R7273:7277 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>=?'_x not
+R7272:7272 main.fran_dialect <> i:91 var
+R7317:7320 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R7326:7326 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R7322:7324 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R7321:7321 main.fran_dialect <> i:91 var
+binder 7308:7311 <> size:93
+R7349:7349 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R7365:7370 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R7351:7353 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R7350:7350 main.fran_dialect <> x:92 var
+R7355:7358 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R7364:7364 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R7360:7362 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R7363:7363 main.fran_dialect <> i:91 var
+binder 7341:7344 <> byte:94
+R7403:7405 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R7399:7402 main.fran_dialect <> byte:94 var
+binder 7387:7394 <> sign_bit:95
+R7445:7445 Corelib.Numbers.BinNums <> Z ind
+binder 7435:7437 <> bit:96
+binder 7439:7442 <> size:97
+R7460:7463 Stdlib.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R7457:7459 main.fran_dialect <> bit:96 var
+R7471:7471 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R7478:7482 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R7491:7491 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R7473:7475 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R7484:7486 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R7487:7490 main.fran_dialect <> size:97 var
+R7445:7445 Corelib.Numbers.BinNums <> Z ind
+binder 7435:7437 <> bit:98
+binder 7439:7442 <> size:99
+R7449:7449 Corelib.Numbers.BinNums <> Z ind
+binder 7423:7432 <> extend_bit:100
+R7509:7512 main.fran_dialect U32 to_t def
+R7515:7515 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R7532:7535 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R7517:7522 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R7531:7531 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R7516:7516 main.fran_dialect <> x:92 var
+R7524:7526 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+R7527:7530 main.fran_dialect <> size:93 var
+R7536:7545 main.fran_dialect <> extend_bit:100 var
+R7556:7559 main.fran_dialect <> size:93 var
+R7547:7554 main.fran_dialect <> sign_bit:95 var
+R7286:7287 main.fran_dialect <> ax:90 var
+R7627:7629 main.fran_dialect U32 <> mod
+mod 7654:7655 <> U8
+def 7672:7678 U8 modulus
+R7684:7684 Stdlib.ZArith.BinInt <> ::Z_scope:x_'^'_x not
+def 7704:7708 U8 Valid
+R7716:7716 Corelib.Numbers.BinNums <> Z ind
+binder 7711:7713 <> val:101
+R7733:7736 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R7740:7742 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x_'<'_x not
+R7737:7739 main.fran_dialect <> val:101 var
+R7737:7739 main.fran_dialect <> val:101 var
+R7743:7749 main.fran_dialect U8 modulus def
+rec 7855:7855 U8 t
+proj 7869:7871 U8 val
+proj 7882:7889 U8 is_valid
+R7875:7875 Corelib.Numbers.BinNums <> Z ind
+R7893:7897 main.fran_dialect U8 Valid def
+R7899:7901 main.fran_dialect <> val:103 meth
+def 7988:7991 U8 to_t
+R7998:7998 Corelib.Numbers.BinNums <> Z ind
+binder 7994:7994 <> z:105
+R8003:8003 main.fran_dialect U8 t rec
+R8012:8013 main.fran_dialect U8 mk constr
+R8017:8021 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R8016:8016 main.fran_dialect <> z:105 var
+R8022:8028 main.fran_dialect U8 modulus def
+R8063:8077 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+R8063:8077 Stdlib.ZArith.BinInt Z mod_pos_bound thm
+def 8134:8137 U8 zero
+R8140:8140 main.fran_dialect U8 t rec
+R8145:8148 main.fran_dialect U8 to_t def
+def 8166:8168 U8 one
+R8171:8171 main.fran_dialect U8 t rec
+R8176:8179 main.fran_dialect U8 to_t def
+R8189:8190 main.fran_dialect U8 <> mod
+mod 8201:8210 <> EVMStorage
+def 8340:8340 EVMStorage t
+R8359:8362 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R8354:8358 main.fran_dialect U32 t rec
+R8363:8367 main.fran_dialect U32 t rec
+def 8384:8388 EVMStorage empty
+R8391:8391 main.fran_dialect EVMStorage t def
+R8409:8416 main.fran_dialect U32 zero def
+def 8433:8438 EVMStorage update
+R8450:8461 main.fran_dialect EVMStorage t def
+binder 8441:8447 <> storage:106
+R8480:8484 main.fran_dialect U32 t rec
+binder 8465:8471 <> address:107
+binder 8473:8477 <> value:108
+R8488:8499 main.fran_dialect EVMStorage t def
+binder 8512:8526 <> current_address:109
+R8540:8546 main.fran_dialect U32 eqb def
+R8548:8554 main.fran_dialect <> address:107 var
+R8556:8570 main.fran_dialect <> current_address:109 var
+R8594:8600 main.fran_dialect <> storage:106 var
+R8602:8616 main.fran_dialect <> current_address:109 var
+R8577:8581 main.fran_dialect <> value:108 var
+R8623:8632 main.fran_dialect EVMStorage <> mod
+mod 8644:8652 <> EVMMemory
+rec 8956:8956 EVMMemory t
+proj 8974:8979 EVMMemory memory
+proj 9002:9016 EVMMemory highest_address
+R8988:8991 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R8983:8987 main.fran_dialect U32 t rec
+R8992:8995 main.fran_dialect U8 t rec
+R9019:9023 main.fran_dialect U32 t rec
+def 9155:9159 EVMMemory empty
+R9162:9162 main.fran_dialect EVMMemory t rec
+R9174:9179 main.fran_dialect EVMMemory memory proj
+R9174:9179 main.fran_dialect EVMMemory memory proj
+R9174:9179 main.fran_dialect EVMMemory memory proj
+R9206:9220 main.fran_dialect EVMMemory highest_address proj
+R9206:9220 main.fran_dialect EVMMemory highest_address proj
+R9193:9199 main.fran_dialect U8 zero def
+R9225:9232 main.fran_dialect U32 zero def
+def 9254:9258 EVMMemory msize
+R9269:9269 main.fran_dialect EVMMemory t rec
+binder 9261:9266 <> memory:113
+R9273:9277 main.fran_dialect U32 t rec
+R9367:9381 main.fran_dialect EVMMemory highest_address proj
+R9359:9364 main.fran_dialect <> memory:113 var
+binder 9351:9354 <> size:114
+R9394:9400 main.fran_dialect U32 eqb def
+R9402:9405 main.fran_dialect <> size:114 var
+R9407:9414 main.fran_dialect U32 zero def
+R9462:9472 main.fran_dialect U32 mod_evm def
+R9474:9477 main.fran_dialect <> size:114 var
+R9480:9487 main.fran_dialect U32 to_t def
+binder 9449:9457 <> remainder:115
+R9505:9511 main.fran_dialect U32 eqb def
+R9513:9521 main.fran_dialect <> remainder:115 var
+R9523:9530 main.fran_dialect U32 zero def
+R9553:9559 main.fran_dialect U32 add def
+R9561:9564 main.fran_dialect <> size:114 var
+R9567:9573 main.fran_dialect U32 sub def
+R9576:9583 main.fran_dialect U32 to_t def
+R9589:9597 main.fran_dialect <> remainder:115 var
+R9537:9540 main.fran_dialect <> size:114 var
+R9421:9428 main.fran_dialect U32 zero def
+def 9615:9636 EVMMemory update_highest_address
+R9647:9647 main.fran_dialect EVMMemory t rec
+binder 9639:9644 <> memory:116
+R9660:9664 main.fran_dialect U32 t rec
+binder 9651:9657 <> address:117
+R9668:9668 main.fran_dialect EVMMemory t rec
+R9683:9689 main.fran_dialect U32 eqb def
+R9692:9697 main.fran_dialect U32 gt def
+R9699:9705 main.fran_dialect <> address:117 var
+R9715:9729 main.fran_dialect EVMMemory highest_address proj
+R9707:9712 main.fran_dialect <> memory:116 var
+R9733:9739 main.fran_dialect U32 one def
+R9752:9755 Corelib.Init.Datatypes <> true constr
+R9763:9768 main.fran_dialect EVMMemory memory proj
+R9763:9768 main.fran_dialect EVMMemory memory proj
+R9763:9768 main.fran_dialect EVMMemory memory proj
+R9816:9830 main.fran_dialect EVMMemory highest_address proj
+R9816:9830 main.fran_dialect EVMMemory highest_address proj
+R9773:9788 main.fran_dialect EVMMemory memory proj
+R9790:9795 main.fran_dialect <> memory:116 var
+R9835:9841 main.fran_dialect <> address:117 var
+R9867:9871 Corelib.Init.Datatypes <> false constr
+R9876:9881 main.fran_dialect <> memory:116 var
+def 9906:9918 EVMMemory update_memory
+R9929:9929 main.fran_dialect EVMMemory t rec
+binder 9921:9926 <> memory:118
+R9950:9953 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R9945:9949 main.fran_dialect U32 t rec
+R9954:9957 main.fran_dialect U8 t rec
+binder 9933:9942 <> new_memory:119
+R9961:9961 main.fran_dialect EVMMemory t rec
+R9973:9978 main.fran_dialect EVMMemory memory proj
+R9973:9978 main.fran_dialect EVMMemory memory proj
+R9973:9978 main.fran_dialect EVMMemory memory proj
+R10003:10017 main.fran_dialect EVMMemory highest_address proj
+R10003:10017 main.fran_dialect EVMMemory highest_address proj
+R9983:9992 main.fran_dialect <> new_memory:119 var
+R10030:10044 main.fran_dialect EVMMemory highest_address proj
+R10022:10027 main.fran_dialect <> memory:118 var
+def 10157:10165 EVMMemory get_bytes
+R10177:10187 main.fran_dialect EVMMemory t rec
+binder 10168:10174 <> memoryt:120
+R10205:10209 main.fran_dialect U32 t rec
+binder 10191:10195 <> start:121
+binder 10197:10202 <> length:122
+R10223:10225 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R10214:10217 Corelib.Init.Datatypes <> list ind
+R10219:10222 main.fran_dialect U8 t rec
+R10226:10236 main.fran_dialect EVMMemory t rec
+R10271:10278 Stdlib.Lists.List <> map abbrev
+R10486:10493 Stdlib.Lists.List <> seq abbrev
+R10498:10505 Stdlib.ZArith.BinInt Z to_nat def
+R10508:10514 main.fran_dialect U32 val proj
+R10516:10521 main.fran_dialect <> length:122 var
+R10295:10297 Corelib.Init.Datatypes <> nat ind
+binder 10292:10292 <> i:123
+R10334:10341 main.fran_dialect U32 to_t def
+R10344:10344 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R10358:10361 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R10345:10351 main.fran_dialect U32 val proj
+R10353:10357 main.fran_dialect <> start:121 var
+R10362:10369 Stdlib.ZArith.BinInt Z of_nat def
+R10371:10371 main.fran_dialect <> i:123 var
+R10325:10329 main.fran_dialect U32 t rec
+binder 10316:10322 <> address:124
+R10437:10452 main.fran_dialect EVMMemory memory proj
+R10454:10460 main.fran_dialect <> memoryt:120 var
+R10463:10469 main.fran_dialect <> address:124 var
+R10258:10261 Corelib.Init.Datatypes <> list ind
+R10263:10266 main.fran_dialect U8 t rec
+binder 10250:10254 <> bytes:125
+R10547:10568 main.fran_dialect EVMMemory update_highest_address def
+R10570:10576 main.fran_dialect <> memoryt:120 var
+R10579:10586 main.fran_dialect U32 to_t def
+R10623:10625 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R10589:10589 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R10603:10607 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R10622:10622 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R10590:10596 main.fran_dialect U32 val proj
+R10598:10602 main.fran_dialect <> start:121 var
+R10608:10614 main.fran_dialect U32 val proj
+R10616:10621 main.fran_dialect <> length:122 var
+binder 10537:10542 <> memory:126
+R10637:10637 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10643:10644 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10651:10651 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R10638:10642 main.fran_dialect <> bytes:125 var
+R10645:10650 main.fran_dialect <> memory:126 var
+def 10668:10679 EVMMemory update_bytes
+R10691:10701 main.fran_dialect EVMMemory t rec
+binder 10682:10688 <> memoryt:127
+R10712:10716 main.fran_dialect U32 t rec
+binder 10705:10709 <> start:128
+R10727:10730 Corelib.Init.Datatypes <> list ind
+R10732:10735 main.fran_dialect U8 t rec
+binder 10720:10724 <> bytes:129
+R10739:10749 main.fran_dialect EVMMemory t rec
+binder 10776:10782 <> address:130
+R10805:10805 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R10821:10825 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R10839:10839 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R10806:10812 main.fran_dialect U32 val proj
+R10814:10820 main.fran_dialect <> address:130 var
+R10826:10832 main.fran_dialect U32 val proj
+R10834:10838 main.fran_dialect <> start:128 var
+R10800:10800 Corelib.Numbers.BinNums <> Z ind
+binder 10797:10797 <> i:131
+R10853:10856 Corelib.Init.Datatypes <> andb def
+R10870:10873 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R10869:10869 main.fran_dialect <> i:131 var
+R10874:10881 Stdlib.ZArith.BinInt Z of_nat def
+R10884:10894 Stdlib.Lists.List <> length abbrev
+R10896:10900 main.fran_dialect <> bytes:129 var
+R10860:10864 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<=?'_x not
+R10865:10865 main.fran_dialect <> i:131 var
+R10981:10996 main.fran_dialect EVMMemory memory proj
+R10998:11004 main.fran_dialect <> memoryt:127 var
+R11007:11013 main.fran_dialect <> address:130 var
+R10917:10932 Stdlib.Lists.List <> nth_default def
+R10949:10956 Stdlib.ZArith.BinInt Z to_nat def
+R10958:10958 main.fran_dialect <> i:131 var
+R10942:10946 main.fran_dialect <> bytes:129 var
+R10934:10940 main.fran_dialect U8 zero def
+binder 10762:10767 <> memory:132
+R11032:11053 main.fran_dialect EVMMemory update_highest_address def
+R11055:11061 main.fran_dialect <> memoryt:127 var
+R11064:11071 main.fran_dialect U32 to_t def
+R11120:11122 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R11074:11074 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R11088:11091 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R11075:11081 main.fran_dialect U32 val proj
+R11083:11087 main.fran_dialect <> start:128 var
+R11092:11099 Stdlib.ZArith.BinInt Z of_nat def
+R11102:11112 Stdlib.Lists.List <> length abbrev
+R11114:11118 main.fran_dialect <> bytes:129 var
+binder 11026:11027 <> m1:133
+R11144:11156 main.fran_dialect EVMMemory update_memory def
+R11158:11159 main.fran_dialect <> m1:133 var
+R11161:11166 main.fran_dialect <> memory:132 var
+binder 11138:11139 <> m2:134
+R11175:11176 main.fran_dialect <> m2:134 var
+def 11193:11204 EVMMemory U32_as_bytes
+R11214:11218 main.fran_dialect U32 t rec
+binder 11207:11211 <> value:135
+R11222:11225 Corelib.Init.Datatypes <> list ind
+R11227:11230 main.fran_dialect U8 t rec
+R11239:11246 Stdlib.Lists.List <> map abbrev
+R11346:11353 Stdlib.Lists.List <> seq abbrev
+R11263:11265 Corelib.Init.Datatypes <> nat ind
+binder 11260:11260 <> i:136
+R11271:11277 main.fran_dialect U8 to_t def
+R11328:11332 Stdlib.ZArith.BinInt <> ::Z_scope:x_'mod'_x not
+R11280:11287 Stdlib.ZArith.BinInt Z shiftr def
+R11290:11296 main.fran_dialect U32 val proj
+R11298:11302 main.fran_dialect <> value:135 var
+R11307:11310 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R11326:11326 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R11313:11315 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R11316:11323 Stdlib.ZArith.BinInt Z of_nat def
+R11325:11325 main.fran_dialect <> i:136 var
+def 11374:11389 EVMMemory bytes_as_U32_aux
+R11397:11397 Corelib.Numbers.BinNums <> Z ind
+binder 11392:11394 <> acc:137
+R11408:11411 Corelib.Init.Datatypes <> list ind
+R11413:11416 main.fran_dialect U8 t rec
+binder 11401:11405 <> bytes:138
+R11420:11424 main.fran_dialect U32 t rec
+R11439:11443 main.fran_dialect <> bytes:138 var
+R11456:11457 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R11462:11469 main.fran_dialect U32 to_t def
+R11471:11473 main.fran_dialect <> acc:137 var
+R11485:11488 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R11504:11519 main.fran_dialect <> bytes_as_U32_aux:139 def
+R11564:11568 main.fran_dialect <> bytes:138 var
+R11538:11541 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R11553:11553 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R11533:11535 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R11530:11532 main.fran_dialect <> acc:137 var
+R11542:11547 main.fran_dialect U8 val proj
+def 11593:11604 EVMMemory bytes_as_U32
+R11614:11617 Corelib.Init.Datatypes <> list ind
+R11619:11622 main.fran_dialect U8 t rec
+binder 11607:11611 <> bytes:141
+R11626:11630 main.fran_dialect U32 t rec
+R11639:11654 main.fran_dialect EVMMemory bytes_as_U32_aux def
+R11658:11662 main.fran_dialect <> bytes:141 var
+def 11830:11848 EVMMemory hex_string_as_bytes
+R11863:11868 Stdlib.Strings.String <> string ind
+binder 11851:11860 <> hex_string:142
+R11872:11875 Corelib.Init.Datatypes <> list ind
+R11877:11880 main.fran_dialect U8 t rec
+R11895:11904 main.fran_dialect <> hex_string:142 var
+R11930:11931 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R11939:11951 Stdlib.Strings.String <> String constr
+R11961:11962 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R12000:12012 Stdlib.Strings.String <> String constr
+R12017:12029 Stdlib.Strings.String <> String constr
+R12082:12105 Stdlib.Strings.HexString <> ascii_to_digit def
+R12054:12077 Stdlib.Strings.HexString <> ascii_to_digit def
+R12122:12125 Corelib.Init.Datatypes <> Some constr
+R12130:12133 Corelib.Init.Datatypes <> Some constr
+R12173:12175 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R12162:12164 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R12165:12170 Stdlib.ZArith.BinInt Z of_N def
+R12176:12181 Stdlib.ZArith.BinInt Z of_N def
+binder 12152:12155 <> byte:145
+R12196:12196 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R12209:12212 Corelib.Init.Datatypes <> ::list_scope:x_'::'_x not
+R12197:12203 main.fran_dialect U8 to_t def
+R12205:12208 main.fran_dialect <> byte:145 var
+R12213:12231 main.fran_dialect <> hex_string_as_bytes:143 def
+R12254:12255 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R12310:12318 main.fran_dialect EVMMemory <> mod
+mod 12330:12345 <> EVMMemorySegment
+def 12402:12402 EVMMemorySegment t
+R12413:12416 Corelib.Init.Datatypes <> list ind
+R12418:12421 main.fran_dialect U8 t rec
+def 12437:12441 EVMMemorySegment empty
+R12444:12444 main.fran_dialect EVMMemorySegment t def
+R12449:12450 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+def 12467:12472 EVMMemorySegment length
+R12484:12484 main.fran_dialect EVMMemorySegment t def
+binder 12475:12481 <> segment:146
+R12488:12492 main.fran_dialect U32 t rec
+R12501:12508 main.fran_dialect U32 to_t def
+R12511:12518 Stdlib.ZArith.BinInt Z of_nat def
+R12521:12531 Stdlib.Lists.List <> length abbrev
+R12533:12539 main.fran_dialect <> segment:146 var
+def 12632:12640 EVMMemorySegment get_bytes
+R12652:12652 main.fran_dialect EVMMemorySegment t def
+binder 12643:12649 <> segment:147
+R12665:12669 main.fran_dialect U32 t rec
+binder 12656:12660 <> start:148
+binder 12662:12662 <> n:149
+R12673:12676 Corelib.Init.Datatypes <> list ind
+R12678:12681 main.fran_dialect U8 t rec
+R12690:12697 Stdlib.Lists.List <> map abbrev
+R12938:12945 Stdlib.Lists.List <> seq abbrev
+R12950:12957 Stdlib.ZArith.BinInt Z to_nat def
+R12960:12966 main.fran_dialect U32 val proj
+R12968:12968 main.fran_dialect <> n:149 var
+binder 12710:12710 <> i:150
+R12740:12740 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R12754:12757 Stdlib.ZArith.BinInt <> ::Z_scope:x_'+'_x not
+R12741:12747 main.fran_dialect U32 val proj
+R12749:12753 main.fran_dialect <> start:148 var
+R12758:12765 Stdlib.ZArith.BinInt Z of_nat def
+R12767:12767 main.fran_dialect <> i:150 var
+R12735:12735 Corelib.Numbers.BinNums <> Z ind
+binder 12728:12732 <> index:151
+R12789:12792 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R12784:12788 main.fran_dialect <> index:151 var
+R12793:12800 Stdlib.ZArith.BinInt Z of_nat def
+R12803:12813 Stdlib.Lists.List <> length abbrev
+R12815:12821 main.fran_dialect <> segment:147 var
+R12915:12921 main.fran_dialect U8 zero def
+R12840:12855 Stdlib.Lists.List <> nth_default def
+R12874:12881 Stdlib.ZArith.BinInt Z to_nat def
+R12883:12887 main.fran_dialect <> index:151 var
+R12865:12871 main.fran_dialect <> segment:147 var
+R12857:12863 main.fran_dialect U8 zero def
+def 12988:12995 EVMMemorySegment get_word
+R13007:13007 main.fran_dialect EVMMemorySegment t def
+binder 12998:13004 <> segment:152
+R13018:13022 main.fran_dialect U32 t rec
+binder 13011:13015 <> start:153
+R13026:13030 main.fran_dialect U32 t rec
+R13039:13060 main.fran_dialect EVMMemory bytes_as_U32 def
+R13063:13071 main.fran_dialect EVMMemorySegment get_bytes def
+R13073:13079 main.fran_dialect <> segment:152 var
+R13081:13085 main.fran_dialect <> start:153 var
+R13088:13095 main.fran_dialect U32 to_t def
+def 13117:13120 EVMMemorySegment hash
+R13132:13132 main.fran_dialect EVMMemorySegment t def
+binder 13123:13129 <> segment:154
+R13136:13140 main.fran_dialect U32 t rec
+R13185:13192 main.fran_dialect U32 to_t def
+R13207:13222 main.fran_dialect EVMMemorySegment <> mod
+mod 13234:13241 <> EVMState
+rec 13253:13253 EVMState t
+proj 13270:13276 EVMState storage
+proj 13297:13304 EVMState tstorage
+proj 13326:13331 EVMState memory
+proj 13351:13363 EVMState call_data_seg
+proj 13390:13404 EVMState return_data_seg
+proj 13431:13433 EVMState gas
+proj 13447:13453 EVMState address
+proj 13467:13473 EVMState balance
+proj 13496:13501 EVMState caller
+proj 13515:13523 EVMState callvalue
+proj 13537:13540 EVMState code
+proj 13576:13580 EVMState nonce
+proj 13598:13604 EVMState chainid
+proj 13618:13624 EVMState basefee
+proj 13638:13648 EVMState blobbasefee
+proj 13662:13667 EVMState origin
+proj 13681:13688 EVMState gasprice
+proj 13702:13710 EVMState blockhash
+proj 13733:13740 EVMState blobhash
+proj 13763:13770 EVMState coinbase
+proj 13784:13792 EVMState timestamp
+proj 13806:13811 EVMState number
+proj 13825:13834 EVMState difficulty
+proj 13848:13855 EVMState gaslimit
+R13279:13290 main.fran_dialect EVMStorage t def
+R13307:13318 main.fran_dialect EVMStorage t def
+R13334:13344 main.fran_dialect EVMMemory t rec
+R13366:13383 main.fran_dialect EVMMemorySegment t def
+R13407:13424 main.fran_dialect EVMMemorySegment t def
+R13436:13440 main.fran_dialect U32 t rec
+R13456:13460 main.fran_dialect U32 t rec
+R13481:13484 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R13476:13480 main.fran_dialect U32 t rec
+R13485:13489 main.fran_dialect U32 t rec
+R13504:13508 main.fran_dialect U32 t rec
+R13526:13530 main.fran_dialect U32 t rec
+R13548:13551 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R13543:13547 main.fran_dialect U32 t rec
+R13552:13569 main.fran_dialect EVMMemorySegment t def
+R13583:13586 Corelib.Init.Datatypes <> list ind
+R13588:13591 main.fran_dialect U8 t rec
+R13607:13611 main.fran_dialect U32 t rec
+R13627:13631 main.fran_dialect U32 t rec
+R13651:13655 main.fran_dialect U32 t rec
+R13670:13674 main.fran_dialect U32 t rec
+R13691:13695 main.fran_dialect U32 t rec
+R13718:13721 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R13713:13717 main.fran_dialect U32 t rec
+R13722:13726 main.fran_dialect U32 t rec
+R13748:13751 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R13743:13747 main.fran_dialect U32 t rec
+R13752:13756 main.fran_dialect U32 t rec
+R13773:13777 main.fran_dialect U32 t rec
+R13795:13799 main.fran_dialect U32 t rec
+R13814:13818 main.fran_dialect U32 t rec
+R13837:13841 main.fran_dialect U32 t rec
+R13858:13862 main.fran_dialect U32 t rec
+def 13884:13888 EVMState empty
+R13891:13891 main.fran_dialect EVMState t rec
+R13910:13916 main.fran_dialect EVMState storage proj
+R13910:13916 main.fran_dialect EVMState storage proj
+R13910:13916 main.fran_dialect EVMState storage proj
+R13945:13952 main.fran_dialect EVMState tstorage proj
+R13945:13952 main.fran_dialect EVMState tstorage proj
+R13981:13986 main.fran_dialect EVMState memory proj
+R13981:13986 main.fran_dialect EVMState memory proj
+R14014:14026 main.fran_dialect EVMState call_data_seg proj
+R14014:14026 main.fran_dialect EVMState call_data_seg proj
+R14061:14075 main.fran_dialect EVMState return_data_seg proj
+R14061:14075 main.fran_dialect EVMState return_data_seg proj
+R14110:14112 main.fran_dialect EVMState gas proj
+R14110:14112 main.fran_dialect EVMState gas proj
+R14133:14139 main.fran_dialect EVMState address proj
+R14133:14139 main.fran_dialect EVMState address proj
+R14160:14166 main.fran_dialect EVMState balance proj
+R14160:14166 main.fran_dialect EVMState balance proj
+R14196:14201 main.fran_dialect EVMState caller proj
+R14196:14201 main.fran_dialect EVMState caller proj
+R14222:14230 main.fran_dialect EVMState callvalue proj
+R14222:14230 main.fran_dialect EVMState callvalue proj
+R14251:14254 main.fran_dialect EVMState code proj
+R14251:14254 main.fran_dialect EVMState code proj
+R14298:14302 main.fran_dialect EVMState nonce proj
+R14298:14302 main.fran_dialect EVMState nonce proj
+R14317:14323 main.fran_dialect EVMState chainid proj
+R14317:14323 main.fran_dialect EVMState chainid proj
+R14344:14350 main.fran_dialect EVMState basefee proj
+R14344:14350 main.fran_dialect EVMState basefee proj
+R14371:14381 main.fran_dialect EVMState blobbasefee proj
+R14371:14381 main.fran_dialect EVMState blobbasefee proj
+R14402:14407 main.fran_dialect EVMState origin proj
+R14402:14407 main.fran_dialect EVMState origin proj
+R14428:14435 main.fran_dialect EVMState gasprice proj
+R14428:14435 main.fran_dialect EVMState gasprice proj
+R14456:14464 main.fran_dialect EVMState blockhash proj
+R14456:14464 main.fran_dialect EVMState blockhash proj
+R14494:14501 main.fran_dialect EVMState blobhash proj
+R14494:14501 main.fran_dialect EVMState blobhash proj
+R14531:14538 main.fran_dialect EVMState coinbase proj
+R14531:14538 main.fran_dialect EVMState coinbase proj
+R14559:14567 main.fran_dialect EVMState timestamp proj
+R14559:14567 main.fran_dialect EVMState timestamp proj
+R14588:14593 main.fran_dialect EVMState number proj
+R14588:14593 main.fran_dialect EVMState number proj
+R14614:14623 main.fran_dialect EVMState difficulty proj
+R14614:14623 main.fran_dialect EVMState difficulty proj
+R14644:14651 main.fran_dialect EVMState gaslimit proj
+R14644:14651 main.fran_dialect EVMState gaslimit proj
+R13921:13936 main.fran_dialect EVMStorage empty def
+R13957:13972 main.fran_dialect EVMStorage empty def
+R13991:14005 main.fran_dialect EVMMemory empty def
+R14031:14052 main.fran_dialect EVMMemorySegment empty def
+R14080:14101 main.fran_dialect EVMMemorySegment empty def
+R14117:14124 main.fran_dialect U32 zero def
+R14144:14151 main.fran_dialect U32 zero def
+R14180:14187 main.fran_dialect U32 zero def
+R14206:14213 main.fran_dialect U32 zero def
+R14235:14242 main.fran_dialect U32 zero def
+R14268:14289 main.fran_dialect EVMMemorySegment empty def
+R14307:14308 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R14328:14335 main.fran_dialect U32 zero def
+R14355:14362 main.fran_dialect U32 zero def
+R14386:14393 main.fran_dialect U32 zero def
+R14412:14419 main.fran_dialect U32 zero def
+R14440:14447 main.fran_dialect U32 zero def
+R14478:14485 main.fran_dialect U32 zero def
+R14515:14522 main.fran_dialect U32 zero def
+R14543:14550 main.fran_dialect U32 zero def
+R14572:14579 main.fran_dialect U32 zero def
+R14598:14605 main.fran_dialect U32 zero def
+R14628:14635 main.fran_dialect U32 zero def
+R14656:14663 main.fran_dialect U32 zero def
+def 14688:14701 EVMState update_storage
+R14711:14711 main.fran_dialect EVMState t rec
+binder 14704:14708 <> state:180
+R14726:14737 main.fran_dialect EVMStorage t def
+binder 14715:14722 <> storage':181
+R14741:14741 main.fran_dialect EVMState t rec
+R14756:14762 main.fran_dialect EVMState storage proj
+R14756:14762 main.fran_dialect EVMState storage proj
+R14756:14762 main.fran_dialect EVMState storage proj
+R14781:14788 main.fran_dialect EVMState tstorage proj
+R14781:14788 main.fran_dialect EVMState tstorage proj
+R14815:14820 main.fran_dialect EVMState memory proj
+R14815:14820 main.fran_dialect EVMState memory proj
+R14845:14857 main.fran_dialect EVMState call_data_seg proj
+R14845:14857 main.fran_dialect EVMState call_data_seg proj
+R14889:14903 main.fran_dialect EVMState return_data_seg proj
+R14889:14903 main.fran_dialect EVMState return_data_seg proj
+R14937:14939 main.fran_dialect EVMState gas proj
+R14937:14939 main.fran_dialect EVMState gas proj
+R14961:14967 main.fran_dialect EVMState address proj
+R14961:14967 main.fran_dialect EVMState address proj
+R14993:14999 main.fran_dialect EVMState balance proj
+R14993:14999 main.fran_dialect EVMState balance proj
+R15025:15030 main.fran_dialect EVMState caller proj
+R15025:15030 main.fran_dialect EVMState caller proj
+R15055:15063 main.fran_dialect EVMState callvalue proj
+R15055:15063 main.fran_dialect EVMState callvalue proj
+R15091:15094 main.fran_dialect EVMState code proj
+R15091:15094 main.fran_dialect EVMState code proj
+R15117:15121 main.fran_dialect EVMState nonce proj
+R15117:15121 main.fran_dialect EVMState nonce proj
+R15145:15151 main.fran_dialect EVMState chainid proj
+R15145:15151 main.fran_dialect EVMState chainid proj
+R15177:15183 main.fran_dialect EVMState basefee proj
+R15177:15183 main.fran_dialect EVMState basefee proj
+R15209:15219 main.fran_dialect EVMState blobbasefee proj
+R15209:15219 main.fran_dialect EVMState blobbasefee proj
+R15249:15254 main.fran_dialect EVMState origin proj
+R15249:15254 main.fran_dialect EVMState origin proj
+R15279:15286 main.fran_dialect EVMState gasprice proj
+R15279:15286 main.fran_dialect EVMState gasprice proj
+R15313:15321 main.fran_dialect EVMState blockhash proj
+R15313:15321 main.fran_dialect EVMState blockhash proj
+R15349:15356 main.fran_dialect EVMState blobhash proj
+R15349:15356 main.fran_dialect EVMState blobhash proj
+R15383:15390 main.fran_dialect EVMState coinbase proj
+R15383:15390 main.fran_dialect EVMState coinbase proj
+R15417:15425 main.fran_dialect EVMState timestamp proj
+R15417:15425 main.fran_dialect EVMState timestamp proj
+R15453:15458 main.fran_dialect EVMState number proj
+R15453:15458 main.fran_dialect EVMState number proj
+R15483:15492 main.fran_dialect EVMState difficulty proj
+R15483:15492 main.fran_dialect EVMState difficulty proj
+R15521:15528 main.fran_dialect EVMState gaslimit proj
+R15521:15528 main.fran_dialect EVMState gaslimit proj
+R14767:14774 main.fran_dialect <> storage':181 var
+R14800:14807 main.fran_dialect EVMState tstorage proj
+R14793:14797 main.fran_dialect <> state:180 var
+R14832:14837 main.fran_dialect EVMState memory proj
+R14825:14829 main.fran_dialect <> state:180 var
+R14869:14881 main.fran_dialect EVMState call_data_seg proj
+R14862:14866 main.fran_dialect <> state:180 var
+R14915:14929 main.fran_dialect EVMState return_data_seg proj
+R14908:14912 main.fran_dialect <> state:180 var
+R14951:14953 main.fran_dialect EVMState gas proj
+R14944:14948 main.fran_dialect <> state:180 var
+R14979:14985 main.fran_dialect EVMState address proj
+R14972:14976 main.fran_dialect <> state:180 var
+R15011:15017 main.fran_dialect EVMState balance proj
+R15004:15008 main.fran_dialect <> state:180 var
+R15042:15047 main.fran_dialect EVMState caller proj
+R15035:15039 main.fran_dialect <> state:180 var
+R15075:15083 main.fran_dialect EVMState callvalue proj
+R15068:15072 main.fran_dialect <> state:180 var
+R15106:15109 main.fran_dialect EVMState code proj
+R15099:15103 main.fran_dialect <> state:180 var
+R15133:15137 main.fran_dialect EVMState nonce proj
+R15126:15130 main.fran_dialect <> state:180 var
+R15163:15169 main.fran_dialect EVMState chainid proj
+R15156:15160 main.fran_dialect <> state:180 var
+R15195:15201 main.fran_dialect EVMState basefee proj
+R15188:15192 main.fran_dialect <> state:180 var
+R15231:15241 main.fran_dialect EVMState blobbasefee proj
+R15224:15228 main.fran_dialect <> state:180 var
+R15266:15271 main.fran_dialect EVMState origin proj
+R15259:15263 main.fran_dialect <> state:180 var
+R15298:15305 main.fran_dialect EVMState gasprice proj
+R15291:15295 main.fran_dialect <> state:180 var
+R15333:15341 main.fran_dialect EVMState blockhash proj
+R15326:15330 main.fran_dialect <> state:180 var
+R15368:15375 main.fran_dialect EVMState blobhash proj
+R15361:15365 main.fran_dialect <> state:180 var
+R15402:15409 main.fran_dialect EVMState coinbase proj
+R15395:15399 main.fran_dialect <> state:180 var
+R15437:15445 main.fran_dialect EVMState timestamp proj
+R15430:15434 main.fran_dialect <> state:180 var
+R15470:15475 main.fran_dialect EVMState number proj
+R15463:15467 main.fran_dialect <> state:180 var
+R15504:15513 main.fran_dialect EVMState difficulty proj
+R15497:15501 main.fran_dialect <> state:180 var
+R15540:15547 main.fran_dialect EVMState gaslimit proj
+R15533:15537 main.fran_dialect <> state:180 var
+def 15571:15585 EVMState update_tstorage
+R15595:15595 main.fran_dialect EVMState t rec
+binder 15588:15592 <> state:182
+R15611:15622 main.fran_dialect EVMStorage t def
+binder 15599:15607 <> tstorage':183
+R15626:15626 main.fran_dialect EVMState t rec
+R15641:15647 main.fran_dialect EVMState storage proj
+R15641:15647 main.fran_dialect EVMState storage proj
+R15641:15647 main.fran_dialect EVMState storage proj
+R15673:15680 main.fran_dialect EVMState tstorage proj
+R15673:15680 main.fran_dialect EVMState tstorage proj
+R15700:15705 main.fran_dialect EVMState memory proj
+R15700:15705 main.fran_dialect EVMState memory proj
+R15730:15742 main.fran_dialect EVMState call_data_seg proj
+R15730:15742 main.fran_dialect EVMState call_data_seg proj
+R15774:15788 main.fran_dialect EVMState return_data_seg proj
+R15774:15788 main.fran_dialect EVMState return_data_seg proj
+R15822:15824 main.fran_dialect EVMState gas proj
+R15822:15824 main.fran_dialect EVMState gas proj
+R15846:15852 main.fran_dialect EVMState address proj
+R15846:15852 main.fran_dialect EVMState address proj
+R15878:15884 main.fran_dialect EVMState balance proj
+R15878:15884 main.fran_dialect EVMState balance proj
+R15910:15915 main.fran_dialect EVMState caller proj
+R15910:15915 main.fran_dialect EVMState caller proj
+R15940:15948 main.fran_dialect EVMState callvalue proj
+R15940:15948 main.fran_dialect EVMState callvalue proj
+R15976:15979 main.fran_dialect EVMState code proj
+R15976:15979 main.fran_dialect EVMState code proj
+R16002:16006 main.fran_dialect EVMState nonce proj
+R16002:16006 main.fran_dialect EVMState nonce proj
+R16030:16036 main.fran_dialect EVMState chainid proj
+R16030:16036 main.fran_dialect EVMState chainid proj
+R16062:16068 main.fran_dialect EVMState basefee proj
+R16062:16068 main.fran_dialect EVMState basefee proj
+R16094:16104 main.fran_dialect EVMState blobbasefee proj
+R16094:16104 main.fran_dialect EVMState blobbasefee proj
+R16134:16139 main.fran_dialect EVMState origin proj
+R16134:16139 main.fran_dialect EVMState origin proj
+R16164:16171 main.fran_dialect EVMState gasprice proj
+R16164:16171 main.fran_dialect EVMState gasprice proj
+R16198:16206 main.fran_dialect EVMState blockhash proj
+R16198:16206 main.fran_dialect EVMState blockhash proj
+R16234:16241 main.fran_dialect EVMState blobhash proj
+R16234:16241 main.fran_dialect EVMState blobhash proj
+R16268:16275 main.fran_dialect EVMState coinbase proj
+R16268:16275 main.fran_dialect EVMState coinbase proj
+R16302:16310 main.fran_dialect EVMState timestamp proj
+R16302:16310 main.fran_dialect EVMState timestamp proj
+R16338:16343 main.fran_dialect EVMState number proj
+R16338:16343 main.fran_dialect EVMState number proj
+R16368:16377 main.fran_dialect EVMState difficulty proj
+R16368:16377 main.fran_dialect EVMState difficulty proj
+R16406:16413 main.fran_dialect EVMState gaslimit proj
+R16406:16413 main.fran_dialect EVMState gaslimit proj
+R15659:15665 main.fran_dialect EVMState storage proj
+R15652:15656 main.fran_dialect <> state:182 var
+R15685:15693 main.fran_dialect <> tstorage':183 var
+R15717:15722 main.fran_dialect EVMState memory proj
+R15710:15714 main.fran_dialect <> state:182 var
+R15754:15766 main.fran_dialect EVMState call_data_seg proj
+R15747:15751 main.fran_dialect <> state:182 var
+R15800:15814 main.fran_dialect EVMState return_data_seg proj
+R15793:15797 main.fran_dialect <> state:182 var
+R15836:15838 main.fran_dialect EVMState gas proj
+R15829:15833 main.fran_dialect <> state:182 var
+R15864:15870 main.fran_dialect EVMState address proj
+R15857:15861 main.fran_dialect <> state:182 var
+R15896:15902 main.fran_dialect EVMState balance proj
+R15889:15893 main.fran_dialect <> state:182 var
+R15927:15932 main.fran_dialect EVMState caller proj
+R15920:15924 main.fran_dialect <> state:182 var
+R15960:15968 main.fran_dialect EVMState callvalue proj
+R15953:15957 main.fran_dialect <> state:182 var
+R15991:15994 main.fran_dialect EVMState code proj
+R15984:15988 main.fran_dialect <> state:182 var
+R16018:16022 main.fran_dialect EVMState nonce proj
+R16011:16015 main.fran_dialect <> state:182 var
+R16048:16054 main.fran_dialect EVMState chainid proj
+R16041:16045 main.fran_dialect <> state:182 var
+R16080:16086 main.fran_dialect EVMState basefee proj
+R16073:16077 main.fran_dialect <> state:182 var
+R16116:16126 main.fran_dialect EVMState blobbasefee proj
+R16109:16113 main.fran_dialect <> state:182 var
+R16151:16156 main.fran_dialect EVMState origin proj
+R16144:16148 main.fran_dialect <> state:182 var
+R16183:16190 main.fran_dialect EVMState gasprice proj
+R16176:16180 main.fran_dialect <> state:182 var
+R16218:16226 main.fran_dialect EVMState blockhash proj
+R16211:16215 main.fran_dialect <> state:182 var
+R16253:16260 main.fran_dialect EVMState blobhash proj
+R16246:16250 main.fran_dialect <> state:182 var
+R16287:16294 main.fran_dialect EVMState coinbase proj
+R16280:16284 main.fran_dialect <> state:182 var
+R16322:16330 main.fran_dialect EVMState timestamp proj
+R16315:16319 main.fran_dialect <> state:182 var
+R16355:16360 main.fran_dialect EVMState number proj
+R16348:16352 main.fran_dialect <> state:182 var
+R16389:16398 main.fran_dialect EVMState difficulty proj
+R16382:16386 main.fran_dialect <> state:182 var
+R16425:16432 main.fran_dialect EVMState gaslimit proj
+R16418:16422 main.fran_dialect <> state:182 var
+def 16456:16468 EVMState update_memory
+R16478:16478 main.fran_dialect EVMState t rec
+binder 16471:16475 <> state:184
+R16492:16502 main.fran_dialect EVMMemory t rec
+binder 16482:16488 <> memory':185
+R16506:16506 main.fran_dialect EVMState t rec
+R16521:16527 main.fran_dialect EVMState storage proj
+R16521:16527 main.fran_dialect EVMState storage proj
+R16521:16527 main.fran_dialect EVMState storage proj
+R16553:16560 main.fran_dialect EVMState tstorage proj
+R16553:16560 main.fran_dialect EVMState tstorage proj
+R16587:16592 main.fran_dialect EVMState memory proj
+R16587:16592 main.fran_dialect EVMState memory proj
+R16610:16622 main.fran_dialect EVMState call_data_seg proj
+R16610:16622 main.fran_dialect EVMState call_data_seg proj
+R16654:16668 main.fran_dialect EVMState return_data_seg proj
+R16654:16668 main.fran_dialect EVMState return_data_seg proj
+R16703:16705 main.fran_dialect EVMState gas proj
+R16703:16705 main.fran_dialect EVMState gas proj
+R16727:16733 main.fran_dialect EVMState address proj
+R16727:16733 main.fran_dialect EVMState address proj
+R16759:16765 main.fran_dialect EVMState balance proj
+R16759:16765 main.fran_dialect EVMState balance proj
+R16791:16796 main.fran_dialect EVMState caller proj
+R16791:16796 main.fran_dialect EVMState caller proj
+R16821:16829 main.fran_dialect EVMState callvalue proj
+R16821:16829 main.fran_dialect EVMState callvalue proj
+R16857:16860 main.fran_dialect EVMState code proj
+R16857:16860 main.fran_dialect EVMState code proj
+R16883:16887 main.fran_dialect EVMState nonce proj
+R16883:16887 main.fran_dialect EVMState nonce proj
+R16911:16917 main.fran_dialect EVMState chainid proj
+R16911:16917 main.fran_dialect EVMState chainid proj
+R16943:16949 main.fran_dialect EVMState basefee proj
+R16943:16949 main.fran_dialect EVMState basefee proj
+R16975:16985 main.fran_dialect EVMState blobbasefee proj
+R16975:16985 main.fran_dialect EVMState blobbasefee proj
+R17015:17020 main.fran_dialect EVMState origin proj
+R17015:17020 main.fran_dialect EVMState origin proj
+R17045:17052 main.fran_dialect EVMState gasprice proj
+R17045:17052 main.fran_dialect EVMState gasprice proj
+R17079:17087 main.fran_dialect EVMState blockhash proj
+R17079:17087 main.fran_dialect EVMState blockhash proj
+R17115:17122 main.fran_dialect EVMState blobhash proj
+R17115:17122 main.fran_dialect EVMState blobhash proj
+R17149:17156 main.fran_dialect EVMState coinbase proj
+R17149:17156 main.fran_dialect EVMState coinbase proj
+R17183:17191 main.fran_dialect EVMState timestamp proj
+R17183:17191 main.fran_dialect EVMState timestamp proj
+R17219:17224 main.fran_dialect EVMState number proj
+R17219:17224 main.fran_dialect EVMState number proj
+R17249:17258 main.fran_dialect EVMState difficulty proj
+R17249:17258 main.fran_dialect EVMState difficulty proj
+R17287:17294 main.fran_dialect EVMState gaslimit proj
+R17287:17294 main.fran_dialect EVMState gaslimit proj
+R16539:16545 main.fran_dialect EVMState storage proj
+R16532:16536 main.fran_dialect <> state:184 var
+R16572:16579 main.fran_dialect EVMState tstorage proj
+R16565:16569 main.fran_dialect <> state:184 var
+R16597:16603 main.fran_dialect <> memory':185 var
+R16634:16646 main.fran_dialect EVMState call_data_seg proj
+R16627:16631 main.fran_dialect <> state:184 var
+R16680:16694 main.fran_dialect EVMState return_data_seg proj
+R16673:16677 main.fran_dialect <> state:184 var
+R16717:16719 main.fran_dialect EVMState gas proj
+R16710:16714 main.fran_dialect <> state:184 var
+R16745:16751 main.fran_dialect EVMState address proj
+R16738:16742 main.fran_dialect <> state:184 var
+R16777:16783 main.fran_dialect EVMState balance proj
+R16770:16774 main.fran_dialect <> state:184 var
+R16808:16813 main.fran_dialect EVMState caller proj
+R16801:16805 main.fran_dialect <> state:184 var
+R16841:16849 main.fran_dialect EVMState callvalue proj
+R16834:16838 main.fran_dialect <> state:184 var
+R16872:16875 main.fran_dialect EVMState code proj
+R16865:16869 main.fran_dialect <> state:184 var
+R16899:16903 main.fran_dialect EVMState nonce proj
+R16892:16896 main.fran_dialect <> state:184 var
+R16929:16935 main.fran_dialect EVMState chainid proj
+R16922:16926 main.fran_dialect <> state:184 var
+R16961:16967 main.fran_dialect EVMState basefee proj
+R16954:16958 main.fran_dialect <> state:184 var
+R16997:17007 main.fran_dialect EVMState blobbasefee proj
+R16990:16994 main.fran_dialect <> state:184 var
+R17032:17037 main.fran_dialect EVMState origin proj
+R17025:17029 main.fran_dialect <> state:184 var
+R17064:17071 main.fran_dialect EVMState gasprice proj
+R17057:17061 main.fran_dialect <> state:184 var
+R17099:17107 main.fran_dialect EVMState blockhash proj
+R17092:17096 main.fran_dialect <> state:184 var
+R17134:17141 main.fran_dialect EVMState blobhash proj
+R17127:17131 main.fran_dialect <> state:184 var
+R17168:17175 main.fran_dialect EVMState coinbase proj
+R17161:17165 main.fran_dialect <> state:184 var
+R17203:17211 main.fran_dialect EVMState timestamp proj
+R17196:17200 main.fran_dialect <> state:184 var
+R17236:17241 main.fran_dialect EVMState number proj
+R17229:17233 main.fran_dialect <> state:184 var
+R17270:17279 main.fran_dialect EVMState difficulty proj
+R17263:17267 main.fran_dialect <> state:184 var
+R17306:17313 main.fran_dialect EVMState gaslimit proj
+R17299:17303 main.fran_dialect <> state:184 var
+def 17337:17346 EVMState update_gas
+R17356:17356 main.fran_dialect EVMState t rec
+binder 17349:17353 <> state:186
+R17367:17371 main.fran_dialect U32 t rec
+binder 17360:17363 <> gas':187
+R17375:17375 main.fran_dialect EVMState t rec
+R17390:17396 main.fran_dialect EVMState storage proj
+R17390:17396 main.fran_dialect EVMState storage proj
+R17390:17396 main.fran_dialect EVMState storage proj
+R17422:17429 main.fran_dialect EVMState tstorage proj
+R17422:17429 main.fran_dialect EVMState tstorage proj
+R17456:17461 main.fran_dialect EVMState memory proj
+R17456:17461 main.fran_dialect EVMState memory proj
+R17486:17498 main.fran_dialect EVMState call_data_seg proj
+R17486:17498 main.fran_dialect EVMState call_data_seg proj
+R17530:17544 main.fran_dialect EVMState return_data_seg proj
+R17530:17544 main.fran_dialect EVMState return_data_seg proj
+R17579:17581 main.fran_dialect EVMState gas proj
+R17579:17581 main.fran_dialect EVMState gas proj
+R17596:17602 main.fran_dialect EVMState address proj
+R17596:17602 main.fran_dialect EVMState address proj
+R17628:17634 main.fran_dialect EVMState balance proj
+R17628:17634 main.fran_dialect EVMState balance proj
+R17660:17665 main.fran_dialect EVMState caller proj
+R17660:17665 main.fran_dialect EVMState caller proj
+R17690:17698 main.fran_dialect EVMState callvalue proj
+R17690:17698 main.fran_dialect EVMState callvalue proj
+R17726:17729 main.fran_dialect EVMState code proj
+R17726:17729 main.fran_dialect EVMState code proj
+R17752:17756 main.fran_dialect EVMState nonce proj
+R17752:17756 main.fran_dialect EVMState nonce proj
+R17780:17786 main.fran_dialect EVMState chainid proj
+R17780:17786 main.fran_dialect EVMState chainid proj
+R17812:17818 main.fran_dialect EVMState basefee proj
+R17812:17818 main.fran_dialect EVMState basefee proj
+R17844:17854 main.fran_dialect EVMState blobbasefee proj
+R17844:17854 main.fran_dialect EVMState blobbasefee proj
+R17884:17889 main.fran_dialect EVMState origin proj
+R17884:17889 main.fran_dialect EVMState origin proj
+R17914:17921 main.fran_dialect EVMState gasprice proj
+R17914:17921 main.fran_dialect EVMState gasprice proj
+R17948:17956 main.fran_dialect EVMState blockhash proj
+R17948:17956 main.fran_dialect EVMState blockhash proj
+R17984:17991 main.fran_dialect EVMState blobhash proj
+R17984:17991 main.fran_dialect EVMState blobhash proj
+R18018:18025 main.fran_dialect EVMState coinbase proj
+R18018:18025 main.fran_dialect EVMState coinbase proj
+R18052:18060 main.fran_dialect EVMState timestamp proj
+R18052:18060 main.fran_dialect EVMState timestamp proj
+R18088:18093 main.fran_dialect EVMState number proj
+R18088:18093 main.fran_dialect EVMState number proj
+R18118:18127 main.fran_dialect EVMState difficulty proj
+R18118:18127 main.fran_dialect EVMState difficulty proj
+R18156:18163 main.fran_dialect EVMState gaslimit proj
+R18156:18163 main.fran_dialect EVMState gaslimit proj
+R17408:17414 main.fran_dialect EVMState storage proj
+R17401:17405 main.fran_dialect <> state:186 var
+R17441:17448 main.fran_dialect EVMState tstorage proj
+R17434:17438 main.fran_dialect <> state:186 var
+R17473:17478 main.fran_dialect EVMState memory proj
+R17466:17470 main.fran_dialect <> state:186 var
+R17510:17522 main.fran_dialect EVMState call_data_seg proj
+R17503:17507 main.fran_dialect <> state:186 var
+R17556:17570 main.fran_dialect EVMState return_data_seg proj
+R17549:17553 main.fran_dialect <> state:186 var
+R17586:17589 main.fran_dialect <> gas':187 var
+R17614:17620 main.fran_dialect EVMState address proj
+R17607:17611 main.fran_dialect <> state:186 var
+R17646:17652 main.fran_dialect EVMState balance proj
+R17639:17643 main.fran_dialect <> state:186 var
+R17677:17682 main.fran_dialect EVMState caller proj
+R17670:17674 main.fran_dialect <> state:186 var
+R17710:17718 main.fran_dialect EVMState callvalue proj
+R17703:17707 main.fran_dialect <> state:186 var
+R17741:17744 main.fran_dialect EVMState code proj
+R17734:17738 main.fran_dialect <> state:186 var
+R17768:17772 main.fran_dialect EVMState nonce proj
+R17761:17765 main.fran_dialect <> state:186 var
+R17798:17804 main.fran_dialect EVMState chainid proj
+R17791:17795 main.fran_dialect <> state:186 var
+R17830:17836 main.fran_dialect EVMState basefee proj
+R17823:17827 main.fran_dialect <> state:186 var
+R17866:17876 main.fran_dialect EVMState blobbasefee proj
+R17859:17863 main.fran_dialect <> state:186 var
+R17901:17906 main.fran_dialect EVMState origin proj
+R17894:17898 main.fran_dialect <> state:186 var
+R17933:17940 main.fran_dialect EVMState gasprice proj
+R17926:17930 main.fran_dialect <> state:186 var
+R17968:17976 main.fran_dialect EVMState blockhash proj
+R17961:17965 main.fran_dialect <> state:186 var
+R18003:18010 main.fran_dialect EVMState blobhash proj
+R17996:18000 main.fran_dialect <> state:186 var
+R18037:18044 main.fran_dialect EVMState coinbase proj
+R18030:18034 main.fran_dialect <> state:186 var
+R18072:18080 main.fran_dialect EVMState timestamp proj
+R18065:18069 main.fran_dialect <> state:186 var
+R18105:18110 main.fran_dialect EVMState number proj
+R18098:18102 main.fran_dialect <> state:186 var
+R18139:18148 main.fran_dialect EVMState difficulty proj
+R18132:18136 main.fran_dialect <> state:186 var
+R18175:18182 main.fran_dialect EVMState gaslimit proj
+R18168:18172 main.fran_dialect <> state:186 var
+def 18206:18216 EVMState update_code
+R18226:18226 main.fran_dialect EVMState t rec
+binder 18219:18223 <> state:188
+R18236:18240 main.fran_dialect U32 t rec
+binder 18230:18233 <> addr:189
+R18251:18268 main.fran_dialect EVMMemorySegment t def
+binder 18244:18248 <> ncode:190
+R18272:18272 main.fran_dialect EVMState t rec
+R18287:18293 main.fran_dialect EVMState storage proj
+R18287:18293 main.fran_dialect EVMState storage proj
+R18287:18293 main.fran_dialect EVMState storage proj
+R18319:18326 main.fran_dialect EVMState tstorage proj
+R18319:18326 main.fran_dialect EVMState tstorage proj
+R18353:18358 main.fran_dialect EVMState memory proj
+R18353:18358 main.fran_dialect EVMState memory proj
+R18383:18395 main.fran_dialect EVMState call_data_seg proj
+R18383:18395 main.fran_dialect EVMState call_data_seg proj
+R18427:18441 main.fran_dialect EVMState return_data_seg proj
+R18427:18441 main.fran_dialect EVMState return_data_seg proj
+R18476:18478 main.fran_dialect EVMState gas proj
+R18476:18478 main.fran_dialect EVMState gas proj
+R18500:18506 main.fran_dialect EVMState address proj
+R18500:18506 main.fran_dialect EVMState address proj
+R18532:18538 main.fran_dialect EVMState balance proj
+R18532:18538 main.fran_dialect EVMState balance proj
+R18564:18569 main.fran_dialect EVMState caller proj
+R18564:18569 main.fran_dialect EVMState caller proj
+R18594:18602 main.fran_dialect EVMState callvalue proj
+R18594:18602 main.fran_dialect EVMState callvalue proj
+R18630:18633 main.fran_dialect EVMState code proj
+R18630:18633 main.fran_dialect EVMState code proj
+R18703:18707 main.fran_dialect EVMState nonce proj
+R18703:18707 main.fran_dialect EVMState nonce proj
+R18731:18737 main.fran_dialect EVMState chainid proj
+R18731:18737 main.fran_dialect EVMState chainid proj
+R18763:18769 main.fran_dialect EVMState basefee proj
+R18763:18769 main.fran_dialect EVMState basefee proj
+R18795:18805 main.fran_dialect EVMState blobbasefee proj
+R18795:18805 main.fran_dialect EVMState blobbasefee proj
+R18835:18840 main.fran_dialect EVMState origin proj
+R18835:18840 main.fran_dialect EVMState origin proj
+R18865:18872 main.fran_dialect EVMState gasprice proj
+R18865:18872 main.fran_dialect EVMState gasprice proj
+R18899:18907 main.fran_dialect EVMState blockhash proj
+R18899:18907 main.fran_dialect EVMState blockhash proj
+R18935:18942 main.fran_dialect EVMState blobhash proj
+R18935:18942 main.fran_dialect EVMState blobhash proj
+R18969:18976 main.fran_dialect EVMState coinbase proj
+R18969:18976 main.fran_dialect EVMState coinbase proj
+R19003:19011 main.fran_dialect EVMState timestamp proj
+R19003:19011 main.fran_dialect EVMState timestamp proj
+R19039:19044 main.fran_dialect EVMState number proj
+R19039:19044 main.fran_dialect EVMState number proj
+R19069:19078 main.fran_dialect EVMState difficulty proj
+R19069:19078 main.fran_dialect EVMState difficulty proj
+R19107:19114 main.fran_dialect EVMState gaslimit proj
+R19107:19114 main.fran_dialect EVMState gaslimit proj
+R18305:18311 main.fran_dialect EVMState storage proj
+R18298:18302 main.fran_dialect <> state:188 var
+R18338:18345 main.fran_dialect EVMState tstorage proj
+R18331:18335 main.fran_dialect <> state:188 var
+R18370:18375 main.fran_dialect EVMState memory proj
+R18363:18367 main.fran_dialect <> state:188 var
+R18407:18419 main.fran_dialect EVMState call_data_seg proj
+R18400:18404 main.fran_dialect <> state:188 var
+R18453:18467 main.fran_dialect EVMState return_data_seg proj
+R18446:18450 main.fran_dialect <> state:188 var
+R18490:18492 main.fran_dialect EVMState gas proj
+R18483:18487 main.fran_dialect <> state:188 var
+R18518:18524 main.fran_dialect EVMState address proj
+R18511:18515 main.fran_dialect <> state:188 var
+R18550:18556 main.fran_dialect EVMState balance proj
+R18543:18547 main.fran_dialect <> state:188 var
+R18581:18586 main.fran_dialect EVMState caller proj
+R18574:18578 main.fran_dialect <> state:188 var
+R18614:18622 main.fran_dialect EVMState callvalue proj
+R18607:18611 main.fran_dialect <> state:188 var
+binder 18642:18642 <> a:191
+R18650:18656 main.fran_dialect U32 eqb def
+R18658:18658 main.fran_dialect <> a:191 var
+R18660:18663 main.fran_dialect <> addr:189 var
+R18689:18692 main.fran_dialect EVMState code proj
+R18682:18686 main.fran_dialect <> state:188 var
+R18695:18695 main.fran_dialect <> a:191 var
+R18670:18674 main.fran_dialect <> ncode:190 var
+R18719:18723 main.fran_dialect EVMState nonce proj
+R18712:18716 main.fran_dialect <> state:188 var
+R18749:18755 main.fran_dialect EVMState chainid proj
+R18742:18746 main.fran_dialect <> state:188 var
+R18781:18787 main.fran_dialect EVMState basefee proj
+R18774:18778 main.fran_dialect <> state:188 var
+R18817:18827 main.fran_dialect EVMState blobbasefee proj
+R18810:18814 main.fran_dialect <> state:188 var
+R18852:18857 main.fran_dialect EVMState origin proj
+R18845:18849 main.fran_dialect <> state:188 var
+R18884:18891 main.fran_dialect EVMState gasprice proj
+R18877:18881 main.fran_dialect <> state:188 var
+R18919:18927 main.fran_dialect EVMState blockhash proj
+R18912:18916 main.fran_dialect <> state:188 var
+R18954:18961 main.fran_dialect EVMState blobhash proj
+R18947:18951 main.fran_dialect <> state:188 var
+R18988:18995 main.fran_dialect EVMState coinbase proj
+R18981:18985 main.fran_dialect <> state:188 var
+R19023:19031 main.fran_dialect EVMState timestamp proj
+R19016:19020 main.fran_dialect <> state:188 var
+R19056:19061 main.fran_dialect EVMState number proj
+R19049:19053 main.fran_dialect <> state:188 var
+R19090:19099 main.fran_dialect EVMState difficulty proj
+R19083:19087 main.fran_dialect <> state:188 var
+R19126:19133 main.fran_dialect EVMState gaslimit proj
+R19119:19123 main.fran_dialect <> state:188 var
+def 19157:19174 EVMState update_return_data
+R19184:19184 main.fran_dialect EVMState t rec
+binder 19177:19181 <> state:192
+R19201:19218 main.fran_dialect EVMMemorySegment t def
+binder 19188:19198 <> return_data:193
+R19222:19222 main.fran_dialect EVMState t rec
+R19237:19243 main.fran_dialect EVMState storage proj
+R19237:19243 main.fran_dialect EVMState storage proj
+R19237:19243 main.fran_dialect EVMState storage proj
+R19269:19276 main.fran_dialect EVMState tstorage proj
+R19269:19276 main.fran_dialect EVMState tstorage proj
+R19303:19308 main.fran_dialect EVMState memory proj
+R19303:19308 main.fran_dialect EVMState memory proj
+R19333:19345 main.fran_dialect EVMState call_data_seg proj
+R19333:19345 main.fran_dialect EVMState call_data_seg proj
+R19377:19391 main.fran_dialect EVMState return_data_seg proj
+R19377:19391 main.fran_dialect EVMState return_data_seg proj
+R19413:19415 main.fran_dialect EVMState gas proj
+R19413:19415 main.fran_dialect EVMState gas proj
+R19437:19443 main.fran_dialect EVMState address proj
+R19437:19443 main.fran_dialect EVMState address proj
+R19469:19475 main.fran_dialect EVMState balance proj
+R19469:19475 main.fran_dialect EVMState balance proj
+R19501:19506 main.fran_dialect EVMState caller proj
+R19501:19506 main.fran_dialect EVMState caller proj
+R19531:19539 main.fran_dialect EVMState callvalue proj
+R19531:19539 main.fran_dialect EVMState callvalue proj
+R19567:19570 main.fran_dialect EVMState code proj
+R19567:19570 main.fran_dialect EVMState code proj
+R19593:19597 main.fran_dialect EVMState nonce proj
+R19593:19597 main.fran_dialect EVMState nonce proj
+R19621:19627 main.fran_dialect EVMState chainid proj
+R19621:19627 main.fran_dialect EVMState chainid proj
+R19653:19659 main.fran_dialect EVMState basefee proj
+R19653:19659 main.fran_dialect EVMState basefee proj
+R19685:19695 main.fran_dialect EVMState blobbasefee proj
+R19685:19695 main.fran_dialect EVMState blobbasefee proj
+R19725:19730 main.fran_dialect EVMState origin proj
+R19725:19730 main.fran_dialect EVMState origin proj
+R19755:19762 main.fran_dialect EVMState gasprice proj
+R19755:19762 main.fran_dialect EVMState gasprice proj
+R19789:19797 main.fran_dialect EVMState blockhash proj
+R19789:19797 main.fran_dialect EVMState blockhash proj
+R19825:19832 main.fran_dialect EVMState blobhash proj
+R19825:19832 main.fran_dialect EVMState blobhash proj
+R19859:19866 main.fran_dialect EVMState coinbase proj
+R19859:19866 main.fran_dialect EVMState coinbase proj
+R19893:19901 main.fran_dialect EVMState timestamp proj
+R19893:19901 main.fran_dialect EVMState timestamp proj
+R19929:19934 main.fran_dialect EVMState number proj
+R19929:19934 main.fran_dialect EVMState number proj
+R19959:19968 main.fran_dialect EVMState difficulty proj
+R19959:19968 main.fran_dialect EVMState difficulty proj
+R19997:20004 main.fran_dialect EVMState gaslimit proj
+R19997:20004 main.fran_dialect EVMState gaslimit proj
+R19255:19261 main.fran_dialect EVMState storage proj
+R19248:19252 main.fran_dialect <> state:192 var
+R19288:19295 main.fran_dialect EVMState tstorage proj
+R19281:19285 main.fran_dialect <> state:192 var
+R19320:19325 main.fran_dialect EVMState memory proj
+R19313:19317 main.fran_dialect <> state:192 var
+R19357:19369 main.fran_dialect EVMState call_data_seg proj
+R19350:19354 main.fran_dialect <> state:192 var
+R19396:19406 main.fran_dialect <> return_data:193 var
+R19427:19429 main.fran_dialect EVMState gas proj
+R19420:19424 main.fran_dialect <> state:192 var
+R19455:19461 main.fran_dialect EVMState address proj
+R19448:19452 main.fran_dialect <> state:192 var
+R19487:19493 main.fran_dialect EVMState balance proj
+R19480:19484 main.fran_dialect <> state:192 var
+R19518:19523 main.fran_dialect EVMState caller proj
+R19511:19515 main.fran_dialect <> state:192 var
+R19551:19559 main.fran_dialect EVMState callvalue proj
+R19544:19548 main.fran_dialect <> state:192 var
+R19582:19585 main.fran_dialect EVMState code proj
+R19575:19579 main.fran_dialect <> state:192 var
+R19609:19613 main.fran_dialect EVMState nonce proj
+R19602:19606 main.fran_dialect <> state:192 var
+R19639:19645 main.fran_dialect EVMState chainid proj
+R19632:19636 main.fran_dialect <> state:192 var
+R19671:19677 main.fran_dialect EVMState basefee proj
+R19664:19668 main.fran_dialect <> state:192 var
+R19707:19717 main.fran_dialect EVMState blobbasefee proj
+R19700:19704 main.fran_dialect <> state:192 var
+R19742:19747 main.fran_dialect EVMState origin proj
+R19735:19739 main.fran_dialect <> state:192 var
+R19774:19781 main.fran_dialect EVMState gasprice proj
+R19767:19771 main.fran_dialect <> state:192 var
+R19809:19817 main.fran_dialect EVMState blockhash proj
+R19802:19806 main.fran_dialect <> state:192 var
+R19844:19851 main.fran_dialect EVMState blobhash proj
+R19837:19841 main.fran_dialect <> state:192 var
+R19878:19885 main.fran_dialect EVMState coinbase proj
+R19871:19875 main.fran_dialect <> state:192 var
+R19913:19921 main.fran_dialect EVMState timestamp proj
+R19906:19910 main.fran_dialect <> state:192 var
+R19946:19951 main.fran_dialect EVMState number proj
+R19939:19943 main.fran_dialect <> state:192 var
+R19980:19989 main.fran_dialect EVMState difficulty proj
+R19973:19977 main.fran_dialect <> state:192 var
+R20016:20023 main.fran_dialect EVMState gaslimit proj
+R20009:20013 main.fran_dialect <> state:192 var
+def 20047:20050 EVMState hash
+R20056:20059 Corelib.Init.Datatypes <> list ind
+R20061:20064 main.fran_dialect U8 t rec
+binder 20053:20053 <> l:194
+R20069:20073 main.fran_dialect U32 t rec
+R20115:20122 main.fran_dialect U32 to_t def
+def 20142:20147 EVMState invoke
+R20157:20157 main.fran_dialect EVMState t rec
+binder 20150:20154 <> state:195
+R20213:20217 main.fran_dialect U32 t rec
+binder 20161:20163 <> gas:196
+binder 20165:20166 <> to:197
+binder 20168:20172 <> value:198
+binder 20174:20183 <> argsOffset:199
+binder 20185:20192 <> argsSize:200
+binder 20194:20202 <> retOffset:201
+binder 20204:20210 <> retSize:202
+R20227:20229 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R20222:20226 main.fran_dialect U32 t rec
+R20230:20233 Corelib.Init.Datatypes <> list ind
+R20235:20238 main.fran_dialect U8 t rec
+R20274:20274 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20286:20287 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20290:20290 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20275:20282 main.fran_dialect U32 to_t def
+R20288:20289 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R20333:20340 main.fran_dialect EVMState <> mod
+mod 20352:20361 <> EVM_opcode
+ind 20376:20376 EVM_opcode t
+constr 20387:20389 EVM_opcode ADD
+constr 20397:20399 EVM_opcode SUB
+constr 20407:20409 EVM_opcode MUL
+constr 20417:20419 EVM_opcode DIV
+scheme 20376:20376 EVM_opcode t_rect
+scheme 20376:20376 EVM_opcode t_ind
+scheme 20376:20376 EVM_opcode t_rec
+scheme 20376:20376 EVM_opcode t_sind
+def 20447:20452 EVM_opcode eq_dec
+R20468:20468 main.fran_dialect EVM_opcode t ind
+binder 20463:20463 <> a:205
+binder 20465:20465 <> b:206
+R20472:20472 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20478:20482 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20489:20489 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20474:20476 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R20473:20473 main.fran_dialect <> a:205 var
+R20477:20477 main.fran_dialect <> b:206 var
+R20484:20487 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R20483:20483 main.fran_dialect <> a:205 var
+R20488:20488 main.fran_dialect <> b:206 var
+def 20547:20549 EVM_opcode eqb
+R20557:20557 main.fran_dialect EVM_opcode t ind
+binder 20552:20552 <> a:207
+binder 20554:20554 <> b:208
+R20561:20564 Corelib.Init.Datatypes <> bool ind
+R20578:20583 main.fran_dialect EVM_opcode eq_dec def
+R20585:20585 main.fran_dialect <> a:207 var
+R20587:20587 main.fran_dialect <> b:208 var
+R20604:20608 Corelib.Init.Datatypes <> false constr
+R20594:20597 Corelib.Init.Datatypes <> true constr
+def 20634:20640 EVM_opcode execute
+R20650:20659 main.fran_dialect EVMState t rec
+binder 20643:20647 <> state:209
+R20667:20667 main.fran_dialect EVM_opcode t ind
+binder 20663:20664 <> op:210
+R20679:20682 Corelib.Init.Datatypes <> list ind
+R20684:20688 main.fran_dialect U32 t rec
+binder 20671:20676 <> inputs:211
+R20716:20718 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R20703:20705 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R20693:20696 Corelib.Init.Datatypes <> list ind
+R20698:20702 main.fran_dialect U32 t rec
+R20706:20715 main.fran_dialect EVMState t rec
+R20719:20726 LenguajeYul.dialect Status t ind
+R20744:20745 main.fran_dialect <> op:210 var
+R20760:20762 main.fran_dialect EVM_opcode ADD constr
+R20773:20778 main.fran_dialect <> inputs:211 var
+R20802:20802 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R20804:20805 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R20807:20807 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R20812:20812 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20826:20827 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20833:20834 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20849:20849 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20813:20813 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R20825:20825 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R20814:20820 main.fran_dialect U32 add def
+R20828:20832 main.fran_dialect <> state:209 var
+R20835:20848 LenguajeYul.dialect Status Running constr
+R20873:20873 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20876:20877 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20883:20884 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20920:20920 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R20874:20875 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R20878:20882 main.fran_dialect <> state:209 var
+R20885:20896 LenguajeYul.dialect Status Error constr
+R20949:20951 main.fran_dialect EVM_opcode SUB constr
+R20962:20967 main.fran_dialect <> inputs:211 var
+R20991:20991 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R20993:20994 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R20996:20996 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21001:21001 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21015:21016 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21022:21023 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21038:21038 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21002:21002 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21014:21014 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21003:21009 main.fran_dialect U32 sub def
+R21017:21021 main.fran_dialect <> state:209 var
+R21024:21037 LenguajeYul.dialect Status Running constr
+R21062:21062 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21065:21066 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21072:21073 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21109:21109 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21063:21064 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21067:21071 main.fran_dialect <> state:209 var
+R21074:21085 LenguajeYul.dialect Status Error constr
+R21138:21140 main.fran_dialect EVM_opcode MUL constr
+R21151:21156 main.fran_dialect <> inputs:211 var
+R21180:21180 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21182:21183 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21185:21185 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21190:21190 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21204:21205 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21211:21212 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21227:21227 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21191:21191 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21203:21203 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21192:21198 main.fran_dialect U32 mul def
+R21206:21210 main.fran_dialect <> state:209 var
+R21213:21226 LenguajeYul.dialect Status Running constr
+R21251:21251 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21254:21255 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21261:21262 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21298:21298 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21252:21253 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21256:21260 main.fran_dialect <> state:209 var
+R21263:21274 LenguajeYul.dialect Status Error constr
+R21327:21329 main.fran_dialect EVM_opcode DIV constr
+R21340:21345 main.fran_dialect <> inputs:211 var
+R21369:21369 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21371:21372 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21374:21374 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21379:21379 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21393:21394 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21400:21401 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21416:21416 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21380:21380 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21392:21392 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21381:21387 main.fran_dialect U32 div def
+R21395:21399 main.fran_dialect <> state:209 var
+R21402:21415 LenguajeYul.dialect Status Running constr
+R21440:21440 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21443:21444 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21450:21451 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21487:21487 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21441:21442 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21445:21449 main.fran_dialect <> state:209 var
+R21452:21463 LenguajeYul.dialect Status Error constr
+def 21534:21537 EVM_opcode show
+R21544:21544 main.fran_dialect EVM_opcode t ind
+binder 21540:21541 <> op:217
+R21548:21553 Stdlib.Strings.String <> string ind
+R21570:21571 main.fran_dialect <> op:217 var
+R21586:21588 main.fran_dialect EVM_opcode ADD constr
+R21607:21609 main.fran_dialect EVM_opcode SUB constr
+R21628:21630 main.fran_dialect EVM_opcode MUL constr
+R21649:21651 main.fran_dialect EVM_opcode DIV constr
+R21678:21687 main.fran_dialect EVM_opcode <> mod
+R21850:21856 LenguajeYul.dialect DIALECT <> mod
+mod 21836:21845 <> EVMDialect
+def 21872:21878 EVMDialect value_t
+R21883:21887 main.fran_dialect U32 t rec
+def 21904:21906 EVMDialect eqb
+R21911:21917 main.fran_dialect U32 eqb def
+def 21933:21940 EVMDialect eqb_spec
+R21945:21956 main.fran_dialect U32 eqb_spec thm
+def 21973:21985 EVMDialect is_true_value
+R21991:21997 main.fran_dialect EVMDialect value_t def
+binder 21988:21988 <> v:219
+R22001:22004 Corelib.Init.Datatypes <> bool ind
+R22013:22019 main.fran_dialect U32 eqb def
+R22021:22021 main.fran_dialect <> v:219 var
+R22023:22030 main.fran_dialect U32 zero def
+def 22061:22068 EVMDialect opcode_t
+R22073:22084 main.fran_dialect EVM_opcode t ind
+def 22101:22115 EVMDialect dialect_state_t
+R22120:22129 main.fran_dialect EVMState t rec
+def 22146:22158 EVMDialect default_value
+R22161:22167 main.fran_dialect EVMDialect value_t def
+R22172:22179 main.fran_dialect U32 zero def
+def 22196:22209 EVMDialect execute_opcode
+R22219:22233 main.fran_dialect EVMDialect dialect_state_t def
+binder 22212:22216 <> state:220
+R22241:22248 main.fran_dialect EVMDialect opcode_t def
+binder 22237:22238 <> op:221
+R22260:22263 Corelib.Init.Datatypes <> list ind
+R22265:22271 main.fran_dialect EVMDialect value_t def
+binder 22252:22257 <> inputs:222
+R22306:22308 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R22288:22290 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R22276:22279 Corelib.Init.Datatypes <> list ind
+R22281:22287 main.fran_dialect EVMDialect value_t def
+R22291:22305 main.fran_dialect EVMDialect dialect_state_t def
+R22309:22316 LenguajeYul.dialect Status t ind
+R22326:22343 main.fran_dialect EVM_opcode execute def
+R22345:22349 main.fran_dialect <> state:220 var
+R22351:22352 main.fran_dialect <> op:221 var
+R22354:22359 main.fran_dialect <> inputs:222 var
+def 22376:22393 EVMDialect opcode_indep_state
+R22400:22407 main.fran_dialect EVMDialect opcode_t def
+binder 22396:22397 <> op:223
+R22424:22425 main.fran_dialect <> op:223 var
+R22438:22451 main.fran_dialect EVM_opcode ADD constr
+R22456:22459 Corelib.Init.Datatypes <> true constr
+R22467:22480 main.fran_dialect EVM_opcode SUB constr
+R22485:22488 Corelib.Init.Datatypes <> true constr
+R22496:22509 main.fran_dialect EVM_opcode MUL constr
+R22514:22517 Corelib.Init.Datatypes <> true constr
+R22525:22538 main.fran_dialect EVM_opcode DIV constr
+R22543:22546 Corelib.Init.Datatypes <> true constr
+R22778:22779 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22790:22801 LenguajeYul.dialect Status Error constr
+R22869:22870 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22881:22892 LenguajeYul.dialect Status Error constr
+R22974:22974 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22982:22982 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22992:23005 LenguajeYul.dialect Status Running constr
+R23080:23081 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23092:23103 LenguajeYul.dialect Status Error constr
+R23250:23251 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23262:23273 LenguajeYul.dialect Status Error constr
+R23345:23345 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23350:23350 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23360:23373 LenguajeYul.dialect Status Running constr
+R23437:23438 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23449:23460 LenguajeYul.dialect Status Error constr
+R23621:23622 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23633:23644 LenguajeYul.dialect Status Error constr
+R23705:23706 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23717:23728 LenguajeYul.dialect Status Error constr
+R23792:23793 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23804:23815 LenguajeYul.dialect Status Error constr
+R23894:23894 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23905:23905 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23915:23928 LenguajeYul.dialect Status Running constr
+R24000:24001 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24012:24023 LenguajeYul.dialect Status Error constr
+prf 24065:24090 EVMDialect evm_opcode_indep_state_snd
+R24105:24112 main.fran_dialect EVMDialect opcode_t def
+binder 24101:24102 <> op:225
+R24148:24156 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R24141:24143 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R24120:24137 main.fran_dialect EVMDialect opcode_indep_state def
+R24139:24140 main.fran_dialect <> op:225 var
+R24144:24147 Corelib.Init.Datatypes <> true constr
+R24172:24186 main.fran_dialect EVMDialect dialect_state_t def
+binder 24165:24166 <> s1:226
+binder 24168:24169 <> s2:227
+R24196:24199 Corelib.Init.Datatypes <> list ind
+R24201:24207 main.fran_dialect EVMDialect value_t def
+binder 24190:24193 <> args:228
+R24216:24223 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R24260:24266 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R24229:24232 Corelib.Init.Datatypes <> list ind
+R24234:24240 main.fran_dialect EVMDialect value_t def
+binder 24224:24226 <> res:229
+R24252:24259 LenguajeYul.dialect Status t ind
+binder 24244:24249 <> status:230
+R24312:24319 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R24292:24294 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R24267:24280 main.fran_dialect EVMDialect execute_opcode def
+R24282:24283 main.fran_dialect <> s1:226 var
+R24285:24286 main.fran_dialect <> op:225 var
+R24288:24291 main.fran_dialect <> args:228 var
+R24295:24295 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24299:24300 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24303:24304 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24311:24311 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24296:24298 main.fran_dialect <> res:229 var
+R24301:24302 main.fran_dialect <> s1:226 var
+R24305:24310 main.fran_dialect <> status:230 var
+R24345:24347 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R24320:24333 main.fran_dialect EVMDialect execute_opcode def
+R24335:24336 main.fran_dialect <> s2:227 var
+R24338:24339 main.fran_dialect <> op:225 var
+R24341:24344 main.fran_dialect <> args:228 var
+R24348:24348 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24352:24353 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24356:24357 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24364:24364 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24349:24351 main.fran_dialect <> res:229 var
+R24354:24355 main.fran_dialect <> s2:227 var
+R24358:24363 main.fran_dialect <> status:230 var
+R24387:24400 main.fran_dialect EVMDialect execute_opcode def
+R24519:24525 main.fran_dialect U32 add def
+R24580:24586 main.fran_dialect U32 sub def
+R24641:24647 main.fran_dialect U32 mul def
+R24702:24708 main.fran_dialect U32 div def
+def 24767:24788 EVMDialect opcode_indep_state_snd
+R24793:24818 main.fran_dialect EVMDialect evm_opcode_indep_state_snd thm
+def 24835:24853 EVMDialect empty_dialect_state
+R24856:24870 main.fran_dialect EVMDialect dialect_state_t def
+R24879:24892 main.fran_dialect EVMState empty def
+def 24909:24918 EVMDialect show_value
+R24924:24930 main.fran_dialect EVMDialect value_t def
+binder 24921:24921 <> v:231
+R24934:24939 Stdlib.Strings.String <> string ind
+R24948:24963 LenguajeYul.misc Misc z_to_string def
+R24969:24975 main.fran_dialect U32 val proj
+R24966:24966 main.fran_dialect <> v:231 var
+def 24996:25006 EVMDialect show_opcode
+R25013:25020 main.fran_dialect EVMDialect opcode_t def
+binder 25009:25010 <> op:232
+R25024:25029 Stdlib.Strings.String <> string ind
+R25038:25052 main.fran_dialect EVM_opcode show def
+R25054:25055 main.fran_dialect <> op:232 var
+R25062:25071 main.fran_dialect EVMDialect <> mod
+R25102:25113 LenguajeYul.dialect DialectFacts <> modtype
+R25115:25124 main.fran_dialect EVMDialect <> modtype
+mod 25082:25097 <> EVMDialect_Facts
