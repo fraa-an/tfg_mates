@@ -141,7 +141,7 @@ Fixpoint eval_yul (expr : yul_expr) (state : EVMState.t) : (list U32.t * EVMStat
             match eval_yul e s with
             | (res, s', Status.Running) => 
                 match eval_list es s' with
-                | Some (rest, s'') => Some (res ++ re, s'')
+                | Some (rest, s'') => Some ((res ++ rest)%list, s'')
                 | None => None
                 end
             | _ => None
