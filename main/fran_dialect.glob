@@ -1,4 +1,4 @@
-DIGEST 53ee574fd966ada427bb3df36934cda0
+DIGEST 2ef1f3a874f48c8ce8aaff425dd6d2a2
 Fmain.fran_dialect
 R20:33 Stdlib.Strings.String <> <> lib
 R56:65 Stdlib.Lists.List <> <> lib
@@ -1836,291 +1836,862 @@ constr 20387:20389 EVM_opcode ADD
 constr 20397:20399 EVM_opcode SUB
 constr 20407:20409 EVM_opcode MUL
 constr 20417:20419 EVM_opcode DIV
+constr 20427:20430 EVM_opcode SDIV
+constr 20438:20440 EVM_opcode MOD
+constr 20448:20451 EVM_opcode SMOD
+constr 20459:20461 EVM_opcode EXP
+constr 20469:20471 EVM_opcode NOT
+constr 20479:20480 EVM_opcode LT
+constr 20488:20489 EVM_opcode GT
+constr 20497:20499 EVM_opcode SLT
+constr 20507:20509 EVM_opcode SGT
+constr 20517:20518 EVM_opcode EQ
+constr 20526:20531 EVM_opcode ISZERO
+constr 20539:20541 EVM_opcode AND
+constr 20549:20550 EVM_opcode OR
+constr 20558:20560 EVM_opcode XOR
+constr 20568:20571 EVM_opcode BYTE
+constr 20579:20581 EVM_opcode SHL
+constr 20589:20591 EVM_opcode SHR
+constr 20599:20601 EVM_opcode SAR
+constr 20609:20611 EVM_opcode CLZ
+constr 20619:20624 EVM_opcode ADDMOD
+constr 20632:20637 EVM_opcode MULMOD
+constr 20645:20654 EVM_opcode SIGNEXTEND
 scheme 20376:20376 EVM_opcode t_rect
 scheme 20376:20376 EVM_opcode t_ind
 scheme 20376:20376 EVM_opcode t_rec
 scheme 20376:20376 EVM_opcode t_sind
-def 20447:20452 EVM_opcode eq_dec
-R20468:20468 main.fran_dialect EVM_opcode t ind
-binder 20463:20463 <> a:205
-binder 20465:20465 <> b:206
-R20472:20472 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
-R20478:20482 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
-R20489:20489 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
-R20474:20476 Corelib.Init.Logic <> ::type_scope:x_'='_x not
-R20473:20473 main.fran_dialect <> a:205 var
-R20477:20477 main.fran_dialect <> b:206 var
-R20484:20487 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
-R20483:20483 main.fran_dialect <> a:205 var
-R20488:20488 main.fran_dialect <> b:206 var
-def 20547:20549 EVM_opcode eqb
-R20557:20557 main.fran_dialect EVM_opcode t ind
-binder 20552:20552 <> a:207
-binder 20554:20554 <> b:208
-R20561:20564 Corelib.Init.Datatypes <> bool ind
-R20578:20583 main.fran_dialect EVM_opcode eq_dec def
-R20585:20585 main.fran_dialect <> a:207 var
-R20587:20587 main.fran_dialect <> b:208 var
-R20604:20608 Corelib.Init.Datatypes <> false constr
-R20594:20597 Corelib.Init.Datatypes <> true constr
-def 20634:20640 EVM_opcode execute
-R20650:20659 main.fran_dialect EVMState t rec
-binder 20643:20647 <> state:209
-R20667:20667 main.fran_dialect EVM_opcode t ind
-binder 20663:20664 <> op:210
-R20679:20682 Corelib.Init.Datatypes <> list ind
-R20684:20688 main.fran_dialect U32 t rec
-binder 20671:20676 <> inputs:211
-R20716:20718 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
-R20703:20705 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
-R20693:20696 Corelib.Init.Datatypes <> list ind
-R20698:20702 main.fran_dialect U32 t rec
-R20706:20715 main.fran_dialect EVMState t rec
-R20719:20726 LenguajeYul.dialect Status t ind
-R20744:20745 main.fran_dialect <> op:210 var
-R20760:20762 main.fran_dialect EVM_opcode ADD constr
-R20773:20778 main.fran_dialect <> inputs:211 var
-R20802:20802 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R20804:20805 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R20807:20807 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R20812:20812 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20826:20827 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20833:20834 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20849:20849 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20813:20813 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R20825:20825 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R20814:20820 main.fran_dialect U32 add def
-R20828:20832 main.fran_dialect <> state:209 var
-R20835:20848 LenguajeYul.dialect Status Running constr
-R20873:20873 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20876:20877 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20883:20884 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20920:20920 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R20874:20875 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R20878:20882 main.fran_dialect <> state:209 var
-R20885:20896 LenguajeYul.dialect Status Error constr
-R20949:20951 main.fran_dialect EVM_opcode SUB constr
-R20962:20967 main.fran_dialect <> inputs:211 var
-R20991:20991 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R20993:20994 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R20996:20996 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21001:21001 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21015:21016 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21022:21023 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21038:21038 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21002:21002 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21014:21014 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21003:21009 main.fran_dialect U32 sub def
-R21017:21021 main.fran_dialect <> state:209 var
-R21024:21037 LenguajeYul.dialect Status Running constr
-R21062:21062 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21065:21066 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21072:21073 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21109:21109 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21063:21064 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R21067:21071 main.fran_dialect <> state:209 var
-R21074:21085 LenguajeYul.dialect Status Error constr
-R21138:21140 main.fran_dialect EVM_opcode MUL constr
-R21151:21156 main.fran_dialect <> inputs:211 var
-R21180:21180 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21182:21183 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21185:21185 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21190:21190 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21204:21205 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21211:21212 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21227:21227 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21191:21191 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21203:21203 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21192:21198 main.fran_dialect U32 mul def
-R21206:21210 main.fran_dialect <> state:209 var
-R21213:21226 LenguajeYul.dialect Status Running constr
-R21251:21251 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21254:21255 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21261:21262 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21298:21298 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21252:21253 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R21256:21260 main.fran_dialect <> state:209 var
-R21263:21274 LenguajeYul.dialect Status Error constr
-R21327:21329 main.fran_dialect EVM_opcode DIV constr
-R21340:21345 main.fran_dialect <> inputs:211 var
-R21369:21369 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21371:21372 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21374:21374 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
-R21379:21379 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21393:21394 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21400:21401 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21416:21416 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21380:21380 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21392:21392 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R21381:21387 main.fran_dialect U32 div def
-R21395:21399 main.fran_dialect <> state:209 var
-R21402:21415 LenguajeYul.dialect Status Running constr
-R21440:21440 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21443:21444 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21450:21451 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21487:21487 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R21441:21442 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R21445:21449 main.fran_dialect <> state:209 var
-R21452:21463 LenguajeYul.dialect Status Error constr
-def 21534:21537 EVM_opcode show
-R21544:21544 main.fran_dialect EVM_opcode t ind
-binder 21540:21541 <> op:217
-R21548:21553 Stdlib.Strings.String <> string ind
-R21570:21571 main.fran_dialect <> op:217 var
-R21586:21588 main.fran_dialect EVM_opcode ADD constr
-R21607:21609 main.fran_dialect EVM_opcode SUB constr
-R21628:21630 main.fran_dialect EVM_opcode MUL constr
-R21649:21651 main.fran_dialect EVM_opcode DIV constr
-R21678:21687 main.fran_dialect EVM_opcode <> mod
-R21850:21856 LenguajeYul.dialect DIALECT <> mod
-mod 21836:21845 <> EVMDialect
-def 21872:21878 EVMDialect value_t
-R21883:21887 main.fran_dialect U32 t rec
-def 21904:21906 EVMDialect eqb
-R21911:21917 main.fran_dialect U32 eqb def
-def 21933:21940 EVMDialect eqb_spec
-R21945:21956 main.fran_dialect U32 eqb_spec thm
-def 21973:21985 EVMDialect is_true_value
-R21991:21997 main.fran_dialect EVMDialect value_t def
-binder 21988:21988 <> v:219
-R22001:22004 Corelib.Init.Datatypes <> bool ind
-R22013:22019 main.fran_dialect U32 eqb def
-R22021:22021 main.fran_dialect <> v:219 var
-R22023:22030 main.fran_dialect U32 zero def
-def 22061:22068 EVMDialect opcode_t
-R22073:22084 main.fran_dialect EVM_opcode t ind
-def 22101:22115 EVMDialect dialect_state_t
-R22120:22129 main.fran_dialect EVMState t rec
-def 22146:22158 EVMDialect default_value
-R22161:22167 main.fran_dialect EVMDialect value_t def
-R22172:22179 main.fran_dialect U32 zero def
-def 22196:22209 EVMDialect execute_opcode
-R22219:22233 main.fran_dialect EVMDialect dialect_state_t def
-binder 22212:22216 <> state:220
-R22241:22248 main.fran_dialect EVMDialect opcode_t def
-binder 22237:22238 <> op:221
-R22260:22263 Corelib.Init.Datatypes <> list ind
-R22265:22271 main.fran_dialect EVMDialect value_t def
-binder 22252:22257 <> inputs:222
-R22306:22308 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
-R22288:22290 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
-R22276:22279 Corelib.Init.Datatypes <> list ind
-R22281:22287 main.fran_dialect EVMDialect value_t def
-R22291:22305 main.fran_dialect EVMDialect dialect_state_t def
-R22309:22316 LenguajeYul.dialect Status t ind
-R22326:22343 main.fran_dialect EVM_opcode execute def
-R22345:22349 main.fran_dialect <> state:220 var
-R22351:22352 main.fran_dialect <> op:221 var
-R22354:22359 main.fran_dialect <> inputs:222 var
-def 22376:22393 EVMDialect opcode_indep_state
-R22400:22407 main.fran_dialect EVMDialect opcode_t def
-binder 22396:22397 <> op:223
-R22424:22425 main.fran_dialect <> op:223 var
-R22438:22451 main.fran_dialect EVM_opcode ADD constr
-R22456:22459 Corelib.Init.Datatypes <> true constr
-R22467:22480 main.fran_dialect EVM_opcode SUB constr
-R22485:22488 Corelib.Init.Datatypes <> true constr
-R22496:22509 main.fran_dialect EVM_opcode MUL constr
-R22514:22517 Corelib.Init.Datatypes <> true constr
-R22525:22538 main.fran_dialect EVM_opcode DIV constr
-R22543:22546 Corelib.Init.Datatypes <> true constr
-R22778:22779 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R22790:22801 LenguajeYul.dialect Status Error constr
-R22869:22870 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R22881:22892 LenguajeYul.dialect Status Error constr
-R22974:22974 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R22982:22982 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R22992:23005 LenguajeYul.dialect Status Running constr
-R23080:23081 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23092:23103 LenguajeYul.dialect Status Error constr
-R23250:23251 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23262:23273 LenguajeYul.dialect Status Error constr
-R23345:23345 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R23350:23350 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R23360:23373 LenguajeYul.dialect Status Running constr
-R23437:23438 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23449:23460 LenguajeYul.dialect Status Error constr
-R23621:23622 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23633:23644 LenguajeYul.dialect Status Error constr
-R23705:23706 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23717:23728 LenguajeYul.dialect Status Error constr
-R23792:23793 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R23804:23815 LenguajeYul.dialect Status Error constr
-R23894:23894 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R23905:23905 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
-R23915:23928 LenguajeYul.dialect Status Running constr
-R24000:24001 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
-R24012:24023 LenguajeYul.dialect Status Error constr
-prf 24065:24090 EVMDialect evm_opcode_indep_state_snd
-R24105:24112 main.fran_dialect EVMDialect opcode_t def
-binder 24101:24102 <> op:225
-R24148:24156 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
-R24141:24143 Corelib.Init.Logic <> ::type_scope:x_'='_x not
-R24120:24137 main.fran_dialect EVMDialect opcode_indep_state def
-R24139:24140 main.fran_dialect <> op:225 var
-R24144:24147 Corelib.Init.Datatypes <> true constr
-R24172:24186 main.fran_dialect EVMDialect dialect_state_t def
-binder 24165:24166 <> s1:226
-binder 24168:24169 <> s2:227
-R24196:24199 Corelib.Init.Datatypes <> list ind
-R24201:24207 main.fran_dialect EVMDialect value_t def
-binder 24190:24193 <> args:228
-R24216:24223 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R24260:24266 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
-R24229:24232 Corelib.Init.Datatypes <> list ind
-R24234:24240 main.fran_dialect EVMDialect value_t def
-binder 24224:24226 <> res:229
-R24252:24259 LenguajeYul.dialect Status t ind
-binder 24244:24249 <> status:230
-R24312:24319 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
-R24292:24294 Corelib.Init.Logic <> ::type_scope:x_'='_x not
-R24267:24280 main.fran_dialect EVMDialect execute_opcode def
-R24282:24283 main.fran_dialect <> s1:226 var
-R24285:24286 main.fran_dialect <> op:225 var
-R24288:24291 main.fran_dialect <> args:228 var
-R24295:24295 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24299:24300 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24303:24304 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24311:24311 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24296:24298 main.fran_dialect <> res:229 var
-R24301:24302 main.fran_dialect <> s1:226 var
-R24305:24310 main.fran_dialect <> status:230 var
-R24345:24347 Corelib.Init.Logic <> ::type_scope:x_'='_x not
-R24320:24333 main.fran_dialect EVMDialect execute_opcode def
-R24335:24336 main.fran_dialect <> s2:227 var
-R24338:24339 main.fran_dialect <> op:225 var
-R24341:24344 main.fran_dialect <> args:228 var
-R24348:24348 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24352:24353 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24356:24357 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24364:24364 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
-R24349:24351 main.fran_dialect <> res:229 var
-R24354:24355 main.fran_dialect <> s2:227 var
-R24358:24363 main.fran_dialect <> status:230 var
-R24387:24400 main.fran_dialect EVMDialect execute_opcode def
-R24519:24525 main.fran_dialect U32 add def
-R24580:24586 main.fran_dialect U32 sub def
-R24641:24647 main.fran_dialect U32 mul def
-R24702:24708 main.fran_dialect U32 div def
-def 24767:24788 EVMDialect opcode_indep_state_snd
-R24793:24818 main.fran_dialect EVMDialect evm_opcode_indep_state_snd thm
-def 24835:24853 EVMDialect empty_dialect_state
-R24856:24870 main.fran_dialect EVMDialect dialect_state_t def
-R24879:24892 main.fran_dialect EVMState empty def
-def 24909:24918 EVMDialect show_value
-R24924:24930 main.fran_dialect EVMDialect value_t def
-binder 24921:24921 <> v:231
-R24934:24939 Stdlib.Strings.String <> string ind
-R24948:24963 LenguajeYul.misc Misc z_to_string def
-R24969:24975 main.fran_dialect U32 val proj
-R24966:24966 main.fran_dialect <> v:231 var
-def 24996:25006 EVMDialect show_opcode
-R25013:25020 main.fran_dialect EVMDialect opcode_t def
-binder 25009:25010 <> op:232
-R25024:25029 Stdlib.Strings.String <> string ind
-R25038:25052 main.fran_dialect EVM_opcode show def
-R25054:25055 main.fran_dialect <> op:232 var
-R25062:25071 main.fran_dialect EVMDialect <> mod
-R25102:25113 LenguajeYul.dialect DialectFacts <> modtype
-R25115:25124 main.fran_dialect EVMDialect <> modtype
-mod 25082:25097 <> EVMDialect_Facts
+def 20682:20687 EVM_opcode eq_dec
+R20703:20703 main.fran_dialect EVM_opcode t ind
+binder 20698:20698 <> a:205
+binder 20700:20700 <> b:206
+R20707:20707 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20713:20717 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20724:20724 Corelib.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R20709:20711 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R20708:20708 main.fran_dialect <> a:205 var
+R20712:20712 main.fran_dialect <> b:206 var
+R20719:20722 Corelib.Init.Logic <> ::type_scope:x_'<>'_x not
+R20718:20718 main.fran_dialect <> a:205 var
+R20723:20723 main.fran_dialect <> b:206 var
+def 20782:20784 EVM_opcode eqb
+R20792:20792 main.fran_dialect EVM_opcode t ind
+binder 20787:20787 <> a:207
+binder 20789:20789 <> b:208
+R20796:20799 Corelib.Init.Datatypes <> bool ind
+R20813:20818 main.fran_dialect EVM_opcode eq_dec def
+R20820:20820 main.fran_dialect <> a:207 var
+R20822:20822 main.fran_dialect <> b:208 var
+R20839:20843 Corelib.Init.Datatypes <> false constr
+R20829:20832 Corelib.Init.Datatypes <> true constr
+def 20869:20875 EVM_opcode execute
+R20885:20894 main.fran_dialect EVMState t rec
+binder 20878:20882 <> state:209
+R20902:20902 main.fran_dialect EVM_opcode t ind
+binder 20898:20899 <> op:210
+R20914:20917 Corelib.Init.Datatypes <> list ind
+R20919:20923 main.fran_dialect U32 t rec
+binder 20906:20911 <> inputs:211
+R20951:20953 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R20938:20940 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R20928:20931 Corelib.Init.Datatypes <> list ind
+R20933:20937 main.fran_dialect U32 t rec
+R20941:20950 main.fran_dialect EVMState t rec
+R20954:20961 LenguajeYul.dialect Status t ind
+R20979:20980 main.fran_dialect <> op:210 var
+R20995:20997 main.fran_dialect EVM_opcode ADD constr
+R21008:21013 main.fran_dialect <> inputs:211 var
+R21037:21037 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21039:21040 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21042:21042 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21047:21047 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21061:21062 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21068:21069 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21084:21084 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21048:21048 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21060:21060 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21049:21055 main.fran_dialect U32 add def
+R21063:21067 main.fran_dialect <> state:209 var
+R21070:21083 LenguajeYul.dialect Status Running constr
+R21108:21108 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21111:21112 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21118:21119 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21155:21155 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21109:21110 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21113:21117 main.fran_dialect <> state:209 var
+R21120:21131 LenguajeYul.dialect Status Error constr
+R21184:21186 main.fran_dialect EVM_opcode SUB constr
+R21197:21202 main.fran_dialect <> inputs:211 var
+R21226:21226 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21228:21229 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21231:21231 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21236:21236 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21250:21251 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21257:21258 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21273:21273 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21237:21237 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21249:21249 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21238:21244 main.fran_dialect U32 sub def
+R21252:21256 main.fran_dialect <> state:209 var
+R21259:21272 LenguajeYul.dialect Status Running constr
+R21297:21297 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21300:21301 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21307:21308 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21344:21344 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21298:21299 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21302:21306 main.fran_dialect <> state:209 var
+R21309:21320 LenguajeYul.dialect Status Error constr
+R21373:21375 main.fran_dialect EVM_opcode MUL constr
+R21386:21391 main.fran_dialect <> inputs:211 var
+R21415:21415 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21417:21418 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21420:21420 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21425:21425 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21439:21440 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21446:21447 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21462:21462 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21426:21426 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21438:21438 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21427:21433 main.fran_dialect U32 mul def
+R21441:21445 main.fran_dialect <> state:209 var
+R21448:21461 LenguajeYul.dialect Status Running constr
+R21486:21486 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21489:21490 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21496:21497 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21533:21533 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21487:21488 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21491:21495 main.fran_dialect <> state:209 var
+R21498:21509 LenguajeYul.dialect Status Error constr
+R21562:21564 main.fran_dialect EVM_opcode DIV constr
+R21575:21580 main.fran_dialect <> inputs:211 var
+R21604:21604 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21606:21607 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21609:21609 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21614:21614 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21628:21629 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21635:21636 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21651:21651 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21615:21615 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21627:21627 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21616:21622 main.fran_dialect U32 div def
+R21630:21634 main.fran_dialect <> state:209 var
+R21637:21650 LenguajeYul.dialect Status Running constr
+R21675:21675 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21678:21679 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21685:21686 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21722:21722 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21676:21677 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21680:21684 main.fran_dialect <> state:209 var
+R21687:21698 LenguajeYul.dialect Status Error constr
+R21751:21754 main.fran_dialect EVM_opcode SDIV constr
+R21765:21770 main.fran_dialect <> inputs:211 var
+R21794:21794 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21796:21797 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21799:21799 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21804:21804 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21819:21820 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21826:21827 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21842:21842 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21805:21805 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21818:21818 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R21806:21813 main.fran_dialect U32 sdiv def
+R21821:21825 main.fran_dialect <> state:209 var
+R21828:21841 LenguajeYul.dialect Status Running constr
+R21866:21866 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21869:21870 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21876:21877 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21914:21914 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21867:21868 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R21871:21875 main.fran_dialect <> state:209 var
+R21878:21889 LenguajeYul.dialect Status Error constr
+R21946:21948 main.fran_dialect EVM_opcode MOD constr
+R21959:21964 main.fran_dialect <> inputs:211 var
+R21988:21988 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21990:21991 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21993:21993 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R21998:21998 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22016:22017 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22023:22024 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22039:22039 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R21999:21999 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22015:22015 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22000:22010 main.fran_dialect U32 mod_evm def
+R22018:22022 main.fran_dialect <> state:209 var
+R22025:22038 LenguajeYul.dialect Status Running constr
+R22063:22063 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22066:22067 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22073:22074 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22110:22110 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22064:22065 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22068:22072 main.fran_dialect <> state:209 var
+R22075:22086 LenguajeYul.dialect Status Error constr
+R22141:22144 main.fran_dialect EVM_opcode SMOD constr
+R22155:22160 main.fran_dialect <> inputs:211 var
+R22184:22184 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22186:22187 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22189:22189 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22194:22194 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22209:22210 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22216:22217 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22232:22232 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22195:22195 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22208:22208 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22196:22203 main.fran_dialect U32 smod def
+R22211:22215 main.fran_dialect <> state:209 var
+R22218:22231 LenguajeYul.dialect Status Running constr
+R22256:22256 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22259:22260 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22266:22267 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22304:22304 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22257:22258 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22261:22265 main.fran_dialect <> state:209 var
+R22268:22279 LenguajeYul.dialect Status Error constr
+R22337:22339 main.fran_dialect EVM_opcode EXP constr
+R22350:22355 main.fran_dialect <> inputs:211 var
+R22379:22379 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22381:22382 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22384:22384 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22389:22389 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22403:22404 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22410:22411 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22426:22426 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22390:22390 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22402:22402 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22391:22397 main.fran_dialect U32 exp def
+R22405:22409 main.fran_dialect <> state:209 var
+R22412:22425 LenguajeYul.dialect Status Running constr
+R22450:22450 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22453:22454 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22460:22461 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22497:22497 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22451:22452 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22455:22459 main.fran_dialect <> state:209 var
+R22462:22473 LenguajeYul.dialect Status Error constr
+R22535:22537 main.fran_dialect EVM_opcode NOT constr
+R22548:22553 main.fran_dialect <> inputs:211 var
+R22577:22577 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22579:22579 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22584:22584 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22596:22597 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22603:22604 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22619:22619 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22585:22585 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22595:22595 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22586:22592 main.fran_dialect U32 not def
+R22598:22602 main.fran_dialect <> state:209 var
+R22605:22618 LenguajeYul.dialect Status Running constr
+R22643:22643 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22646:22647 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22653:22654 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22689:22689 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22644:22645 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22648:22652 main.fran_dialect <> state:209 var
+R22655:22666 LenguajeYul.dialect Status Error constr
+R22721:22722 main.fran_dialect EVM_opcode LT constr
+R22733:22738 main.fran_dialect <> inputs:211 var
+R22762:22762 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22764:22765 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22767:22767 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22772:22772 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22785:22786 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22792:22793 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22808:22808 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22773:22773 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22784:22784 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22774:22779 main.fran_dialect U32 lt def
+R22787:22791 main.fran_dialect <> state:209 var
+R22794:22807 LenguajeYul.dialect Status Running constr
+R22832:22832 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22835:22836 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22842:22843 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22878:22878 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22833:22834 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R22837:22841 main.fran_dialect <> state:209 var
+R22844:22855 LenguajeYul.dialect Status Error constr
+R22910:22911 main.fran_dialect EVM_opcode GT constr
+R22922:22927 main.fran_dialect <> inputs:211 var
+R22951:22951 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22953:22954 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22956:22956 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R22961:22961 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22974:22975 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22981:22982 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22997:22997 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R22962:22962 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22973:22973 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R22963:22968 main.fran_dialect U32 gt def
+R22976:22980 main.fran_dialect <> state:209 var
+R22983:22996 LenguajeYul.dialect Status Running constr
+R23021:23021 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23024:23025 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23031:23032 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23067:23067 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23022:23023 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23026:23030 main.fran_dialect <> state:209 var
+R23033:23044 LenguajeYul.dialect Status Error constr
+R23099:23101 main.fran_dialect EVM_opcode SLT constr
+R23112:23117 main.fran_dialect <> inputs:211 var
+R23141:23141 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23143:23144 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23146:23146 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23151:23151 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23165:23166 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23172:23173 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23188:23188 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23152:23152 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23164:23164 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23153:23159 main.fran_dialect U32 slt def
+R23167:23171 main.fran_dialect <> state:209 var
+R23174:23187 LenguajeYul.dialect Status Running constr
+R23212:23212 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23215:23216 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23222:23223 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23259:23259 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23213:23214 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23217:23221 main.fran_dialect <> state:209 var
+R23224:23235 LenguajeYul.dialect Status Error constr
+R23291:23293 main.fran_dialect EVM_opcode SGT constr
+R23304:23309 main.fran_dialect <> inputs:211 var
+R23333:23333 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23335:23336 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23338:23338 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23343:23343 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23357:23358 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23364:23365 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23380:23380 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23344:23344 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23356:23356 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23345:23351 main.fran_dialect U32 sgt def
+R23359:23363 main.fran_dialect <> state:209 var
+R23366:23379 LenguajeYul.dialect Status Running constr
+R23404:23404 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23407:23408 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23414:23415 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23451:23451 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23405:23406 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23409:23413 main.fran_dialect <> state:209 var
+R23416:23427 LenguajeYul.dialect Status Error constr
+R23483:23484 main.fran_dialect EVM_opcode EQ constr
+R23495:23500 main.fran_dialect <> inputs:211 var
+R23524:23524 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23526:23527 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23529:23529 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23534:23534 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23547:23548 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23554:23555 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23570:23570 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23535:23535 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23546:23546 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23536:23541 main.fran_dialect U32 eq def
+R23549:23553 main.fran_dialect <> state:209 var
+R23556:23569 LenguajeYul.dialect Status Running constr
+R23594:23594 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23597:23598 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23604:23605 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23640:23640 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23595:23596 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23599:23603 main.fran_dialect <> state:209 var
+R23606:23617 LenguajeYul.dialect Status Error constr
+R23672:23677 main.fran_dialect EVM_opcode ISZERO constr
+R23688:23693 main.fran_dialect <> inputs:211 var
+R23717:23717 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23719:23719 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23724:23724 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23739:23740 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23746:23747 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23762:23762 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23725:23725 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23738:23738 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23726:23735 main.fran_dialect U32 iszero def
+R23741:23745 main.fran_dialect <> state:209 var
+R23748:23761 LenguajeYul.dialect Status Running constr
+R23786:23786 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23789:23790 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23796:23797 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23835:23835 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23787:23788 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23791:23795 main.fran_dialect <> state:209 var
+R23798:23809 LenguajeYul.dialect Status Error constr
+R23867:23869 main.fran_dialect EVM_opcode AND constr
+R23880:23885 main.fran_dialect <> inputs:211 var
+R23909:23909 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23911:23912 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23914:23914 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R23919:23919 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23933:23934 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23940:23941 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23956:23956 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23920:23920 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23932:23932 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R23921:23927 main.fran_dialect U32 and def
+R23935:23939 main.fran_dialect <> state:209 var
+R23942:23955 LenguajeYul.dialect Status Running constr
+R23980:23980 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23983:23984 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23990:23991 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24027:24027 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R23981:23982 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R23985:23989 main.fran_dialect <> state:209 var
+R23992:24003 LenguajeYul.dialect Status Error constr
+R24059:24060 main.fran_dialect EVM_opcode OR constr
+R24071:24076 main.fran_dialect <> inputs:211 var
+R24100:24100 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24102:24103 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24105:24105 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24110:24110 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24123:24124 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24130:24131 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24146:24146 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24111:24111 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24122:24122 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24112:24117 main.fran_dialect U32 or def
+R24125:24129 main.fran_dialect <> state:209 var
+R24132:24145 LenguajeYul.dialect Status Running constr
+R24170:24170 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24173:24174 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24180:24181 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24216:24216 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24171:24172 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24175:24179 main.fran_dialect <> state:209 var
+R24182:24193 LenguajeYul.dialect Status Error constr
+R24248:24250 main.fran_dialect EVM_opcode XOR constr
+R24261:24266 main.fran_dialect <> inputs:211 var
+R24290:24290 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24292:24293 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24295:24295 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24300:24300 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24314:24315 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24321:24322 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24337:24337 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24301:24301 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24313:24313 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24302:24308 main.fran_dialect U32 xor def
+R24316:24320 main.fran_dialect <> state:209 var
+R24323:24336 LenguajeYul.dialect Status Running constr
+R24361:24361 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24364:24365 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24371:24372 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24408:24408 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24362:24363 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24366:24370 main.fran_dialect <> state:209 var
+R24373:24384 LenguajeYul.dialect Status Error constr
+R24440:24443 main.fran_dialect EVM_opcode BYTE constr
+R24454:24459 main.fran_dialect <> inputs:211 var
+R24483:24483 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24485:24486 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24488:24488 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24493:24493 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24508:24509 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24515:24516 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24531:24531 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24494:24494 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24507:24507 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24495:24502 main.fran_dialect U32 byte def
+R24510:24514 main.fran_dialect <> state:209 var
+R24517:24530 LenguajeYul.dialect Status Running constr
+R24555:24555 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24558:24559 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24565:24566 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24603:24603 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24556:24557 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24560:24564 main.fran_dialect <> state:209 var
+R24567:24578 LenguajeYul.dialect Status Error constr
+R24634:24636 main.fran_dialect EVM_opcode SHL constr
+R24647:24652 main.fran_dialect <> inputs:211 var
+R24676:24676 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24678:24679 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24681:24681 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24686:24686 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24700:24701 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24707:24708 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24723:24723 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24687:24687 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24699:24699 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24688:24694 main.fran_dialect U32 shl def
+R24702:24706 main.fran_dialect <> state:209 var
+R24709:24722 LenguajeYul.dialect Status Running constr
+R24747:24747 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24750:24751 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24757:24758 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24794:24794 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24748:24749 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24752:24756 main.fran_dialect <> state:209 var
+R24759:24770 LenguajeYul.dialect Status Error constr
+R24826:24828 main.fran_dialect EVM_opcode SHR constr
+R24839:24844 main.fran_dialect <> inputs:211 var
+R24868:24868 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24870:24871 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24873:24873 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R24878:24878 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24892:24893 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24899:24900 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24915:24915 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24879:24879 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24891:24891 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R24880:24886 main.fran_dialect U32 shr def
+R24894:24898 main.fran_dialect <> state:209 var
+R24901:24914 LenguajeYul.dialect Status Running constr
+R24939:24939 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24942:24943 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24949:24950 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24986:24986 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R24940:24941 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R24944:24948 main.fran_dialect <> state:209 var
+R24951:24962 LenguajeYul.dialect Status Error constr
+R25018:25020 main.fran_dialect EVM_opcode SAR constr
+R25031:25036 main.fran_dialect <> inputs:211 var
+R25060:25060 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25062:25063 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25065:25065 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25070:25070 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25084:25085 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25091:25092 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25107:25107 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25071:25071 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25083:25083 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25072:25078 main.fran_dialect U32 sar def
+R25086:25090 main.fran_dialect <> state:209 var
+R25093:25106 LenguajeYul.dialect Status Running constr
+R25131:25131 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25134:25135 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25141:25142 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25178:25178 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25132:25133 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R25136:25140 main.fran_dialect <> state:209 var
+R25143:25154 LenguajeYul.dialect Status Error constr
+R25211:25213 main.fran_dialect EVM_opcode CLZ constr
+R25224:25229 main.fran_dialect <> inputs:211 var
+R25253:25253 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25255:25255 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25260:25260 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25272:25273 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25279:25280 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25295:25295 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25261:25261 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25271:25271 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25262:25268 main.fran_dialect U32 clz def
+R25274:25278 main.fran_dialect <> state:209 var
+R25281:25294 LenguajeYul.dialect Status Running constr
+R25319:25319 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25322:25323 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25329:25330 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25365:25365 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25320:25321 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R25324:25328 main.fran_dialect <> state:209 var
+R25331:25342 LenguajeYul.dialect Status Error constr
+R25395:25400 main.fran_dialect EVM_opcode ADDMOD constr
+R25411:25416 main.fran_dialect <> inputs:211 var
+R25440:25440 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25442:25443 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25445:25446 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25448:25448 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25453:25453 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25472:25473 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25479:25480 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25495:25495 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25454:25454 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25471:25471 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25455:25464 main.fran_dialect U32 addmod def
+R25474:25478 main.fran_dialect <> state:209 var
+R25481:25494 LenguajeYul.dialect Status Running constr
+R25519:25519 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25522:25523 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25529:25530 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25569:25569 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25520:25521 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R25524:25528 main.fran_dialect <> state:209 var
+R25531:25542 LenguajeYul.dialect Status Error constr
+R25601:25606 main.fran_dialect EVM_opcode MULMOD constr
+R25617:25622 main.fran_dialect <> inputs:211 var
+R25646:25646 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25648:25649 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25651:25652 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25654:25654 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25659:25659 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25678:25679 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25685:25686 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25701:25701 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25660:25660 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25677:25677 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25661:25670 main.fran_dialect U32 mulmod def
+R25680:25684 main.fran_dialect <> state:209 var
+R25687:25700 LenguajeYul.dialect Status Running constr
+R25725:25725 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25728:25729 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25735:25736 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25775:25775 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25726:25727 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R25730:25734 main.fran_dialect <> state:209 var
+R25737:25748 LenguajeYul.dialect Status Error constr
+R25807:25816 main.fran_dialect EVM_opcode SIGNEXTEND constr
+R25827:25832 main.fran_dialect <> inputs:211 var
+R25856:25856 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25858:25859 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25861:25861 Stdlib.Lists.List ListNotations ::list_scope:'['_x_';'_x_';'_'..'_';'_x_']' not
+R25866:25866 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25887:25888 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25894:25895 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25910:25910 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25867:25867 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25886:25886 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R25868:25881 main.fran_dialect U32 signextend def
+R25889:25893 main.fran_dialect <> state:209 var
+R25896:25909 LenguajeYul.dialect Status Running constr
+R25934:25934 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25937:25938 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25944:25945 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25988:25988 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25935:25936 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R25939:25943 main.fran_dialect <> state:209 var
+R25946:25957 LenguajeYul.dialect Status Error constr
+def 26039:26042 EVM_opcode show
+R26049:26049 main.fran_dialect EVM_opcode t ind
+binder 26045:26046 <> op:239
+R26053:26058 Stdlib.Strings.String <> string ind
+R26075:26076 main.fran_dialect <> op:239 var
+R26091:26093 main.fran_dialect EVM_opcode ADD constr
+R26112:26114 main.fran_dialect EVM_opcode SUB constr
+R26133:26135 main.fran_dialect EVM_opcode MUL constr
+R26154:26156 main.fran_dialect EVM_opcode DIV constr
+R26175:26178 main.fran_dialect EVM_opcode SDIV constr
+R26198:26200 main.fran_dialect EVM_opcode MOD constr
+R26219:26222 main.fran_dialect EVM_opcode SMOD constr
+R26242:26244 main.fran_dialect EVM_opcode EXP constr
+R26263:26265 main.fran_dialect EVM_opcode NOT constr
+R26284:26285 main.fran_dialect EVM_opcode LT constr
+R26303:26304 main.fran_dialect EVM_opcode GT constr
+R26322:26324 main.fran_dialect EVM_opcode SLT constr
+R26343:26345 main.fran_dialect EVM_opcode SGT constr
+R26364:26365 main.fran_dialect EVM_opcode EQ constr
+R26383:26388 main.fran_dialect EVM_opcode ISZERO constr
+R26410:26412 main.fran_dialect EVM_opcode AND constr
+R26431:26432 main.fran_dialect EVM_opcode OR constr
+R26450:26452 main.fran_dialect EVM_opcode XOR constr
+R26471:26474 main.fran_dialect EVM_opcode BYTE constr
+R26494:26496 main.fran_dialect EVM_opcode SHL constr
+R26515:26517 main.fran_dialect EVM_opcode SHR constr
+R26536:26538 main.fran_dialect EVM_opcode SAR constr
+R26557:26559 main.fran_dialect EVM_opcode CLZ constr
+R26578:26583 main.fran_dialect EVM_opcode ADDMOD constr
+R26605:26610 main.fran_dialect EVM_opcode MULMOD constr
+R26632:26641 main.fran_dialect EVM_opcode SIGNEXTEND constr
+R26675:26684 main.fran_dialect EVM_opcode <> mod
+R26847:26853 LenguajeYul.dialect DIALECT <> mod
+mod 26833:26842 <> EVMDialect
+def 26869:26875 EVMDialect value_t
+R26880:26884 main.fran_dialect U32 t rec
+def 26901:26903 EVMDialect eqb
+R26908:26914 main.fran_dialect U32 eqb def
+def 26930:26937 EVMDialect eqb_spec
+R26942:26953 main.fran_dialect U32 eqb_spec thm
+def 26970:26982 EVMDialect is_true_value
+R26988:26994 main.fran_dialect EVMDialect value_t def
+binder 26985:26985 <> v:241
+R26998:27001 Corelib.Init.Datatypes <> bool ind
+R27010:27016 main.fran_dialect U32 eqb def
+R27018:27018 main.fran_dialect <> v:241 var
+R27020:27027 main.fran_dialect U32 zero def
+def 27058:27065 EVMDialect opcode_t
+R27070:27081 main.fran_dialect EVM_opcode t ind
+def 27098:27112 EVMDialect dialect_state_t
+R27117:27126 main.fran_dialect EVMState t rec
+def 27143:27155 EVMDialect default_value
+R27158:27164 main.fran_dialect EVMDialect value_t def
+R27169:27176 main.fran_dialect U32 zero def
+def 27193:27206 EVMDialect execute_opcode
+R27216:27230 main.fran_dialect EVMDialect dialect_state_t def
+binder 27209:27213 <> state:242
+R27238:27245 main.fran_dialect EVMDialect opcode_t def
+binder 27234:27235 <> op:243
+R27257:27260 Corelib.Init.Datatypes <> list ind
+R27262:27268 main.fran_dialect EVMDialect value_t def
+binder 27249:27254 <> inputs:244
+R27303:27305 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R27285:27287 Corelib.Init.Datatypes <> ::type_scope:x_'*'_x not
+R27273:27276 Corelib.Init.Datatypes <> list ind
+R27278:27284 main.fran_dialect EVMDialect value_t def
+R27288:27302 main.fran_dialect EVMDialect dialect_state_t def
+R27306:27313 LenguajeYul.dialect Status t ind
+R27323:27340 main.fran_dialect EVM_opcode execute def
+R27342:27346 main.fran_dialect <> state:242 var
+R27348:27349 main.fran_dialect <> op:243 var
+R27351:27356 main.fran_dialect <> inputs:244 var
+def 27373:27390 EVMDialect opcode_indep_state
+R27397:27404 main.fran_dialect EVMDialect opcode_t def
+binder 27393:27394 <> op:245
+R27421:27422 main.fran_dialect <> op:245 var
+R27435:27448 main.fran_dialect EVM_opcode ADD constr
+R27453:27456 Corelib.Init.Datatypes <> true constr
+R27464:27477 main.fran_dialect EVM_opcode SUB constr
+R27482:27485 Corelib.Init.Datatypes <> true constr
+R27493:27506 main.fran_dialect EVM_opcode MUL constr
+R27511:27514 Corelib.Init.Datatypes <> true constr
+R27522:27535 main.fran_dialect EVM_opcode DIV constr
+R27540:27543 Corelib.Init.Datatypes <> true constr
+R27551:27565 main.fran_dialect EVM_opcode SDIV constr
+R27570:27573 Corelib.Init.Datatypes <> true constr
+R27581:27594 main.fran_dialect EVM_opcode MOD constr
+R27599:27602 Corelib.Init.Datatypes <> true constr
+R27610:27624 main.fran_dialect EVM_opcode SMOD constr
+R27629:27632 Corelib.Init.Datatypes <> true constr
+R27640:27653 main.fran_dialect EVM_opcode EXP constr
+R27658:27661 Corelib.Init.Datatypes <> true constr
+R27669:27682 main.fran_dialect EVM_opcode NOT constr
+R27687:27690 Corelib.Init.Datatypes <> true constr
+R27698:27710 main.fran_dialect EVM_opcode LT constr
+R27715:27718 Corelib.Init.Datatypes <> true constr
+R27726:27738 main.fran_dialect EVM_opcode GT constr
+R27743:27746 Corelib.Init.Datatypes <> true constr
+R27754:27767 main.fran_dialect EVM_opcode SLT constr
+R27772:27775 Corelib.Init.Datatypes <> true constr
+R27783:27796 main.fran_dialect EVM_opcode SGT constr
+R27801:27804 Corelib.Init.Datatypes <> true constr
+R27812:27824 main.fran_dialect EVM_opcode EQ constr
+R27829:27832 Corelib.Init.Datatypes <> true constr
+R27840:27856 main.fran_dialect EVM_opcode ISZERO constr
+R27861:27864 Corelib.Init.Datatypes <> true constr
+R27872:27885 main.fran_dialect EVM_opcode AND constr
+R27890:27893 Corelib.Init.Datatypes <> true constr
+R27901:27913 main.fran_dialect EVM_opcode OR constr
+R27918:27921 Corelib.Init.Datatypes <> true constr
+R27929:27942 main.fran_dialect EVM_opcode XOR constr
+R27947:27950 Corelib.Init.Datatypes <> true constr
+R27958:27972 main.fran_dialect EVM_opcode BYTE constr
+R27977:27980 Corelib.Init.Datatypes <> true constr
+R27988:28001 main.fran_dialect EVM_opcode SHL constr
+R28006:28009 Corelib.Init.Datatypes <> true constr
+R28017:28030 main.fran_dialect EVM_opcode SHR constr
+R28035:28038 Corelib.Init.Datatypes <> true constr
+R28046:28059 main.fran_dialect EVM_opcode SAR constr
+R28064:28067 Corelib.Init.Datatypes <> true constr
+R28075:28088 main.fran_dialect EVM_opcode CLZ constr
+R28093:28096 Corelib.Init.Datatypes <> true constr
+R28104:28120 main.fran_dialect EVM_opcode ADDMOD constr
+R28125:28128 Corelib.Init.Datatypes <> true constr
+R28136:28152 main.fran_dialect EVM_opcode MULMOD constr
+R28157:28160 Corelib.Init.Datatypes <> true constr
+R28168:28188 main.fran_dialect EVM_opcode SIGNEXTEND constr
+R28193:28196 Corelib.Init.Datatypes <> true constr
+R28429:28430 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R28441:28452 LenguajeYul.dialect Status Error constr
+R28520:28521 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R28532:28543 LenguajeYul.dialect Status Error constr
+R28625:28625 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R28633:28633 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R28643:28656 LenguajeYul.dialect Status Running constr
+R28731:28732 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R28743:28754 LenguajeYul.dialect Status Error constr
+R28901:28902 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R28913:28924 LenguajeYul.dialect Status Error constr
+R28996:28996 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R29001:29001 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R29011:29024 LenguajeYul.dialect Status Running constr
+R29088:29089 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R29100:29111 LenguajeYul.dialect Status Error constr
+R29272:29273 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R29284:29295 LenguajeYul.dialect Status Error constr
+R29356:29357 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R29368:29379 LenguajeYul.dialect Status Error constr
+R29443:29444 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R29455:29466 LenguajeYul.dialect Status Error constr
+R29545:29545 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R29556:29556 Stdlib.Lists.List ListNotations ::list_scope:'['_x_']' not
+R29566:29579 LenguajeYul.dialect Status Running constr
+R29651:29652 Stdlib.Lists.List ListNotations ::list_scope:'['_']' not
+R29663:29674 LenguajeYul.dialect Status Error constr
+prf 29716:29741 EVMDialect evm_opcode_indep_state_snd
+R29756:29763 main.fran_dialect EVMDialect opcode_t def
+binder 29752:29753 <> op:247
+R29799:29807 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R29792:29794 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R29771:29788 main.fran_dialect EVMDialect opcode_indep_state def
+R29790:29791 main.fran_dialect <> op:247 var
+R29795:29798 Corelib.Init.Datatypes <> true constr
+R29823:29837 main.fran_dialect EVMDialect dialect_state_t def
+binder 29816:29817 <> s1:248
+binder 29819:29820 <> s2:249
+R29847:29850 Corelib.Init.Datatypes <> list ind
+R29852:29858 main.fran_dialect EVMDialect value_t def
+binder 29841:29844 <> args:250
+R29867:29874 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R29911:29917 Corelib.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R29880:29883 Corelib.Init.Datatypes <> list ind
+R29885:29891 main.fran_dialect EVMDialect value_t def
+binder 29875:29877 <> res:251
+R29903:29910 LenguajeYul.dialect Status t ind
+binder 29895:29900 <> status:252
+R29963:29970 Corelib.Init.Logic <> ::type_scope:x_'/\'_x not
+R29943:29945 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R29918:29931 main.fran_dialect EVMDialect execute_opcode def
+R29933:29934 main.fran_dialect <> s1:248 var
+R29936:29937 main.fran_dialect <> op:247 var
+R29939:29942 main.fran_dialect <> args:250 var
+R29946:29946 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R29950:29951 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R29954:29955 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R29962:29962 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R29947:29949 main.fran_dialect <> res:251 var
+R29952:29953 main.fran_dialect <> s1:248 var
+R29956:29961 main.fran_dialect <> status:252 var
+R29996:29998 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R29971:29984 main.fran_dialect EVMDialect execute_opcode def
+R29986:29987 main.fran_dialect <> s2:249 var
+R29989:29990 main.fran_dialect <> op:247 var
+R29992:29995 main.fran_dialect <> args:250 var
+R29999:29999 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R30003:30004 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R30007:30008 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R30015:30015 Corelib.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R30000:30002 main.fran_dialect <> res:251 var
+R30005:30006 main.fran_dialect <> s2:249 var
+R30009:30014 main.fran_dialect <> status:252 var
+R30038:30051 main.fran_dialect EVMDialect execute_opcode def
+R30170:30176 main.fran_dialect U32 add def
+R30231:30237 main.fran_dialect U32 sub def
+R30292:30298 main.fran_dialect U32 mul def
+R30353:30359 main.fran_dialect U32 div def
+R30414:30421 main.fran_dialect U32 sdiv def
+R30477:30487 main.fran_dialect U32 mod_evm def
+R30542:30549 main.fran_dialect U32 smod def
+R30605:30611 main.fran_dialect U32 exp def
+R30665:30671 main.fran_dialect U32 not def
+R30725:30730 main.fran_dialect U32 lt def
+R30784:30789 main.fran_dialect U32 gt def
+R30843:30849 main.fran_dialect U32 slt def
+R30904:30910 main.fran_dialect U32 sgt def
+R30965:30970 main.fran_dialect U32 eq def
+R31023:31032 main.fran_dialect U32 iszero def
+R31089:31095 main.fran_dialect U32 and def
+R31150:31155 main.fran_dialect U32 or def
+R31209:31215 main.fran_dialect U32 xor def
+R31270:31277 main.fran_dialect U32 byte def
+R31333:31339 main.fran_dialect U32 shl def
+R31394:31400 main.fran_dialect U32 shr def
+R31455:31461 main.fran_dialect U32 sar def
+R31515:31521 main.fran_dialect U32 clz def
+R31576:31585 main.fran_dialect U32 addmod def
+R31644:31653 main.fran_dialect U32 mulmod def
+R31712:31725 main.fran_dialect U32 signextend def
+def 31791:31812 EVMDialect opcode_indep_state_snd
+R31817:31842 main.fran_dialect EVMDialect evm_opcode_indep_state_snd thm
+def 31859:31877 EVMDialect empty_dialect_state
+R31880:31894 main.fran_dialect EVMDialect dialect_state_t def
+R31903:31916 main.fran_dialect EVMState empty def
+def 31933:31942 EVMDialect show_value
+R31948:31954 main.fran_dialect EVMDialect value_t def
+binder 31945:31945 <> v:253
+R31958:31963 Stdlib.Strings.String <> string ind
+R31972:31987 LenguajeYul.misc Misc z_to_string def
+R31993:31999 main.fran_dialect U32 val proj
+R31990:31990 main.fran_dialect <> v:253 var
+def 32020:32030 EVMDialect show_opcode
+R32037:32044 main.fran_dialect EVMDialect opcode_t def
+binder 32033:32034 <> op:254
+R32048:32053 Stdlib.Strings.String <> string ind
+R32062:32076 main.fran_dialect EVM_opcode show def
+R32078:32079 main.fran_dialect <> op:254 var
+R32086:32095 main.fran_dialect EVMDialect <> mod
+R32126:32137 LenguajeYul.dialect DialectFacts <> modtype
+R32139:32148 main.fran_dialect EVMDialect <> modtype
+mod 32106:32121 <> EVMDialect_Facts
