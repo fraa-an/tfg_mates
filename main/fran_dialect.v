@@ -668,6 +668,28 @@ Module EVM_opcode.
     | SUB
     | MUL
     | DIV
+    | SDIV
+    | MOD
+    | SMOD
+    | EXP
+    | NOT
+    | LT
+    | GT
+    | SLT
+    | SGT
+    | EQ
+    | ISZERO
+    | AND
+    | OR
+    | XOR
+    | BYTE
+    | SHL
+    | SHR
+    | SAR
+    | CLZ
+    | ADDMOD
+    | MULMOD
+    | SIGNEXTEND
     .
     
     Definition eq_dec: forall (a b: t), {a = b} + {a <> b}.
@@ -695,6 +717,94 @@ Module EVM_opcode.
                | [x; y] => ([U32.div x y], state, Status.Running)
                | _ => ([], state, Status.Error "DIV expects 2 inputs")
                end
+      | SDIV => match inputs with
+               | [x; y] => ([U32.sdiv x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SDIV expects 2 inputs")
+               end   
+      | MOD => match inputs with
+               | [x; y] => ([U32.mod_evm x y], state, Status.Running)
+               | _ => ([], state, Status.Error "MOD expects 2 inputs")
+               end  
+      | SMOD => match inputs with
+               | [x; y] => ([U32.smod x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SMOD expects 2 inputs")
+               end    
+      | EXP => match inputs with
+               | [x; y] => ([U32.exp x y], state, Status.Running)
+               | _ => ([], state, Status.Error "EXP expects 2 inputs")
+               end         
+      | NOT => match inputs with
+               | [x] => ([U32.not x], state, Status.Running)
+               | _ => ([], state, Status.Error "NOT expects 1 input")
+               end   
+      | LT => match inputs with
+               | [x; y] => ([U32.lt x y], state, Status.Running)
+               | _ => ([], state, Status.Error "LT expects 2 inputs")
+               end   
+      | GT => match inputs with
+               | [x; y] => ([U32.gt x y], state, Status.Running)
+               | _ => ([], state, Status.Error "GT expects 2 inputs")
+               end   
+      | SLT => match inputs with
+               | [x; y] => ([U32.slt x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SLT expects 2 inputs")
+               end   
+      | SGT => match inputs with
+               | [x; y] => ([U32.sgt x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SGT expects 2 inputs")
+               end   
+      | EQ => match inputs with
+               | [x; y] => ([U32.eq x y], state, Status.Running)
+               | _ => ([], state, Status.Error "EQ expects 2 inputs")
+               end   
+      | ISZERO => match inputs with
+               | [x] => ([U32.iszero x], state, Status.Running)
+               | _ => ([], state, Status.Error "ISZERO expects 1 input")
+               end   
+      | AND => match inputs with
+               | [x; y] => ([U32.and x y], state, Status.Running)
+               | _ => ([], state, Status.Error "AND expects 2 inputs")
+               end   
+      | OR => match inputs with
+               | [x; y] => ([U32.or x y], state, Status.Running)
+               | _ => ([], state, Status.Error "OR expects 2 inputs")
+               end   
+      | XOR => match inputs with
+               | [x; y] => ([U32.xor x y], state, Status.Running)
+               | _ => ([], state, Status.Error "XOR expects 2 inputs")
+               end   
+      | BYTE => match inputs with
+               | [n; x] => ([U32.byte n x], state, Status.Running)
+               | _ => ([], state, Status.Error "BYTE expects 2 inputs")
+               end  
+      | SHL => match inputs with
+               | [x; y] => ([U32.shl x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SHL expects 2 inputs")
+               end   
+      | SHR => match inputs with
+               | [x; y] => ([U32.shr x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SHR expects 2 inputs")
+               end   
+      | SAR => match inputs with
+               | [x; y] => ([U32.sar x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SAR expects 2 inputs")
+               end    
+      | CLZ => match inputs with
+               | [x] => ([U32.clz x], state, Status.Running)
+               | _ => ([], state, Status.Error "CLZ expects 1 input")
+               end 
+      | ADDMOD => match inputs with
+               | [x; y; m] => ([U32.addmod x y m], state, Status.Running)
+               | _ => ([], state, Status.Error "ADDMOD expects 3 inputs")
+               end   
+      | MULMOD => match inputs with
+               | [x; y; m] => ([U32.mulmod x y m], state, Status.Running)
+               | _ => ([], state, Status.Error "MULMOD expects 3 inputs")
+               end   
+      | SIGNEXTEND => match inputs with
+               | [x; y] => ([U32.signextend x y], state, Status.Running)
+               | _ => ([], state, Status.Error "SIGNEXTEND expects 2 inputs")
+               end    
     end. 
 
     Definition show (op: t): string :=
@@ -703,6 +813,28 @@ Module EVM_opcode.
       | SUB => "SUB"
       | MUL => "MUL"
       | DIV => "DIV"
+      | SDIV => "SDIV"
+      | MOD => "MOD"
+      | SMOD => "SMOD"
+      | EXP => "EXP"
+      | NOT => "NOT"
+      | LT => "LT"
+      | GT => "GT"
+      | SLT => "SLT"
+      | SGT => "SGT"
+      | EQ => "EQ"
+      | ISZERO => "ISZERO"
+      | AND => "AND"
+      | OR => "OR"
+      | XOR => "XOR"
+      | BYTE => "BYTE"
+      | SHL => "SHL"
+      | SHR => "SHR"
+      | SAR => "SAR"
+      | CLZ => "CLZ"
+      | ADDMOD => "ADDMOD"
+      | MULMOD => "MULMOD"
+      | SIGNEXTEND => "SIGNEXTEND"
       end.
 
 End EVM_opcode.
@@ -740,6 +872,29 @@ Module EVMDialect <: DIALECT.
     | EVM_opcode.SUB => true
     | EVM_opcode.MUL => true
     | EVM_opcode.DIV => true
+    | EVM_opcode.SDIV => true
+    | EVM_opcode.MOD => true
+    | EVM_opcode.SMOD => true
+    | EVM_opcode.EXP => true
+    | EVM_opcode.NOT => true
+    | EVM_opcode.LT => true
+    | EVM_opcode.GT => true
+    | EVM_opcode.SLT => true
+    | EVM_opcode.SGT => true
+    | EVM_opcode.EQ => true
+    | EVM_opcode.ISZERO => true
+    | EVM_opcode.AND => true
+    | EVM_opcode.OR => true
+    | EVM_opcode.XOR => true
+    | EVM_opcode.BYTE => true
+    | EVM_opcode.SHL => true
+    | EVM_opcode.SHR => true
+    | EVM_opcode.SAR => true
+    | EVM_opcode.CLZ => true
+    | EVM_opcode.ADDMOD => true
+    | EVM_opcode.MULMOD => true
+    | EVM_opcode.SIGNEXTEND => true
+
     end.
 
   Ltac solve_binary_op op msg args :=
@@ -796,6 +951,28 @@ Module EVMDialect <: DIALECT.
     - solve_binary_op (U32.sub) "SUB expects 2 inputs" args.
     - solve_binary_op (U32.mul) "MUL expects 2 inputs" args.
     - solve_binary_op (U32.div) "DIV expects 2 inputs" args.
+    - solve_binary_op (U32.sdiv) "SDIV expects 2 inputs" args.
+    - solve_binary_op (U32.mod_evm) "MOD expects 2 inputs" args.
+    - solve_binary_op (U32.smod) "SMOD expects 2 inputs" args.
+    - solve_binary_op (U32.exp) "EXP expects 2 inputs" args.
+    - solve_unary_op (U32.not) "NOT expects 1 input" args.
+    - solve_binary_op (U32.lt) "LT expects 2 inputs" args.
+    - solve_binary_op (U32.gt) "GT expects 2 inputs" args.
+    - solve_binary_op (U32.slt) "SLT expects 2 inputs" args.
+    - solve_binary_op (U32.sgt) "SGT expects 2 inputs" args.
+    - solve_binary_op (U32.eq) "EQ expects 2 inputs" args.
+    - solve_unary_op (U32.iszero) "ISZERO expects 1 input" args.
+    - solve_binary_op (U32.and) "AND expects 2 inputs" args.
+    - solve_binary_op (U32.or) "OR expects 2 inputs" args.
+    - solve_binary_op (U32.xor) "XOR expects 2 inputs" args.
+    - solve_binary_op (U32.byte) "BYTE expects 2 inputs" args.
+    - solve_binary_op (U32.shl) "SHL expects 2 inputs" args.
+    - solve_binary_op (U32.shr) "SHR expects 2 inputs" args.
+    - solve_binary_op (U32.sar) "SAR expects 2 inputs" args.
+    - solve_unary_op (U32.clz) "CLZ expects 1 input" args.
+    - solve_ternary_op (U32.addmod) "ADDMOD expects 3 inputs" args.
+    - solve_ternary_op (U32.mulmod) "MULMOD expects 3 inputs" args. 
+    - solve_binary_op (U32.signextend) "SIGNEXTEND expects 2 inputs" args.
   Qed.
       
   Definition opcode_indep_state_snd := evm_opcode_indep_state_snd.
