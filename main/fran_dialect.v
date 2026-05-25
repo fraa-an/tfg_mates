@@ -848,7 +848,7 @@ Module EVMDialect (BC: BLOCK_CHAIN) <: DIALECT.
 
 *)
 
-Module EVMDialect <: DIALECT.
+Module FranEVM_Dialect <: DIALECT.
   Definition value_t := U32.t.
 
   Definition eqb := U32.eqb.
@@ -985,6 +985,6 @@ Module EVMDialect <: DIALECT.
   
   Definition show_opcode (op: opcode_t): string :=
     EVM_opcode.show op.
-End EVMDialect.
+End FranEVM_Dialect.
 
-Module EVMDialect_Facts := DialectFacts EVMDialect.
+Module EVMDialect_Facts := DialectFacts FranEVM_Dialect.
