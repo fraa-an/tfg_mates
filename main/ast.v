@@ -11,7 +11,10 @@ Module Type AST_INTERFACE (D : DIALECT).
     | YulSwitch (cond : yul_expr) (casos : list (D.value_t * list yul_expr)) (default : list yul_expr)
     | YulFor (ini : list yul_expr) (cond : yul_expr) (post : list yul_expr) (inst : list yul_expr)
     | YulFunc (nombre : string) (params : list string) (ret : list string) (inst : list yul_expr)
-    | YulCall (nombre : string) (args : list yul_expr).
+    | YulCall (nombre : string) (args : list yul_expr)
+    | YulBreak
+    | YulContinue
+    | YulLeave.
 
   Record yul_funcion_r := {
     f_params  : list string;
@@ -35,7 +38,10 @@ Module YulAST (D : DIALECT) <: AST_INTERFACE D.
     | YulSwitch (cond : yul_expr) (casos : list (D.value_t * list yul_expr)) (default : list yul_expr)
     | YulFor (ini : list yul_expr) (cond : yul_expr) (post : list yul_expr) (inst : list yul_expr)
     | YulFunc (nombre : string) (params : list string) (ret : list string) (inst : list yul_expr)
-    | YulCall (nombre : string) (args : list yul_expr).
+    | YulCall (nombre : string) (args : list yul_expr)
+    | YulBreak
+    | YulContinue
+    | YulLeave.
 
   Record yul_funcion_r := {
     f_params  : list string;

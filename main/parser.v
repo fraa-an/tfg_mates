@@ -279,6 +279,16 @@ Module YulParser (D : PARSER_DIALECT) (A : AST_INTERFACE D).
                 end
             | None => None
             end
+
+        | "break"%string :: resto =>
+            Some (YulBreak, resto)
+
+        | "continue"%string :: resto =>
+            Some (YulContinue, resto)
+
+        | "leave"%string :: resto =>
+            Some (YulLeave, resto)
+            
         | _ =>
             match parsea_idents f' tokens with
             | Some (nombres, ":="%string :: resto_expr) =>

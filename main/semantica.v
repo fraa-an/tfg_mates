@@ -46,12 +46,21 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
         end
     end.
 
+  Definition restringe_env (env_nuevo : A.yul_env) (env_orig : A.yul_env) : A.yul_env :=
+    filter (fun '(n, _) => existsb (fun '(m, _) => String.eqb n m) env_orig) env_nuevo.
+
   Fixpoint eval_yul (f : nat) (expr : A.yul_expr) (env : A.yul_env) (fenv: A.yul_fun_env) (state : D.dialect_state_t) {struct f} : (list D.value_t * A.yul_env * A.yul_fun_env * D.dialect_state_t * Status.t) :=
     match f with
-    | O => ([], env, fenv, state, Status.Error "error al evaluar expresion")
+    | O => ([], env, fenv, state, Status.Error "error")
     | S f' => 
       match expr with
       | A.YulConst v => ([v], env, fenv, state, Status.Running)
+      | A.YulBreak =>
+        ([], env, fenv, state, Status.Error "break")
+      | A.YulContinue =>
+        ([], env, fenv, state, Status.Error "continue")
+      | A.YulLeave =>
+        ([], env, fenv, state, Status.Error "leave")
       | A.YulOp op args =>
         let '(vals, env_final, fenv_final, s_final, st) := eval_argumentos f' args env fenv state in
         match st with
@@ -87,7 +96,8 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
             match status1 with
             | Status.Running => 
                 if (is_true res) 
-                then eval_list f' inst env1 fenv1 state1
+                then let '(res2,env2,fenv2,state2,status2) := eval_list f' inst env1 fenv1 state1 in
+                (res2,restringe_env env2 env1,fenv2,state2,status2)
                 else ([], env1, fenv1, state1, Status.Running)
             | _ => (res, env1, fenv1, state1, status1)
             end
@@ -100,14 +110,17 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
         | Status.Running =>
             let fix buscar_caso (l : list (D.value_t * list yul_expr)) :=
               match l with
-              | nil => eval_list f' def env_c fenv_c state_c
+              | nil => 
+                let '(r,e,fe,s,st) := eval_list f' def env_c fenv_c state_c in
+                (r, restringe_env e env_c,fe,s,st)
               | (val_caso, cuerpo) :: resto =>
                   let v_evaluado := match res_c with 
                                     | v :: _ => v 
                                     | nil => D.default_value 
                                     end in
-                  if D.eqb v_evaluado val_caso
-                  then eval_list f' cuerpo env_c fenv_c state_c
+                  if D.eqb v_evaluado val_caso then 
+                    let '(r,e,fe,s,st) := eval_list f' cuerpo env_c fenv_c state_c in
+                    (r,restringe_env e env_c,fe,s,st)
                   else buscar_caso resto
               end
             in buscar_caso casos
@@ -126,20 +139,29 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
               | Status.Running =>
                 if is_true res_c then
                   let '(_, e_b, fe_b, s_b, status_b) := eval_list n' cuerpo e_c fe_c s_c in
+                    let e_b' := restringe_env e_b e_c in
                     match status_b with
-                    | Status.Running => 
-                      let '(_, e_p, fe_p, s_p, status_p) := eval_list n' post e_b fe_b s_b in
+                    | Status.Running | Status.Error "continue" => 
+                      let '(_, e_p, fe_p, s_p, status_p) := eval_list n' post e_b' fe_b s_b in
+                      let e_p' := restringe_env e_p e_b' in
                         match status_p with
-                        | Status.Running => bucle n' e_p fe_p s_p
-                        | fallo => ([], e_p, fe_p, s_p, fallo)
+                        | Status.Running => bucle n' e_p' fe_p s_p
+                        | fallo => ([], restringe_env e_p' env, fe_p, s_p, fallo)
                         end
-                    | fallo => ([], e_b, fe_b, s_b, fallo)
+                    | Status.Error "leave" =>
+                      ([], restringe_env e_b' env, fe_b, s_b, Status.Error "leave")
+                    | Status.Error "break" =>
+                      ([], restringe_env e_b' env, fe_b, s_b, Status.Running)
+                    | fallo => 
+                      ([], restringe_env e_b' env, fe_b, s_b, fallo)
                     end
                 else ([], e_c, fe_c, s_c, Status.Running)
-              | fallo => ([], e_c, fe_c, s_c, fallo)
+              | fallo => ([], restringe_env e_c env, fe_c, s_c, fallo)
               end
           end
           in bucle f' env_i fenv_i state_i
+        | Status.Error "leave" =>
+          ([], restringe_env env_i env, fenv_i, state_i, Status.Error "leave")
         | fallo => (res_i, env_i, fenv_i, state_i, fallo)
         end
       | A.YulCall nom args =>
@@ -151,7 +173,7 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
             let env_local := combinar_params (f_params func) vals in
             let '(_, env_post, _, state_post, st_post) := eval_list f' (f_inst func) env_local fenv_a state_a in
             match st_post with
-            | Status.Running =>
+            | Status.Running | Status.Error "leave" =>
                 let ret_vals := extraer_retornos (f_ret func) env_post in
                 (ret_vals, env_a, fenv_a, state_post, Status.Running)
             | _ => ([], env_a, fenv_a, state_post, st_post)
@@ -183,20 +205,27 @@ Module YulSemantica (D : DIALECT) (A : AST_INTERFACE D).
       match l with
       | [] => ([], e, fe, s, Status.Running)
       | x :: xs => 
-        let '(res, e', fe', s', st) := eval_yul f' x e fe s in
-        match st with
+        let '(rest, e', fe', s', st') := eval_argumentos f' xs e fe s in
+        match st' with
         | Status.Running => 
-          let '(rest, e'', fe'', s'', st') := eval_argumentos f' xs e' fe' s' in
-          match st' with
+          let '(res, e'', fe'', s'', st'') := eval_yul f' x e' fe' s' in
+          match st'' with
           | Status.Running => ((res ++ rest)%list, e'', fe'', s'', Status.Running)
           | _ => ([], e'', fe'', s'', st')
           end
-        | _ => ([], e', fe', s', st)
+        | _ => ([], e', fe', s', st')
         end
       end
     end.
 
   Definition ejecutar_eval_bloque (ast_list : list A.yul_expr) (env : A.yul_env) (fenv : A.yul_fun_env) (state : D.dialect_state_t) : (list D.value_t * A.yul_env * A.yul_fun_env * D.dialect_state_t * Status.t) :=
-    eval_list 5000 ast_list env fenv state.
-
+    let '(res, env_f, fenv_f, state_f, final_status) := eval_list 5000 ast_list env fenv state in
+    match final_status with
+    | Status.Error "break" => 
+        (res, env_f, fenv_f, state_f, Status.Error "'break' usado fuera de un bucle for")
+    | Status.Error "continue" => 
+        (res, env_f, fenv_f, state_f, Status.Error "'continue' usado fuera de un bucle for")
+    | _ => 
+        (res, env_f, fenv_f, state_f, final_status)
+    end.
 End YulSemantica.
