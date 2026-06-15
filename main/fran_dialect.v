@@ -690,6 +690,10 @@ Module EVM_opcode.
     | ADDMOD
     | MULMOD
     | SIGNEXTEND
+    | MLOAD
+    | MSTORE
+    | SLOAD
+    | SSTORE
     .
     
     Definition eq_dec: forall (a b: t), {a = b} + {a <> b}.
@@ -805,6 +809,35 @@ Module EVM_opcode.
                | [x; y] => ([U32.signextend x y], state, Status.Running)
                | _ => ([], state, Status.Error "SIGNEXTEND expects 2 inputs")
                end    
+      | MLOAD => match inputs with
+               | [addr] =>
+                   let (bytes, mem') := EVMMemory.get_bytes state.(EVMState.memory) addr (U32.to_t 32) in
+                   let v := EVMMemory.bytes_as_U32 bytes in
+                   let state' := EVMState.update_memory state mem' in
+                   ([v], state', Status.Running)
+               | _ => ([], state, Status.Error "MLOAD expects 1 input")
+               end
+      | MSTORE => match inputs with
+               | [addr; v] =>
+                   let bytes := EVMMemory.U32_as_bytes v in
+                   let mem' := EVMMemory.update_bytes state.(EVMState.memory) addr bytes in
+                   let state' := EVMState.update_memory state mem' in
+                   ([], state', Status.Running)
+               | _ => ([], state, Status.Error "MSTORE expects 2 input")
+               end
+      | SLOAD => match inputs with
+               | [addr] =>
+                   let v := state.(EVMState.storage) addr in
+                   ([v], state, Status.Running)
+               | _ => ([], state, Status.Error "SLOAD expects 1 input")
+               end
+      | SSTORE => match inputs with
+               | [addr; v] =>
+                   let storage' := EVMStorage.update state.(EVMState.storage) addr v in
+                   let state' := EVMState.update_storage state storage' in
+                   ([], state', Status.Running)
+               | _ => ([], state, Status.Error "SSTORE expects 2 input")
+               end
     end. 
 
     Definition show (op: t): string :=
@@ -835,6 +868,10 @@ Module EVM_opcode.
       | ADDMOD => "ADDMOD"
       | MULMOD => "MULMOD"
       | SIGNEXTEND => "SIGNEXTEND"
+      | MLOAD => "MLOAD"
+      | MSTORE => "MSTORE"
+      | SLOAD => "SLOAD"
+      | SSTORE => "SSTORE"
       end.
 
 End EVM_opcode.
@@ -894,7 +931,10 @@ Module FranEVM_Dialect <: DIALECT.
     | EVM_opcode.ADDMOD => true
     | EVM_opcode.MULMOD => true
     | EVM_opcode.SIGNEXTEND => true
-
+    | EVM_opcode.MLOAD => false
+    | EVM_opcode.MSTORE => false
+    | EVM_opcode.SLOAD => false
+    | EVM_opcode.SSTORE => false
     end.
 
   Ltac solve_binary_op op msg args :=
