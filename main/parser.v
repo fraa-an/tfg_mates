@@ -397,8 +397,8 @@ Module YulParser (D : PARSER_DIALECT) (A : AST_INTERFACE D).
 
     Definition parse_programa (s : string) : option (list A.yul_expr) :=
     match parsea_bloque 100 (tokeniza s) with
-    | Some (ast_list, _) => Some ast_list
-    | None => None
+    | Some (ast_list, []) => Some ast_list
+    | _ => None
     end.
 
 End YulParser.
