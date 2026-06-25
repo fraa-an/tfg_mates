@@ -602,5 +602,4 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
           * exact Heval.
     Qed.
 
-
 End YulEquivalences.
