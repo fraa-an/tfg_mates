@@ -892,7 +892,7 @@ Module FranEVM_Dialect <: DIALECT.
   Definition eqb_spec := U32.eqb_spec.
 
   Definition is_true_value (v: value_t): bool :=
-    U32.eqb v U32.zero. (* 0 or 1? *)
+    negb(U32.eqb v U32.zero). (* 0 or 1? *)
 
   Definition opcode_t := EVM_opcode.t.
 
