@@ -17,33 +17,43 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
     Import A.
     Import Sem.
 
+    (*Corrección de búsqueda de variable en entorno*)
     Lemma existsb_env_in : forall (env : A.yul_env) (n : string) (v : D.value_t), In (n, v) env -> existsb (fun '(m, _) => String.eqb n m) env = true.
     Proof.
+      (*Inducción sobre el entorno*)
       induction env as [| [n' v'] resto IH]; intros n v Hin.
-      - contradiction.
+      - (*Hin: In (n,v) [], lo que es imposible*) contradiction.
       - simpl. destruct Hin as [Heq | Hin].
-        + inversion Heq; subst. rewrite String.eqb_refl. reflexivity.
-        + apply IH in Hin.
+        + (*Heq: (n',v')=(n,v): la variable está en la cabeza*) 
+          inversion Heq; subst. rewrite String.eqb_refl. reflexivity.
+        + (*Hin: In (n,v) resto: la variable está en la cola*) 
+          apply IH in Hin.
           destruct (String.eqb n n').
           * reflexivity.
           * exact Hin.
     Qed.
 
+
+    (*Corrección del filtrado en entornos de restringe_env: si todas las variables de env2 están en env1, el filtro no borra ninguna variable*)
     Lemma filter_env_id : forall (env1 env2 : A.yul_env), (forall n v, In (n, v) env1 -> existsb (fun '(m, _) => String.eqb n m) env2 = true) ->
         filter (fun '(n, _) => existsb (fun '(m, _) => String.eqb n m) env2) env1 = env1.
     Proof.
+      (*Inducción sobre env1*)
       induction env1 as [| [k v'] resto IH]; intros env2 H.
-      - reflexivity.
+      - (*filter sobre [] = []*) reflexivity.
       - simpl.
-          assert (H_h : existsb (fun '(m, _) => String.eqb k m) env2 = true).
-          { apply (H k v'). left. reflexivity. }
-          rewrite H_h. 
-          f_equal.
-          apply IH.
-          intros n' v'' Hin.             
-          apply (H n' v''). right. exact Hin.
+        assert (H_h : existsb (fun '(m, _) => String.eqb k m) env2 = true).
+        { apply (H k v'). left. reflexivity. }
+        rewrite H_h. 
+        (*(k,v')::filter...resto=(k,v')::resto*)
+        f_equal. (*filter...resto=resto*)
+        apply IH. (*aplica IH*)
+        intros n' v'' Hin. (*Hin: In (n',v'') resto*)
+        apply (H n' v''). (*la cabeza del entorno no coincide con (n',v'')-> debe coincidir el resto -> aplica Hin*)
+        right. exact Hin.
     Qed.
 
+    (*Si se restringe un entorno a sí mismo, se obtiene el propio entorno*)
     Lemma restringe_env_mismo : forall (env : A.yul_env), restringe_env env env = env.
     Proof.
       intros env.
@@ -54,19 +64,22 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       exact Hin.
     Qed.
 
+    (*Dos expresiones son equivalentes si para el mismo estado, entornos y fuel, producen el mismo resultado*)
     Definition expr_equiv (e1 e2 : yul_expr) : Prop :=
-        forall f env fenv state,
-            eval_yul f e1 env fenv state = eval_yul f e2 env fenv state.
+        forall f env fenv state en_bucle,
+            eval_yul f e1 env fenv state en_bucle = eval_yul f e2 env fenv state en_bucle.
 
+    (*Dos conjuntos de instrucciones (o listas) son equivalentes si para el mismo estado, entornos y fuel, producen el mismo resultado*)
     Definition list_equiv (l1 l2 : list yul_expr) : Prop :=
-        forall f env fenv state,
-            eval_list f l1 env fenv state = eval_list f l2 env fenv state.
+        forall f env fenv state en_bucle,
+            eval_list f l1 env fenv state en_bucle = eval_list f l2 env fenv state en_bucle.
     
     Definition expr_list_equiv (e : yul_expr) (l : list yul_expr) : Prop :=
-    forall env fenv state res env' fenv' state',
-      (exists f, eval_yul f e env fenv state = (res, env', fenv', state', Yul_Running)) <->
-      (exists f, eval_list f l env fenv state = (res, env', fenv', state', Yul_Running)).
+    forall env fenv state en_bucle res env' fenv' state',
+      (exists f, eval_yul f e env fenv state en_bucle = (res, env', fenv', state', Yul_Running)) <->
+      (exists f, eval_list f l env fenv state en_bucle = (res, env', fenv', state', Yul_Running)).
 
+    (*Yul no tiene explícitamente skip como instrucción: se considera una lista de instrucciones vacía*)
     Theorem yul_skip_izq : forall l,
         list_equiv ([] ++ l) l.
     Proof.
@@ -79,7 +92,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
     Proof.
       intros l f env fenv state.
       unfold list_equiv.
-      rewrite app_nil_r.
+      rewrite app_nil_r. (*l++[]=l*)
       reflexivity.
     Qed.
 
@@ -94,6 +107,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       reflexivity.
     Qed.
 
+    (*Un condicional cuando la condición es falsa no ejecuta nada*)
     Theorem yul_if_false : forall (v : D.value_t) (inst : list yul_expr),
       D.is_true_value v = false -> expr_list_equiv (YulIf (YulConst v) inst) ([]).
     Proof.
@@ -101,21 +115,24 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       unfold expr_list_equiv.
       intros env fenv state res env' fenv' state'.
       split; intros H.
-      -
+      - (*->*)
         destruct H as [f Hif].
-        destruct f as [|f']. inversion Hif.
+        destruct f as [|f']; inversion Hif.
         destruct f' as [|f'']. inversion Hif.
-        simpl in Hif.
-        rewrite Hv in Hif.
+        simpl in Hif. (*despelegado del condicional*)
+        rewrite Hv in Hif. (*Hv: D.is_true_value v = false -> se 'sale' del condicional*)
         inversion Hif. subst.
-        exists 1. simpl. reflexivity.
-      -
+        exists 1. (*fuel necesario para ejecutar []*) 
+        simpl. rewrite Hv. reflexivity.
+      - (*<-*)
         destruct H as [f H'].
         destruct f as [|f']. inversion H'.
         simpl in H'. inversion H'. subst.
-        exists 2. simpl. rewrite Hv. reflexivity.
+        exists 2. (*fuel necesario para eval_yul->YulIf y para evaluar condición*)
+        simpl. rewrite Hv. reflexivity.
     Qed.
 
+    (*Bucle con condición falsa no ejecuta ninguna instrucción de cuerpo ni post*)
     Theorem yul_for_false : forall (v : D.value_t) (post cuerpo : list yul_expr),
       D.is_true_value v = false -> expr_list_equiv (YulFor [] (YulConst v) post cuerpo) ([]).
     Proof.
@@ -123,7 +140,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       unfold expr_list_equiv.
       intros env fenv state res env' fenv' state'.
       split; intros H.
-      - 
+      - (*->*)
         destruct H as [f Hfor].
         destruct f as [|f']. inversion Hfor.
         destruct f' as [|f'']. inversion Hfor.
@@ -132,474 +149,309 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
         rewrite Hv in Hfor.
         inversion Hfor. subst.
         exists 1. simpl. reflexivity.
-      - 
+      - (*<-*)
         destruct H as [f H'].
         destruct f as [|f']. inversion H'.
         simpl in H'. inversion H'. subst.
-        exists 3. simpl. 
+        exists 3. (*fuel necesario para eval_yul->YulFor, evaluar [] de init y evaluar condición del bucle*)
+        simpl. 
         rewrite Hv. reflexivity.
     Qed.
 
     Definition cond_equiv_true (cond : yul_expr) : Prop :=
-    forall f env fenv state res env' fenv' state',
-      eval_yul f cond env fenv state = (res, env', fenv', state', Sem.Yul_Running) ->
+    forall f env fenv state en_bucle res env' fenv' state',
+      eval_yul f cond env fenv state en_bucle = (res, env', fenv', state', Sem.Yul_Running) ->
       match res with
       | v :: _ => D.is_true_value v = true
       | []     => False
       end.
 
-    Fixpoint sin_breakcontleave (e : yul_expr) : bool :=
-      match e with
-      | YulBreak => false
-      | YulContinue => false
-      | YulLeave => false
-      | YulFor ini cond post inst =>
-        forallb sin_breakcontleave ini &&
-        sin_breakcontleave cond &&
-        forallb sin_breakcontleave post &&
-        forallb sin_breakcontleave inst
-      | YulIf cond inst =>
-        sin_breakcontleave cond && forallb sin_breakcontleave inst
-      | YulSwitch cond cases def =>
-        sin_breakcontleave cond &&
-        forallb (fun '(_, c) => forallb sin_breakcontleave c) cases &&
-        forallb sin_breakcontleave def
-      | YulOp _ args => forallb sin_breakcontleave args
-      | YulLet _ v => sin_breakcontleave v
-      | YulFunc _ _ _ inst => forallb sin_breakcontleave inst        
-      | YulCall _ args => forallb sin_breakcontleave args
-      | _ => true
-      end.
-
-
-    Definition sin_breakcontleave_fenv (fenv : A.yul_fun_env) : Prop :=
-      forall nom func, buscar_funcion nom fenv = Some func ->
-        forallb sin_breakcontleave (f_inst func) = true.
-
-    Lemma sin_breakcontleave_fenv_cons :
-      forall nom func fenv,
-        forallb sin_breakcontleave (f_inst func) = true ->
-        sin_breakcontleave_fenv fenv ->
-        sin_breakcontleave_fenv ((nom, func) :: fenv).
-    Proof.
-      intros nom func fenv Hfunc Hfenv n f' Hbuscar.
-      simpl in Hbuscar.
-      destruct (string_dec n nom) as [Heq | Hneq].
-      - inversion Hbuscar; subst. exact Hfunc.
-      - exact (Hfenv n f' Hbuscar).
-    Qed.
-
-    Lemma no_breakcontleave_aux : forall f,
+    (*Lema para probar que no puede aparecer break/continue fuera de un bucle*)
+    Lemma no_break_continue : forall f,
+      (*eval_yul con en_bucle=false no puede devolver un estado de control break/continue*)
       (forall expr env fenv state res env' fenv' state' ctrl,
-         sin_breakcontleave expr = true ->
-         sin_breakcontleave_fenv fenv ->
-         eval_yul f expr env fenv state = (res, env', fenv', state', ctrl) ->
-         (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv')
+         eval_yul f expr env fenv state false = (res, env', fenv', state', ctrl) ->
+         ctrl <> Yul_Break /\ ctrl <> Yul_Continue)
       /\
+      (*eval_list con en_bucle=false no puede devolver un estado de control break/continue*)
       (forall l env fenv state res env' fenv' state' ctrl,
-         forallb sin_breakcontleave l = true ->
-         sin_breakcontleave_fenv fenv ->
-         eval_list f l env fenv state = (res, env', fenv', state', ctrl) ->
-         (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv')
+         eval_list f l env fenv state false = (res, env', fenv', state', ctrl) ->
+         ctrl <> Yul_Break /\ ctrl <> Yul_Continue)
       /\
+      (*eval_argumentos con en_bucle=false no puede devolver un estado de control break/continue*)
       (forall args env fenv state res env' fenv' state' ctrl,
-         forallb sin_breakcontleave args = true ->
-         sin_breakcontleave_fenv fenv ->
-         eval_argumentos f args env fenv state = (res, env', fenv', state', ctrl) ->
-         (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv')
+         eval_argumentos f args env fenv state false = (res, env', fenv', state', ctrl) ->
+         ctrl <> Yul_Break /\ ctrl <> Yul_Continue)
       /\
-      (forall ini cond post cuerpo,
-        forallb sin_breakcontleave ini = true ->
-         sin_breakcontleave cond = true ->
-         forallb sin_breakcontleave post = true ->
-         forallb sin_breakcontleave cuerpo = true ->
-         forall ei fei si res env' fenv' state' ctrl,
-         sin_breakcontleave_fenv fei ->
-         eval_yul f (YulFor [] cond post cuerpo) ei fei si =
-           (res, env', fenv', state', ctrl) ->
-         (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv')
-      /\
-      (forall cond cuerpo post env_orig ei fei si res env' fenv' state' ctrl,
-        sin_breakcontleave cond = true ->
-        forallb sin_breakcontleave cuerpo = true ->
-        forallb sin_breakcontleave post = true ->
-        sin_breakcontleave_fenv fei ->
-        eval_bucle cond cuerpo post env_orig f ei fei si = (res, env', fenv', state', ctrl) ->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv').
+      (*eval_bucle no puede devolver un estado de control break/continue: la ejecución de un bucle
+       siempre termina o en estado Running o con error. Si dentro del bucle (en el cuerpo) hay break/continue,
+       se trata dentro del bucle *)
+      (forall cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl,
+         eval_bucle cond cuerpo post env_orig f ei fei si en_bucle 
+           = (res, env', fenv', state', ctrl) ->
+         ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
     Proof.
       intro f.
-      induction f as [f IH] using (well_founded_induction Wf_nat.lt_wf).
+      induction f as [f IH] using (well_founded_induction Wf_nat.lt_wf). (*inducción fuerte sobre f*)
+      (*Pe: propiedad sobre eval_yul expr*)
       set (Pe := fun g => forall expr env fenv state res env' fenv' state' ctrl,
-        sin_breakcontleave expr = true ->
-        sin_breakcontleave_fenv fenv ->
-        eval_yul g expr env fenv state = (res, env', fenv', state', ctrl) ->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv').
+        eval_yul g expr env fenv state false = (res, env', fenv', state', ctrl) ->
+        ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
+      (*Pe: propiedad sobre eval_list*)
       set (Pl := fun g => forall l env fenv state res env' fenv' state' ctrl,
-        forallb sin_breakcontleave l = true ->
-        sin_breakcontleave_fenv fenv ->
-        eval_list g l env fenv state = (res, env', fenv', state', ctrl) ->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave) /\ sin_breakcontleave_fenv fenv').
+        eval_list g l env fenv state false = (res, env', fenv', state', ctrl) ->
+        ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
+      (*Pe: propiedad sobre eval_argumentos*)
       set (Pa := fun g => forall args env fenv state res env' fenv' state' ctrl,
-        forallb sin_breakcontleave args = true ->
-        sin_breakcontleave_fenv fenv ->
-        eval_argumentos g args env fenv state = (res, env', fenv', state', ctrl) ->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv').
-      set (Pb := fun g => forall cond cuerpo post env_orig ei fei si res env' fenv' state' ctrl,
-        sin_breakcontleave cond = true ->
-        forallb sin_breakcontleave cuerpo = true ->
-        forallb sin_breakcontleave post = true ->
-        sin_breakcontleave_fenv fei ->
-        eval_bucle cond cuerpo post env_orig g ei fei si = (res, env', fenv', state', ctrl) ->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv').
+        eval_argumentos g args env fenv state false = (res, env', fenv', state', ctrl) ->
+        ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
+      (*Pe: propiedad sobre eval_bucle*)
+      set (Pb := fun g => forall cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl,
+        eval_bucle cond cuerpo post env_orig g ei fei si en_bucle = (res, env', fenv', state', ctrl) ->
+        ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
       assert (IHe : forall g, g < f -> Pe g) by (intros g Hg; exact (proj1 (IH g Hg))).
       assert (IHl : forall g, g < f -> Pl g) by (intros g Hg; exact (proj1 (proj2 (IH g Hg)))).
       assert (IHa : forall g, g < f -> Pa g) by (intros g Hg; exact (proj1 (proj2 (proj2(IH g Hg))))).
-      assert (IHb: forall g, g<f ->
-        forall ini cond post cuerpo,
-        forallb sin_breakcontleave ini = true-> 
-        sin_breakcontleave cond=true->
-        forallb sin_breakcontleave post=true ->
-        forallb sin_breakcontleave cuerpo= true->
-        forall ei fei si res env' fenv' state' ctrl,
-        sin_breakcontleave_fenv fei ->
-        eval_yul g (YulFor [] cond post cuerpo) ei fei si= (res, env', fenv', state', ctrl)->
-        (ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave)/\ sin_breakcontleave_fenv fenv') by (intros g Hg; exact (proj1(proj2(proj2(proj2(IH g Hg)))))).
-      assert (IHbb : forall g, g < f -> Pb g) by (intros g Hg; exact (proj2 (proj2 (proj2 (proj2((IH g Hg))))))).
+      assert (IHb : forall g, g < f -> Pb g) by (intros g Hg; exact (proj2 (proj2 (proj2 (IH g Hg))))).
       destruct f as [| f'].
-      - repeat split.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + inversion H1. subst. exact H0.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + inversion H1. subst. exact H0.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + intros. simpl in H1. inversion H1; subst. repeat split; discriminate.
-        + inversion H1. subst. exact H0.
-        + simpl in H3. inversion H4; subst. repeat split; congruence.
-        + simpl in H3. inversion H4; subst. repeat split; congruence.
-        + simpl in H3. inversion H4; subst. repeat split; congruence.
-        + inversion H4. subst. exact H3.
-        + simpl in H3. inversion H3; subst. repeat split; discriminate.
-        + simpl in H3. inversion H3; subst. repeat split; discriminate.
-        + simpl in H3. inversion H3; subst. repeat split; discriminate.
-        + inversion H3. subst. exact H2.
-      - assert (Hf' : f' < S f') by lia.
-        set (IHe' := IHe f' Hf').
-        set (IHl' := IHl f' Hf').
-        set (IHa' := IHa f' Hf').
-        set (IHb' := IHb f' Hf').
-        set (IHbb' := IHbb f' Hf').
-        split; [| split; [| split; [| split]]].
-        + intros expr env fenv state res env' fenv' state' ctrl H H0 H1.
-          destruct expr as [ v | op args | ns y | nombre_var | cond inst | cond casos def | ini cond post cuerpo | nom params rets inst | nom args | | | ];
-          simpl in H, H1.
-          * inversion H1; subst. split.
-            ++ repeat split; discriminate.
-            ++ exact H0.
-          * revert H1.
-            destruct (eval_argumentos f' args env fenv state) as [[[[ra ea] fea] sa] ctrla] eqn:Ha.
-            intro H1.
-            destruct (IHa' args env fenv state ra ea fea sa ctrla H H0 Ha) as [[Ha1 [Ha2 Ha3]] Hfea].
-            destruct ctrla.
+      - (* f = 0 *)
+        split; [| split; [| split]].
+        + intros expr env fenv state res env' fenv' state' ctrl Heval.
+          simpl in Heval. inversion Heval. subst. split; discriminate.
+        + intros l env fenv state res env' fenv' state' ctrl Heval.
+          simpl in Heval. inversion Heval. subst. split; discriminate.
+        + intros args env fenv state res env' fenv' state' ctrl Heval.
+          simpl in Heval. inversion Heval. subst. split; discriminate.
+        + intros cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl Heval.
+          simpl in Heval. inversion Heval. subst. split; discriminate.
+      - (* f = S f' *)
+        assert (Hf' : f' < S f') by lia.
+        split; [| split; [| split]].
+        + (* eval_yul *)
+          intros expr env fenv state res env' fenv' state' ctrl Heval.
+          destruct expr as [v|op args|nombres valor|nombres valor|nombre_var|cond inst|cond casos default|ini cond post inst|nombre params ret inst|nombre args|inst_b| | |]; simpl in Heval.
+          * (*YulConst*)
+            inversion Heval; subst; split; discriminate.
+          * (*YulOp*)
+            destruct (eval_argumentos f' args env fenv state false) as [[[[ra ea] fea] sa] ctrla] eqn:Ha.
+            pose proof (IHa f' Hf' _ _ _ _ _ _ _ _ _ Ha) as Hxa.
+            (*En Heval, ninguna rama produce break ni continue: se prueba por reducción al absurdo que dichos resultados son imposibles
+              El resto de posibles estados se obtienen con Heval, y son por construcción distintos a break/continue*)
+            destruct ctrla; try (exfalso; apply (proj1 Hxa); reflexivity); try (exfalso; apply (proj2 Hxa); reflexivity); try (inversion Heval; subst; split; discriminate).
             destruct (D.execute_opcode sa op ra) as [[ro so] stso].
-            destruct stso.
-              ++ inversion H1. subst. split; [repeat split; assumption | exact Hfea].
-              ++ inversion H1. subst. split; [repeat split; discriminate | exact Hfea].
-              ++ inversion H1. subst. split; [repeat split; discriminate | exact Hfea].
-              ++ inversion H1. subst. split; [repeat split; discriminate | exact Hfea].
-              ++ inversion H1. subst. exfalso. apply Ha1. reflexivity.
-              ++ inversion H1. subst. exfalso. apply Ha2. reflexivity.
-              ++ inversion H1. subst. exfalso. apply Ha3. reflexivity.
-              ++ inversion H1. subst. split; [repeat split; discriminate | exact Hfea].
+            destruct stso; inversion Heval; subst; split; discriminate.
           * (*YulLet*)
-            revert H1.
-            destruct (eval_yul f' y env fenv state) as [[[[rv ev] fev] sv] ctrlv] eqn:Hv.
-            intro H1.
-            destruct (IHe' y env fenv state rv ev fev sv ctrlv H H0 Hv) as [[Hv1 [Hv2 Hv3]] Hfev].
-            destruct ctrlv; try congruence.
-            set (opt := (fix asignar (ns0 : list string) (vs : list D.value_t) (e0 : yul_env) {struct ns0} : option yul_env :=
-                  match ns0 with
-                  | [] => match vs with
-                          | [] => Some e0
-                          | _ :: _ => None
-                          end
-                  | n :: ns' => match vs with
-                    | [] => None
-                    | v :: vs' => asignar ns' vs' ((n, v) :: e0)
-                    end
-                  end) ns rv ev) in H1.
-            destruct opt; inversion H1; subst.
-            ++ split; [repeat split; assumption | exact Hfev].
-            ++ split; [repeat split; discriminate | exact Hfev].
-            ++ split; inversion H1; subst;[repeat split; assumption | exact Hfev].
-          * destruct (buscar_variable nombre_var env);
-            inversion H1; subst; (split; [repeat split; discriminate | exact H0]).
-          * destruct (andb_prop _ _ H) as [Hcond Hinst].
-            revert H1.
-            destruct (eval_yul f' cond env fenv state) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
-            intro H1.
-            destruct (IHe' cond env fenv state rc ec fec sc ctrlc Hcond H0 Hc) as [[Hc1 [Hc2 Hc3]] Hfec].
-            destruct ctrlc; try congruence.
+            destruct (eval_yul f' valor env fenv state false) as [[[[rv ev] fev] sv] ctrlv] eqn:Hv.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hv) as Hxv.
+            destruct ctrlv; try (exfalso; apply (proj1 Hxv); reflexivity); try (exfalso; apply (proj2 Hxv); reflexivity); try (inversion Heval; subst; split; discriminate).
+            destruct (agregar_vars nombres rv ev); inversion Heval; subst; split; discriminate.
+          * (*YulAsignar*)
+            destruct (eval_yul f' valor env fenv state false) as [[[[rv ev] fev] sv] ctrlv] eqn:Hv.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hv) as Hxv.
+            destruct ctrlv; try (exfalso; apply (proj1 Hxv); reflexivity); try (exfalso; apply (proj2 Hxv); reflexivity); try (inversion Heval; subst; split; discriminate).
+            destruct (actualizar_vars nombres rv ev); inversion Heval; subst; split; discriminate.
+          * (*YulVar*)
+            destruct (buscar_variable nombre_var env); inversion Heval; subst; split; discriminate.
+          * (*YulIf*)
+            destruct (eval_yul f' cond env fenv state false) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hc) as Hxc.
+            destruct ctrlc; try (exfalso; apply (proj1 Hxc); reflexivity); try (exfalso; apply (proj2 Hxc); reflexivity); try (inversion Heval; subst; split; discriminate).
             destruct (is_true rc).
-            -- destruct (eval_list f' inst ec fec sc) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
-              destruct (IHl' inst ec fec sc rb eb feb sb ctrlb Hinst Hfec Hb) as [[Hb1 [Hb2 Hb3]] Hfeb].
-              destruct ctrlb; inversion H1; subst; (split; [repeat split; assumption | exact Hfeb]).
-            -- inversion H1; subst; (split; [repeat split; discriminate | exact Hfec]).
-            -- inversion H1; subst; (split; [repeat split; discriminate | exact Hfec]).
-          * apply Bool.andb_true_iff in H. destruct H as [H_cond_casos Hdef].
-            apply Bool.andb_true_iff in H_cond_casos. destruct H_cond_casos as [Hcond Hcasos].
-            revert H0.
-            destruct (eval_yul f' cond env fenv state) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.              intro H0.
-            destruct (IHe' cond env fenv state rc ec fec sc ctrlc Hcond H0 Hc) as [[Hc1 [Hc2 Hc3]] Hfec].
-            destruct ctrlc; try congruence.
-            revert Hcasos H0 H1.
-            induction casos as [| [vc cc] casos' IHcasos]; intros Hcasos H0.
-            -- simpl in H0.
-              destruct (eval_list f' def ec fec sc) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
-              destruct (IHl' def ec fec sc rd ed fed sd ctrld Hdef Hfec Hd) as [[Hd1 [Hd2 Hd3]] Hfed].
-              destruct ctrld; try congruence.
-              ++ intro H1. inversion H1; subst. split. repeat split; assumption. exact Hfed.
-              ++ intro H1. inversion H1; subst. split. repeat split; discriminate. exact Hfed.
-            -- simpl in H0, Hcasos.
-              apply Bool.andb_true_iff in Hcasos. destruct Hcasos as [Hcc Hcasos'].
-              destruct (D.eqb (match rc with v :: _ => v | [] => D.default_value end) vc).
-              ++ destruct (eval_list f' cc ec fec sc) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
-                destruct (IHl' cc ec fec sc rb eb feb sb ctrlb Hcc Hfec Hb) as [[Hb1 [Hb2 Hb3]] Hfeb].
-                destruct ctrlb; try congruence.
-                ** intro H1. inversion H1; subst. split. repeat split; assumption. exact Hfeb.
-                ** intro H1. inversion H1; subst. split. repeat split; discriminate. exact Hfeb.
-              ++ exact (IHcasos Hcasos' H0).
-            -- inversion H1. subst. split. repeat split; assumption. exact Hfec.
-          * (*YulFor*) 
-            apply Bool.andb_true_iff in H. destruct H as [H_rest Hcuerpo].
-            apply Bool.andb_true_iff in H_rest. destruct H_rest as [H_rest2 Hpost].
-            apply Bool.andb_true_iff in H_rest2. destruct H_rest2 as [Hini Hcond].
-            revert H0.
-            destruct (eval_list f' ini env fenv state) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
-            intro H0.
-            destruct (IHl' ini env fenv state ri ei fei si ctrli Hini H0 Hi) as [[Hi1 [Hi2 Hi3]] Hfei].
-            destruct ctrli; try congruence.
-            -- exact (IHbb' cond cuerpo post env ei fei si res env' fenv' state' ctrl Hcond Hcuerpo Hpost Hfei H1).
-            -- inversion H1; subst. split. repeat split; assumption. exact Hfei.
+            -- (*rc=true*)
+              destruct (eval_list f' inst ec fec sc false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
+              pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hi) as Hxi.
+              destruct ctrli; try (exfalso; apply (proj1 Hxi); reflexivity); try (exfalso; apply (proj2 Hxi); reflexivity); try (inversion Heval; subst; split; discriminate).
+            -- (*rc=false*)
+              inversion Heval; subst; split; discriminate.
+          * (*YulSwitch*)
+            destruct (eval_yul f' cond env fenv state false) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hc) as Hxc.
+            destruct ctrlc; try (exfalso; apply (proj1 Hxc); reflexivity); try (exfalso; apply (proj2 Hxc); reflexivity); try (inversion Heval; subst; split; discriminate).
+            revert Heval.
+            induction casos as [| [vc cc] casos' IHcasos].
+            -- simpl.
+               destruct (eval_list f' default ec fec sc false) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
+               intro Heval. pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hd) as Hxd.
+               destruct ctrld; try (exfalso; apply (proj1 Hxd); reflexivity); try (exfalso; apply (proj2 Hxd); reflexivity); try (inversion Heval; subst; split; discriminate).
+            -- simpl.
+               destruct (D.eqb (match rc with v :: _ => v | [] => D.default_value end) vc).
+               ++ destruct (eval_list f' cc ec fec sc false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+                  intro Heval. pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
+                  destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); try (inversion Heval; subst; split; discriminate).
+               ++ apply IHcasos.
+          * (*YulFor*)
+            destruct (eval_list f' ini env fenv state false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
+            pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hi) as Hxi.
+            destruct ctrli; try (exfalso; apply (proj1 Hxi); reflexivity); try (exfalso; apply (proj2 Hxi); reflexivity); try (inversion Heval; subst; split; discriminate).
+            apply (IHb f' Hf' cond inst post env ei fei si false res env' fenv' state' ctrl Heval).
           * (*YulFunc*)
-            inversion H1; subst. split. 
-            ++ repeat split; discriminate.
-            ++ apply sin_breakcontleave_fenv_cons.
-              ** exact H.
-              ** exact H0.
-          * (* YulCall*)
-            revert H1.
-            destruct (eval_argumentos f' args env fenv state) as [[[[ra ea] fea] sa] ctrla] eqn:Ha.
-            intro H1.
-            destruct (IHa' args env fenv state ra ea fea sa ctrla H H0 Ha) as [[Ha1 [Ha2 Ha3]] Hfea].
-            destruct ctrla; try congruence.
-            destruct (buscar_funcion nom fea) as [func|] eqn:Hfunc.
-            -- revert H1.
-              destruct (eval_list f' (f_inst func) (combinar_params (f_params func) ra) fea sa) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
-              intro H1.
-              assert (Hfunc_sin : forallb sin_breakcontleave (f_inst func) = true) by (exact (Hfea nom func Hfunc)).
-              destruct (IHl' (f_inst func) (combinar_params (f_params func) ra) fea sa rb eb feb sb ctrlb Hfunc_sin Hfea Hb) as [[Hbb1 [Hbb2 Hbb3]] Hfeb].
-              destruct ctrlb.
-              ++ inversion H1; subst. split. repeat split; assumption. exact Hfea.
-              ++ exfalso. apply Hbb1. reflexivity.
-              ++ exfalso. apply Hbb2. reflexivity.
-              ++ exfalso. apply Hbb3. reflexivity.
-              ++ inversion H1; subst. split. repeat split; discriminate. exact Hfea.
-            -- inversion H1; subst. split. repeat split; discriminate. exact Hfea.
-            -- inversion H1; subst. split. repeat split; discriminate. exact Hfea.
-          * discriminate H.
-          * discriminate H.
-          * discriminate H.
-        + intros l env fenv state res env' fenv' state' ctrl H Hfenv H0.
+            inversion Heval; subst; split; discriminate.
+          * (*YulCall*)
+            destruct (eval_argumentos f' args env fenv state false) as [[[[ra ea] fea] sa] ctrla] eqn:Ha.
+            pose proof (IHa f' Hf' _ _ _ _ _ _ _ _ _ Ha) as Hxa.
+            destruct ctrla; try (exfalso; apply (proj1 Hxa); reflexivity); try (exfalso; apply (proj2 Hxa); reflexivity); try (inversion Heval; subst; split; discriminate).
+            destruct (buscar_funcion nombre fea) as [y|]; try (inversion Heval; subst; split; discriminate).
+            destruct (eval_list f' (f_inst y) (combinar_params (f_params y) ra ++ List.map (fun r => (r, D.default_value)) (f_ret y)) fea sa false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
+            destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); try (inversion Heval; subst; split; discriminate).
+          * (*YulBlock*)
+            destruct (eval_list f' inst_b env fenv state false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
+            destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); inversion Heval; subst; split; discriminate.
+          * (*YulBreak fuera del cuerpo de un bucle -> produce Yul_Error*)
+            inversion Heval; subst; split; discriminate.
+          * (*YulContinue fuera del cuerpo de un bucle -> produce Yul_Error*)
+            inversion Heval; subst; split; discriminate.
+          * (*YulLeave -> distinto de break y continue por construcción*)
+            inversion Heval; subst; split; discriminate.
+        + (* eval_list *)
+          intros l env fenv state res env' fenv' state' ctrl Heval.
           destruct l as [| h t].
-          * simpl in H0. inversion H0; subst. split. repeat split; discriminate. exact Hfenv.
-          * simpl in H0, H.
-            destruct (andb_prop _ _ H) as [Hh Ht].
-            revert H0.
-            destruct (eval_yul f' h env fenv state) as [[[[rh eh] feh] sh] ctrlh] eqn:Hh_eval.
-            intro H0.
-            destruct (IHe' h env fenv state rh eh feh sh ctrlh Hh Hfenv Hh_eval) as [[Hh1 [Hh2 Hh3]] Hfeh].
-            destruct ctrlh; try congruence.
-            exact (IHl' t eh feh sh res env' fenv' state' ctrl Ht Hfeh H0).
-            inversion H0; subst. split. repeat split; discriminate. exact Hfeh.
-        + intros args env fenv state res env' fenv' state' ctrl H Hfenv H0.
+          * (*para []*) 
+            simpl in Heval. inversion Heval; subst; split; discriminate.
+          * (*para una lista (h::t)*)
+            simpl in Heval.
+            destruct (eval_yul f' h env fenv state false) as [[[[rh eh] feh] sh] ctrlh] eqn:Hh.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hh) as Hxh.
+            destruct ctrlh; try (exfalso; apply (proj1 Hxh); reflexivity); try (exfalso; apply (proj2 Hxh); reflexivity); try (inversion Heval; subst; split; discriminate).
+            apply (IHl f' Hf') in Heval. exact Heval.
+        + (* eval_argumentos *)
+          intros args env fenv state res env' fenv' state' ctrl Heval.
           destruct args as [| h t].
-          * simpl in H0. inversion H0; subst. split. repeat split; discriminate. exact Hfenv.
-          * simpl in H0, H.
-            destruct (andb_prop _ _ H) as [Hh Ht].
-            revert H0.
-            destruct (eval_argumentos f' t env fenv state) as [[[[rt et] fet] st] ctrlt] eqn:Ht_eval.
-            intro H0.
-            destruct (IHa' t env fenv state rt et fet st ctrlt Ht Hfenv Ht_eval) as [[Ht1 [Ht2 Ht3]] Hfet].
-            destruct ctrlt; try congruence.
-            revert H0.
-            destruct (eval_yul f' h et fet st) as [[[[rh eh] feh] sh] ctrlh] eqn:Hh_eval.
-            intro H0.
-            destruct (IHe' h et fet st rh eh feh sh ctrlh Hh Hfet Hh_eval) as [[Hh1 [Hh2 Hh3]] Hfeh].
-            destruct ctrlh; try congruence;
-            inversion H0; subst; (split; [repeat split; congruence | exact Hfeh]).
-            inversion H0; subst. split. repeat split; assumption. exact Hfet.
-        + intros ini cond post cuerpo Hini Hcond Hpost Hcuerpo ei fei si res env' fenv' state' ctrl Hfenv H0.
-          simpl in H0.
-          destruct f' as [| f''].
-          -- simpl in H0. inversion H0; subst. split. repeat split; discriminate. exact Hfenv.
-          -- simpl in H0.
-             exact (IHbb' cond cuerpo post ei ei fei si res env' fenv' state' ctrl Hcond Hcuerpo Hpost Hfenv H0).
-        + intros cond cuerpo post env_orig ei fei si res env' fenv' state' ctrl Hcond Hcuerpo Hpost Hfenv Heval_bucle.
-          revert Heval_bucle.
-          destruct (eval_yul f' cond ei fei si) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
-          intro Heval_bucle.
-          destruct (IHe' cond ei fei si rc ec fec sc ctrlc Hcond Hfenv Hc) as [[Hc1 [Hc2 Hc3]] Hfec].
-          destruct ctrlc; try congruence.
+          * (*para []*)
+            simpl in Heval. inversion Heval; subst; split; discriminate.
+          * (*para (h::t)*)
+            simpl in Heval.
+            destruct (eval_argumentos f' t env fenv state false) as [[[[rt et] fet] st] ctrlt] eqn:Ht.
+            pose proof (IHa f' Hf' _ _ _ _ _ _ _ _ _ Ht) as Hxt.
+            destruct ctrlt; try (exfalso; apply (proj1 Hxt); reflexivity); try (exfalso; apply (proj2 Hxt); reflexivity); try (inversion Heval; subst; split; discriminate).
+            destruct (eval_yul f' h et fet st false) as [[[[rh eh] feh] sh] ctrlh] eqn:Hh.
+            pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hh) as Hxh.
+            destruct ctrlh; try (exfalso; apply (proj1 Hxh); reflexivity); try (exfalso; apply (proj2 Hxh); reflexivity); try (inversion Heval; subst; split; discriminate).
+        + (* eval_bucle *)
+          intros cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl Heval.
+          cbn [eval_bucle] in Heval. (*reescribe eval_bucle en Heval*)
+          destruct (eval_yul f' cond ei fei si false) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
+          pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hc) as Hxc.
+          destruct ctrlc; try (exfalso; apply (proj1 Hxc); reflexivity); try (exfalso; apply (proj2 Hxc); reflexivity); try (inversion Heval; subst; split; discriminate).
           destruct (is_true rc) eqn:Htrue.
-          * revert Heval_bucle.
-            destruct (eval_list f' cuerpo ec fec sc) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
-            intro Heval_bucle.
-            destruct (IHl' cuerpo ec fec sc rb eb feb sb ctrlb Hcuerpo Hfec Hb) as [[Hb1 [Hb2 Hb3]] Hfeb].
-            destruct ctrlb; try congruence.
-            -- (*Yul_Running*)
-              revert Heval_bucle.
-              destruct (eval_list f' post (restringe_env eb ec) feb sb) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
-              intro Heval_bucle.
-              destruct (IHl' post (restringe_env eb ec) feb sb rp ep fep sp ctrlp Hpost Hfeb Hp) as [[Hp1 [Hp2 Hp3]] Hfep].
-              destruct ctrlp; try congruence.
-              ++ unfold eval_yul in Heval_bucle.
-                 simpl in Heval_bucle.
-                 rewrite Hc in Heval_bucle.
-                 rewrite Htrue in Heval_bucle.
-                 rewrite Hb in Heval_bucle.
-                 rewrite Hp in Heval_bucle.
-                 simpl in Heval_bucle.
-                 apply IHbb' in Heval_bucle.
-                 exact Heval_bucle. exact Hcond. exact Hcuerpo. exact Hpost. exact Hfep.
-              ++ unfold eval_yul in Heval_bucle.
-                 simpl in Heval_bucle.
-                 rewrite Hc in Heval_bucle.
-                 rewrite Htrue in Heval_bucle.
-                 rewrite Hb in Heval_bucle.
-                 rewrite Hp in Heval_bucle.
-                 simpl in Heval_bucle.
-                 inversion Heval_bucle; subst.
-                 split. repeat split; assumption. exact Hfeb.
-            --  unfold eval_yul in Heval_bucle.
-                simpl in Heval_bucle.
-                rewrite Hc in Heval_bucle.
-                rewrite Htrue in Heval_bucle.
-                rewrite Hb in Heval_bucle.
-                simpl in Heval_bucle.
-                inversion Heval_bucle; subst.
-                split. repeat split; assumption. exact Hfeb.
-          * unfold eval_yul in Heval_bucle.
-            simpl in Heval_bucle.
-            rewrite Hc in Heval_bucle.
-            rewrite Htrue in Heval_bucle.
-            inversion Heval_bucle; subst. 
-            split. repeat split; discriminate. exact Hfec.
-          * unfold eval_yul in Heval_bucle.
-            simpl in Heval_bucle.
-            rewrite Hc in Heval_bucle.
-            inversion Heval_bucle; subst. split. repeat split; assumption. exact Hfec.
-    Qed.
- 
-    Lemma no_breakcontleave_list :
-      forall f l env fenv state res env' fenv' state' ctrl,
-        forallb sin_breakcontleave l = true ->
-        sin_breakcontleave_fenv fenv ->
-        eval_list f l env fenv state = (res, env', fenv', state', ctrl) ->
-        ctrl <> Yul_Break /\ ctrl <> Yul_Continue /\ ctrl <> Yul_Leave.
-    Proof.
-      intros f l env fenv state res env' fenv' state' ctrl Hsinb Hfenv Heval.
-      exact (proj1 (proj1(proj2 (no_breakcontleave_aux f)) l env fenv state res env' fenv' state' ctrl Hsinb Hfenv Heval)).
-    Qed.
-    
-    Lemma sin_breakcontleave_fenv_vacio : sin_breakcontleave_fenv [].
-    Proof.
-      unfold sin_breakcontleave_fenv.
-      intros nom func Hbuscar.
-      simpl in Hbuscar. 
-      inversion Hbuscar.  
+          * (*rc=true por Htrue*)
+            destruct (eval_list f' cuerpo ec fec sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            destruct ctrlb.
+            -- (*Running -> se ejecuta post*)
+              destruct (eval_list f' post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+              pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hp) as Hxp.
+              destruct ctrlp; try (exfalso; apply (proj1 Hxp); reflexivity); try (exfalso; apply (proj2 Hxp); reflexivity); try (inversion Heval; subst; split; discriminate).
+              apply (IHb f' Hf' cond cuerpo post env_orig (restringe_env ep (restringe_env eb ec)) fep sp false res env' fenv' state' ctrl Heval).
+            -- (*Break*)
+              inversion Heval; subst; split; discriminate.
+            -- (*Continue -> se ejecuta post*)
+              destruct (eval_list f' post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+              pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hp) as Hxp.
+              destruct ctrlp; try (exfalso; apply (proj1 Hxp); reflexivity); try (exfalso; apply (proj2 Hxp); reflexivity); try (inversion Heval; subst; split; discriminate).
+              apply (IHb f' Hf' cond cuerpo post env_orig (restringe_env ep (restringe_env eb ec)) fep sp false res env' fenv' state' ctrl Heval).
+            -- (*Leave*)
+              inversion Heval; subst; split; discriminate.
+            -- (*Error*)
+              inversion Heval; subst; split; discriminate.
+          * (*rc=false*)
+            inversion Heval; subst; split; discriminate.
     Qed.
 
+    (*eval_list de una lista vacía no produce ningún resultado y devuelve estado Running*)
     Lemma eval_list_vacia :
-    forall f env fenv state,
+    forall f env fenv state en_bucle,
       f>0 ->
-      eval_list f [] env fenv state = ([], env, fenv, state, Yul_Running).
+      eval_list f [] env fenv state en_bucle = ([], env, fenv, state, Yul_Running).
     Proof.
-      intros f env fenv state.
+      intros f env fenv state en_bucle.
       destruct f; unfold eval_list. lia. reflexivity.
     Qed.
 
+    (*
+      Lema que prueba que un bucle donde la condición siempre es cierta y donde no hay breaks en el cuerpo,
+      nunca puede finalizar con estado Running: solo finaliza por agotamiento de fuel (con Error) o con otro error de ejecución.
+    *)
     Lemma bucle_no_running :
     forall cond post cuerpo, 
       cond_equiv_true cond ->
-      sin_breakcontleave cond = true -> 
-      forallb sin_breakcontleave cuerpo = true ->
-      forallb sin_breakcontleave post = true ->
-      forall n env e fe s res env' fenv' state',
-      sin_breakcontleave_fenv fe ->
-        eval_bucle cond cuerpo post env n e fe s = (res, env', fenv', state', Yul_Running) -> False.
+      (forall f env fenv state res env' fenv' state',
+         eval_list f cuerpo env fenv state true 
+           <> (res, env', fenv', state', Yul_Break)) ->
+      forall n env e fe s res env' fenv' state' en_bucle,
+        eval_bucle cond cuerpo post env n e fe s en_bucle = (res, env', fenv', state', Yul_Running) -> False.
     Proof.
-      intros cond post cuerpo Hcond_equiv Hcond_sin Hcuerpo Hpost.
-      induction n as [|n IH]; intros env e fe s res env' fenv' state' He Heval.
-      - simpl in Heval. inversion Heval.
-      - cbn [eval_bucle] in Heval.
-        destruct (no_breakcontleave_aux n) as [Pe [Pl _]].
-        revert Heval.
-        destruct (eval_yul n cond e fe s) as [[[[rc ec] fec] sc] ctrlc] eqn: Hc.
-        intro Heval.
-        cbn in Heval.
+      intros cond post cuerpo Hcond_equiv Hcuerpo.
+      (*Inducción sobre fuel*)
+      induction n as [|n IH]; intros env e fe s res env' fenv' state' en_bucle Heval.
+      - (*n=0*)
+        simpl in Heval. inversion Heval.
+      - (*n>0*)
+        cbn [eval_bucle] in Heval. (*reescribe eval_bucle en Heval *)
+        destruct (no_break_continue n) as [Pe [Pl _]].
+        destruct (eval_yul n cond e fe s false) as [[[[rc ec] fec] sc] ctrlc] eqn: Hc. (*ejecución condición*)
         destruct ctrlc; try inversion Heval.
-        destruct (Pe cond e fe s rc ec fec sc Yul_Running Hcond_sin He Hc) as [_ Hfec].
-        pose proof (Pe cond e fe s rc ec fec sc Yul_Running Hcond_sin He Hc) as HPe.
-        pose proof (Hcond_equiv n e fe s rc ec fec sc Hc) as Htrue.
+        pose proof (Hcond_equiv n e fe s false rc ec fec sc Hc) as Htrue. (*condición siempre verdadera por hipótesis*)
         assert (Htrue': is_true rc=true).
         {destruct rc as [|v t]; simpl in *.
           - contradiction.
           - exact Htrue. }
         rewrite Htrue' in Heval.
-        revert Heval.
-        destruct (eval_list n cuerpo ec fec sc) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
-        intro Heval. simpl in Heval.
-        destruct (Pl cuerpo ec fec sc rb eb feb sb ctrlb Hcuerpo Hfec Hb) as [[Hb1 [Hb2 Hb3]] Hfeb].
+        destruct (eval_list n cuerpo ec fec sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb. (*ejecución cuerpo*)
         destruct ctrlb.
-        + revert Heval.
-          destruct (eval_list n post (restringe_env eb ec) feb sb) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
-          intro Heval. simpl in Heval.
-          destruct (Pl post (restringe_env eb ec) feb sb rp ep fep sp ctrlp Hpost Hfeb Hp) as [[Hp1 [Hp2 Hp3]] Hfep].
+        + (*Running -> ejecuta post*)
+          destruct (eval_list n post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
           destruct ctrlp.
-          * exact (IH env (restringe_env ep (restringe_env eb ec)) fep sp res env' fenv' state' Hfep Heval).
-          * exfalso. apply Hp1. reflexivity.
-          * exfalso. apply Hp2. reflexivity.
-          * exfalso. apply Hp3. reflexivity.
+          * (*Running -> nueva iteración*)
+            exact (IH env (restringe_env ep (restringe_env eb ec)) fep sp res env' fenv' state' false Heval).
+          * (*Break -> imposible en post -> absurdo*) 
+            exfalso. exact (proj1 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Break Hp) eq_refl).
+          * (*Continue -> imposible en post -> absurdo*) 
+            exfalso. exact (proj2 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Continue Hp) eq_refl).
+          * (*Error*)
+            inversion Heval.
+          * (*Leave*)
+            inversion Heval.
+        + (*Break en cuerpo -> contradicción con la hipótesis*)
+          exfalso. exact (Hcuerpo n ec fec sc rb eb feb sb Hb).
+        + (*Continue -> ejecuta post y siguiente iteración*)
+          destruct (eval_list n post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+          destruct ctrlp.
+          * exact (IH env (restringe_env ep (restringe_env eb ec)) fep sp res env' fenv' state' false Heval).
+          * exfalso. exact (proj1 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Break Hp) eq_refl).
+          * exfalso. exact (proj2 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Continue Hp) eq_refl).
           * inversion Heval.
-        + exfalso. apply Hb1. reflexivity.
-        + exfalso. apply Hb2. reflexivity.
-        + exfalso. apply Hb3. reflexivity.
-        + inversion Heval.
+          * inversion Heval.
+        + (*Error*)
+          inversion Heval.
+        + (*Leave*)
+          inversion Heval.
     Qed.
 
+    (*
+      Teorema para probar que while true do skip no produce un cómputo terminante.
+      Adaptado a la sintaxis de Yul, se prueba sobre for [] true cuerpo post, donde cuerpo no tiene ningún break.
+      *)
     Theorem yul_while_true_no_running :
       forall f cond post cuerpo, 
         cond_equiv_true cond ->
-        sin_breakcontleave cond = true ->
-        forallb sin_breakcontleave cuerpo = true ->
-        forallb sin_breakcontleave post = true ->
-        forall env state res env' fenv' state',
-          eval_yul f (YulFor [] cond post cuerpo) env [] state = (res, env', fenv', state', Yul_Running) -> False.
+        (forall f' env fenv state res env' fenv' state',
+           eval_list f' cuerpo env fenv state true 
+             <> (res, env', fenv', state', Yul_Break)) ->
+        forall env state res env' fenv' state' en_bucle,
+          eval_yul f (YulFor [] cond post cuerpo) env [] state en_bucle = (res, env', fenv', state', Yul_Running) -> False.
     Proof.
-      intros [|f1] cond post cuerpo Hcond Hcond' Hcuerpo Hpost env state res env' fenv' state' Heval.
-      - simpl in Heval. inversion Heval.
-      - simpl in Heval.
+      intros [|f1] cond post cuerpo Hcond Hcuerpo env state res env' fenv' state' en_bucle Heval.
+      - (*fuel=0*)
+        simpl in Heval. inversion Heval.
+      - (*fuel>0*)
+        simpl in Heval.
         destruct f1 as [|f2].
-        + simpl in Heval. inversion Heval.
-        + rewrite (eval_list_vacia (S f2) env [] state) in Heval; [| lia].
-          eapply (bucle_no_running cond post cuerpo Hcond Hcond' Hcuerpo Hpost (S f2) env env [] state res env' fenv' state').
-          * exact sin_breakcontleave_fenv_vacio.
-          * exact Heval.
+        + (*sin fuel para evaluar condición*)
+          simpl in Heval. inversion Heval.
+        + (*se aplican eval_list_vacia por init y bucle_no_running*)
+          rewrite (eval_list_vacia (S f2) env [] state en_bucle) in Heval; [| lia].
+          eapply (bucle_no_running cond post cuerpo Hcond Hcuerpo (S f2) env env [] state res env' fenv' state' en_bucle Heval).
     Qed.
 
 End YulEquivalences.

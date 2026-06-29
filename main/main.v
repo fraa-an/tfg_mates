@@ -6,84 +6,23 @@ From Stdlib Require Import Lists.List.
 Import ListNotations.
 Require Import LenguajeYul.dialect.
 Require Import main.fran_dialect.
+Require Import main.fran_dialect_parser.
 Require Import main.ast.
 Require Import main.semantica.
 Require Import main.parser.
 Require Import main.equiv.
-
-Module FranEVM_Dialect_ext <: PARSER_DIALECT.
-    Include FranEVM_Dialect.
-    Import EVM_opcode.
-    
-    Definition string_a_opcode (s : string) : option EVM_opcode.t :=
-        (**string_dec sirve para comprobar igualdad de strings**)
-        if string_dec s "add" then Some EVM_opcode.ADD 
-        else if string_dec s "sub" then Some EVM_opcode.SUB
-        else if string_dec s "mul" then Some EVM_opcode.MUL
-        else if string_dec s "div" then Some EVM_opcode.DIV
-        else if string_dec s "sdiv" then Some EVM_opcode.SDIV
-        else if string_dec s "mod" then Some EVM_opcode.MOD
-        else if string_dec s "smod" then Some EVM_opcode.SMOD
-        else if string_dec s "exp" then Some EVM_opcode.EXP
-        else if string_dec s "not" then Some EVM_opcode.NOT
-        else if string_dec s "lt" then Some EVM_opcode.LT
-        else if string_dec s "gt" then Some EVM_opcode.GT
-        else if string_dec s "slt" then Some EVM_opcode.SLT
-        else if string_dec s "sgt" then Some EVM_opcode.SGT
-        else if string_dec s "eq" then Some EVM_opcode.EQ
-        else if string_dec s "iszero" then Some EVM_opcode.ISZERO
-        else if string_dec s "and" then Some EVM_opcode.AND
-        else if string_dec s "or" then Some EVM_opcode.OR
-        else if string_dec s "xor" then Some EVM_opcode.XOR
-        else if string_dec s "byte" then Some EVM_opcode.BYTE
-        else if string_dec s "shl" then Some EVM_opcode.SHL
-        else if string_dec s "shr" then Some EVM_opcode.SHR
-        else if string_dec s "sar" then Some EVM_opcode.SAR
-        else if string_dec s "clz" then Some EVM_opcode.CLZ
-        else if string_dec s "addmod" then Some EVM_opcode.ADDMOD
-        else if string_dec s "mulmod" then Some EVM_opcode.MULMOD
-        else if string_dec s "signextend" then Some EVM_opcode.SIGNEXTEND
-        else None.
-
-    Definition parsea_hex (s : string) : option U32.t :=
-        match parsea_hex_aux s 0%Z with
-        | Some z => Some (U32.to_t z) 
-        | None => None
-        end.
-
-    Definition parsea_uint32 (s : string) : option U32.t :=
-        match parsea_nat s with
-        | Some n => Some (U32.to_t (Z.of_nat n))
-        | None => None
-        end.
-    Definition parsea_ascii (s : string) : option U32.t :=
-        match parsea_ascii_aux 100 s 0%Z with
-        | Some z => Some (U32.to_t z)
-        | None => None
-        end.
-    Definition parsea_literal (tok : string) : option U32.t :=
-        if es_prefijo "0x" tok then
-            parsea_hex (substring 2 (String.length tok - 2) tok)
-        else if es_prefijo "hex""" tok then
-            parsea_hex (substring 4 (String.length tok - 5) tok)
-        else if es_prefijo """" tok then
-            parsea_ascii (substring 1 (String.length tok - 2) tok)
-        else
-            parsea_uint32 tok.
-            
-End FranEVM_Dialect_ext.
 
 Module FranAST := YulAST FranEVM_Dialect_ext.
 Module EVM_Parser := YulParser FranEVM_Dialect_ext FranAST.
 Module EVM_Semantica := YulSemantica FranEVM_Dialect_ext FranAST.
     
 Definition evaluar_evm (s : string) :=
-    match EVM_Parser.parse_programa s with
-    | Some ast => 
-        EVM_Semantica.ejecutar_eval_bloque ast nil nil FranEVM_Dialect_ext.empty_dialect_state
-    | None => 
-        (nil, nil, nil, FranEVM_Dialect_ext.empty_dialect_state, Status.Error "Error de sintaxis")
-    end.
+  match EVM_Parser.parse_programa s with
+  | Some ast => 
+    EVM_Semantica.ejecutar_eval_bloque ast nil nil FranEVM_Dialect_ext.empty_dialect_state
+  | None => 
+    (nil, nil, nil, FranEVM_Dialect_ext.empty_dialect_state, Status.Error "Error de sintaxis")
+  end.
 
 	Compute evaluar_evm"{
         function power(base, exponent) -> result {
@@ -99,69 +38,84 @@ Definition evaluar_evm (s : string) :=
         let x := power(3,2)
     }".
 
+    Compute evaluar_evm"
+    { 
+    let zero := 0
+    let v := 2
+    {
+        let y := add(sload(v), 1)
+        v := y
+    }  
+    sstore(v, zero)
+}".
 
-		(*Ejemplos Hoare*)
+	(*Ejemplos Hoare*)
+  Require Import main.hoare.
+  Module EVM_Hoare := YulHoare FranEVM_Dialect_ext FranAST.
+  Import EVM_Hoare.
+	Module Equiv := YulEquivalences FranEVM_Dialect_ext FranAST.
+  Import FranAST.
+  Import main.fran_dialect_parser.
+	Include FranEVM_Dialect.
 
-    Require Import main.hoare.
-    Module EVM_Hoare := YulHoare FranEVM_Dialect_ext FranAST.
-    Import EVM_Hoare.
-		Module Equiv := YulEquivalences FranEVM_Dialect_ext FranAST.
-    Import FranAST.
+  Example equivalent_assertion1 : forall (v : U32.t),
+    (fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> v ] 
+    <<->> 
+    (fun e fe s => Z.le (U32.val v) 5).
+  Proof.
+    split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
+		- destruct H as [val [Heq Hp]].
+			inversion Heq; subst.
+			exact Hp.
+		- eauto.
+	Qed.
 
-    Example equivalent_assertion1 : forall (v : U32.t),
-        (fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> v ] 
-        <<->> 
-        (fun e fe s => Z.le (U32.val v) 5).
-    Proof.
-        split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
-				- destruct H as [val [Heq Hp]].
-					inversion Heq; subst.
-					exact Hp.
-				- eauto.
-		Qed.
+	Example equivalent_assertion2 : forall (v : U32.t),
+    (fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> U32.add v U32.one ] 
+    <<->> 
+    (fun e fe s => Z.le (U32.val (U32.add v U32.one)) 5).
+  Proof.
+		split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
+		- destruct H as [val [Hneq Hp]].
+			inversion Hneq; subst.
+			exact Hp.
+		- eauto.
+	Qed.
 
-		Example equivalent_assertion2 : forall (v : U32.t),
-        (fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> U32.add v U32.one ] 
-        <<->> 
-        (fun e fe s => Z.le (U32.val (U32.add v U32.one)) 5).
-    Proof.
-			split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
-			- destruct H as [val [Hneq Hp]].
-				inversion Hneq; subst.
-				exact Hp.
-			- eauto.
-		Qed.
-
-		Example hoare_asgn_examples2 :
-			exists P,
-				{{ P }}
-					YulLet ("X" :: nil) (YulConst (U32.to_t 3))
-				{{ fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le 0 (U32.val val) /\ Z.le (U32.val val) 5 }}.
-		Proof.
-			exists (fun e fe s => True).
+	Example hoare_asgn_examples2 :
+		exists P,
+			{{ P }}
+				YulLet ("X" :: nil) (YulConst (U32.to_t 3))
+			{{ fun e fe s => exists val, EVM_Semantica.buscar_variable "X" e = Some val /\ Z.le 0 (U32.val val) /\ Z.le (U32.val val) 5 }}.
+	Proof.
+		exists (fun e fe s => existsb (fun '(m, _) => String.eqb "X" m) e = false).
 			apply hoare_let with (R := fun res e fe s => 
                 exists val, 
                 res = (val)::nil /\ 
                 Z.le 0 (U32.val val) /\ 
-                Z.le (U32.val val) 5).
-      - unfold hoare_triple.
+                Z.le (U32.val val) 5 /\
+                existsb (fun '(m, _) => String.eqb "X" m) e = false).
+      - unfold hoare_triple, hoare_triple_val.
 				intros f env fenv state res env' fenv' state' Heval Hpre.
 				destruct f; [discriminate|].
 				inversion Heval; subst.
 				exists (U32.to_t 3).
 				split. reflexivity. unfold U32.val, U32.to_t. simpl.
-        unfold U32.modulus. rewrite Z.mod_small. lia. split. lia. 
-        vm_compute. reflexivity.
-			- intros res env fenv state [val [Heq [H1 H2]]].
+        unfold U32.modulus. rewrite Z.mod_small; [|lia]. split; [lia|].
+        split; [lia|]. exact Hpre.
+			- intros res env fenv state [val [Heq [H1 [H2 Hex]]]].
         subst.
-				destruct (asignar_vars ("X" :: nil) (val::nil) env) eqn:H.
-				exists val. unfold asignar_vars in H. 
-				inversion H; subst.
-				unfold EVM_Semantica.buscar_variable.
-				destruct (string_dec "X" "X") as [Heq|Hneq].
-				+ split. reflexivity. split. exact H1. exact H2.
-				+ contradiction.
-				+ discriminate H.
+				destruct (Sem.agregar_vars ("X" :: nil) (val::nil) env) eqn:H.
+				* exists val. unfold Sem.agregar_vars in H.
+				  rewrite Hex in H.
+				  cbn in H. inversion H; subst.
+				  unfold EVM_Semantica.buscar_variable.
+				  destruct (string_dec "X" "X") as [HeqX|HneqX].
+				  + split. reflexivity. split. exact H1. exact H2.
+				  + contradiction.
+				* unfold Sem.agregar_vars in H.
+				  rewrite Hex in H.
+				  cbn in H. discriminate H.
 		Qed.
 
 		Definition I : Assertion := fun e fe s =>
@@ -171,11 +125,11 @@ Definition evaluar_evm (s : string) :=
 			exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val = 3.
 
 		Lemma eval_list_vacia :
-    	forall (f:nat) env fenv state,
+    	forall (f:nat) env fenv state en_bucle,
      		(f>0)%nat ->
-      	Sem.eval_list f [] env fenv state = ([], env, fenv, state, Sem.Yul_Running).
+      	Sem.eval_list f [] env fenv state en_bucle = ([], env, fenv, state, Sem.Yul_Running).
     Proof.
-      intros f env fenv state.
+      intros f env fenv state en_bucle.
       destruct f; unfold Sem.eval_list. lia. reflexivity.
     Qed.
 
@@ -219,91 +173,65 @@ Definition evaluar_evm (s : string) :=
 
 		Example for_example :
 			exists P,
-				let init := nil in
 				let cond := YulOp EVM_opcode.LT (YulVar "X" :: YulConst (U32.to_t 3) :: nil) in
-				let post := nil in
-				let cuerpo := (YulLet ("X" :: nil) (YulOp EVM_opcode.ADD (YulVar "X" :: YulConst (U32.to_t 1) :: nil)))::nil in
-				{{ P }} YulFor init cond post cuerpo {{ Q }}.
+				let cuerpo := (YulAsignar ("X"::nil) (YulOp EVM_opcode.ADD (YulVar "X" :: YulConst (U32.to_t 1) :: nil)))::nil in
+				hoare_triple P
+					(YulFor nil cond nil cuerpo)
+				  (fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val = 3).
 		Proof.
-			exists I.
-			pose (init := nil : list yul_expr).
-			pose (cond := YulOp EVM_opcode.LT (YulVar "X" :: YulConst (U32.to_t 3) :: nil)).
-			pose (post := nil : list yul_expr).
-			pose (cuerpo := (YulLet ("X" :: nil) (YulOp EVM_opcode.ADD (YulVar "X" :: YulConst (U32.to_t 1) :: nil)))::nil).
-			eapply hoare_for with (I := I) (init := init) (cond := cond) (post := post) (cuerpo := cuerpo).
-			- apply hoare_empty_list.
-			- intros f e fe s rc ec fec sc [val [Hb Hle]] Heval.
-				destruct f as [|f0]; [discriminate|].
-    		destruct f0 as [|f1]; [discriminate|].
-    		destruct f1 as [|f2]; [discriminate|].
-				simpl in Heval.
-				unfold Sem.eval_yul in Heval.
-				simpl in Heval.
-				replace (Sem.buscar_variable "X" e) with (Some val) in Heval by exact (eq_sym Hb).
-				simpl in Heval.
-				inversion Heval;subst.
-				exists val.
-				split; auto.
-				destruct f2 as [|f3]; [discriminate | simpl in Heval].
-				rewrite Hb in Heval.
-				destruct f3 as [|f4].
-				simpl in Heval. 
-				inversion Heval; subst. exact Hb.
-				inversion Heval; subst. exact Hb.				
-			- intros f e fe s rc ec fec sc [val [Hb HI]] Heval H.
-				destruct f as [|f0]; [discriminate | simpl in Heval].
-				destruct f0 as [|f1]; [discriminate | simpl in Heval].
-				destruct f1 as [|f2]; [discriminate | simpl in Heval].
-				destruct f2 as [|f3]; [discriminate | simpl in Heval].
-				rewrite Hb in Heval.
-				destruct f3 as [|f4]; [| simpl in Heval].
- 				inversion Heval; subst.
-				exists val.
-				split.
-				+ exact Hb.
-				+ unfold Sem.is_true in H.
-					unfold FranEVM_Dialect_ext.is_true_value in H.
-  				unfold U32.lt in H.
-					destruct (Z.ltb_spec (U32.val val) 3).
-					* change (U32.val (U32.to_t 3)) with 3%Z in H.
-						apply Z.ltb_lt in H0.
-						rewrite H0 in H.
-						vm_compute in H.
-						discriminate H.
-					* lia. 
-				+ inversion Heval; subst.
-					exists val. split. exact Hb. 
-					unfold Sem.is_true in H.
-					unfold FranEVM_Dialect_ext.is_true_value in H.
-					unfold negb in H.
-					destruct (U32.eqb (U32.lt val (U32.to_t 3)) U32.zero) eqn:Hif.
-					* unfold U32.lt in Hif.
-    				change (U32.val (U32.to_t 3)) with 3%Z in *.
-						destruct (Z.ltb_spec (U32.val val) 3) as [Hlt | Hge].
-						** 	vm_compute in Hif.
-								discriminate Hif.
-						** lia.
-					* discriminate H.
-			- intros f env_orig rc ec fec sc rb eb feb sb [val [Hb Hl]] H Hbreak.
-				admit.
+			exists (fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val <= 3).
+			eapply hoare_for with (I := fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val <= 3).
+			(* 1. init (vacío) preserva el invariante *)
+			- intros f e fe s res e' fe' s' Heval [val [Hb Hl]].
+				peel_fuel_in Heval. inversion Heval; subst.
+				exists val. split; auto.
+			(* 2. evaluar la condición preserva el invariante *)
+			- intros f e fe s rc ec fec sc [val [Hb Hl]] Heval.
+				eval_expr_in Heval Hb. inversion Heval; subst.
+				exists val. split; auto.
+			(* 3. condición falsa → postcondición *)
+			- intros f e fe s rc ec fec sc [val [Hb Hl]] Heval Hfalse.
+				eval_expr_in Heval Hb. inversion Heval; subst.
+				exists val. split; [exact Hb|].
+				unfold is_true, FranEVM_Dialect_ext.is_true_value, U32.eqb, U32.lt, U32.to_t, U32.zero in Hfalse.
+				cbn in Hfalse.
+				destruct (Z.ltb (U32.val val) 3) eqn:Hlt.
+				+ cbn in Hfalse. discriminate Hfalse.
+				+ apply Z.ltb_ge in Hlt. lia.
+			(* 4. break en cuerpo (imposible: cuerpo no tiene break) *)
+			- intros f env_orig rc ec fec sc rb eb feb sb [val [Hb Hl]] Htrue Hbody.
+				eval_expr_in Hbody Hb. inversion Hbody.
+			(* 5. break en post (imposible: post es vacío) *)
 			- intros f env_orig rc ec fec sc rb eb feb sb rp ep fep sp ctrlb.
-				intros H_I H_rc H_ctrlb H_cuerpo H_post.
-				unfold post in H_post.
-				rewrite eval_list_vacia in H_post.
-				discriminate H_post.
-				destruct f.
-				simpl in H_post. discriminate H_post. lia. 
-		
-				
+				intros [val [Hb Hl]] Htrue Hctrlb Hbody Hpost.
+				peel_fuel_in Hpost. inversion Hpost; discriminate.
+			(* 6. paso del bucle → invariante se mantiene *)
+			- intros f e_i fe_i s_i rc ec fec sc rb eb feb sb rp ep fep sp ctrlb ctrlp.
+				intros [val [Hb Hle]] Hcond Htrue Hctrlb Hbody Hpost Hctrlp.
+				Opaque Sem.restringe_env.
+				eval_expr_in Hcond Hb. inversion Hcond; subst.
+				repeat (destruct f as [|f]; [inversion Hbody; subst; destruct Hctrlb; discriminate | cbn in Hbody]).
+				rewrite Hb in Hbody. cbn in Hbody.
+				rewrite Hb in Hbody. cbn in Hbody.
+				inversion Hbody; subst.
+				inversion Hpost; subst.
+				exists (U32.add val (U32.to_t 1)). split.
+				+ apply buscar_restringe.
+				  * apply buscar_restringe.
+				    -- solve_buscar.
+				    -- intro H; rewrite H in Hb; discriminate Hb.
+				  * match goal with
+				    | |- Sem.buscar_variable "X" ?env <> None =>
+				        assert (H_not_none: Sem.buscar_variable "X" env = Some (U32.add val (U32.to_t 1)))
+				    end.
+				    { apply buscar_restringe; [solve_buscar | intro H; rewrite H in Hb; discriminate Hb]. }
+				    intro H_absurd; rewrite H_not_none in H_absurd; discriminate H_absurd.
+				+ unfold Sem.is_true, U32.lt, U32.to_t in Htrue; cbn in Htrue.
+				  destruct (U32.val val <? 3)%Z eqn:Hltb; [|discriminate Htrue].
+				  apply Z.ltb_lt in Hltb. unfold U32.add; cbn.
+				  pose proof (U32.is_valid val) as Hbounds.
+				  unfold U32.Valid in Hbounds.
+				  rewrite Z.mod_small; lia.
+				Transparent Sem.restringe_env.
+		Qed.
 
-
-
-
-					
-
-
-
-
-
-
-  			

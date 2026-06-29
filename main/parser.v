@@ -232,7 +232,13 @@ Module YulParser (D : PARSER_DIALECT) (A : AST_INTERFACE D).
                 | Some (expr_valor, tokens_sobrantes) => Some (YulLet nombres expr_valor, tokens_sobrantes)
                 | None => None
                 end
+             | Some (nombres, resto) => Some (YulLet nombres (YulConst D.default_value), resto)
             | _ => None
+            end
+        | "{"%string :: resto =>
+            match parsea_instrucciones f' resto with
+            | Some (inst, resto1) => Some (YulBlock inst, resto1)
+            | None => None
             end
         | "if"%string :: resto =>
             match parsea_expr f' resto with
@@ -293,7 +299,7 @@ Module YulParser (D : PARSER_DIALECT) (A : AST_INTERFACE D).
             match parsea_idents f' tokens with
             | Some (nombres, ":="%string :: resto_expr) =>
                 match parsea_expr f' resto_expr with
-            | Some (expr_valor, tokens_sobrantes) => Some (YulLet nombres expr_valor, tokens_sobrantes)
+            | Some (expr_valor, tokens_sobrantes) => Some (YulAsignar nombres expr_valor, tokens_sobrantes)
             | None => None
             end
             | _ =>
