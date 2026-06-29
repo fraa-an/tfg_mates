@@ -11,24 +11,30 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
     Import A.
     Import Sem.
 
+    (* Precondición o postcondición en la Lógica de Hoare.*)
     Definition Assertion := A.yul_env -> A.yul_fun_env -> D.dialect_state_t -> Prop.
+    
+    (* Implicación lógica entre aserciones (P implica Q). *)
     Definition assert_implies (P Q : Assertion) : Prop :=
       forall env fenv state, P env fenv state -> Q env fenv state.
     Notation "P ->> Q" := (assert_implies P Q) (at level 80).
     Notation "P <<->> Q" := (P->>Q  /\ Q->>P) (at level 80).
 
+    (* Terna de Hoare tradicional: {{ P }} e {{ Q }} *)
     Definition hoare_triple (P : Assertion) (e : A.yul_expr) (Q : Assertion) : Prop :=
-    forall f env fenv state res env' fenv' state', eval_yul f e env fenv state = (res, env', fenv', state', Yul_Running) ->
+    forall f env fenv state res env' fenv' state', eval_yul f e env fenv state false = (res, env', fenv', state', Yul_Running) ->
       P env fenv state -> Q env' fenv' state'.
 
+    (* Equivalente a hoare_triple pero para una lista de instrucciones *)
     Definition hoare_triple_list (P : Assertion) (l : list A.yul_expr) (Q : Assertion) : Prop :=
     forall f env fenv state res env' fenv' state',
-      eval_list f l env fenv state = (res, env', fenv', state', Yul_Running) ->
+      eval_list f l env fenv state false = (res, env', fenv', state', Yul_Running) ->
       P env fenv state -> Q env' fenv' state'.
 
     Notation "{{ P }} e {{ Q }}" := (hoare_triple P e Q) (at level 90, e at next level).
     Notation "{{{ P }}} l {{{ Q }}}" := (hoare_triple_list P l Q) (at level 90, l at next level).
     
+    (* Un bloque vacío no altera el estado, por lo que P se mantiene. *)
     Theorem hoare_empty_list : forall (P : Assertion),
       {{{ P }}} [] {{{ P }}}.
     Proof.
@@ -40,6 +46,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         exact Hpre.
     Qed.
 
+    (* Regla de composición secuencial *)
     Theorem hoare_seq : forall (P Q R : Assertion) e l,
       {{ P }} e {{ Q }} ->
       {{{ Q }}} l {{{ R }}} ->
@@ -49,52 +56,34 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       unfold hoare_triple, hoare_triple_list in *.
       intros f env fenv state res env' fenv' state' Heval Hpre.
       destruct f as [|f'].
-      - simpl in Heval. inversion Heval.
+      - (* sin combustible *)
+        simpl in Heval. inversion Heval.
       - simpl in Heval.
-          destruct (eval_yul f' e env fenv state) as [[[[res_e env_e] fenv_e] state_e] ctrl_e] eqn:Heval_e.  
-          destruct ctrl_e; try (inversion Heval).
-          assert (HQ : Q env_e fenv_e state_e). { apply (H_e f' env fenv state res_e env_e fenv_e state_e); eauto. }
-          apply (H_l f' env_e fenv_e state_e res env' fenv' state'); eauto.
+        destruct (eval_yul f' e env fenv state false) as [[[[res_e env_e] fenv_e] state_e] ctrl_e] eqn:Heval_e.  
+        (* 'e' terminó correctamente (con Running), si no, descartamos *)
+        destruct ctrl_e; try (inversion Heval).
+        (* Usando hipótesis de 'e', probamos que el estado intermedio cumple Q *)
+        assert (HQ : Q env_e fenv_e state_e). { apply (H_e f' env fenv state res_e env_e fenv_e state_e); eauto. }
+        (* Con el estado Q asegurado, aplicamos la hipótesis de 'l' para llegar a R *)
+        apply (H_l f' env_e fenv_e state_e res env' fenv' state'); eauto.
     Qed.
 
     Definition ValAssertion := list D.value_t -> A.yul_env -> A.yul_fun_env -> D.dialect_state_t -> Prop.
 
+    (* Terna de Hoare para expresiones que devuelven valores: << P >> e << Q >>*)
     Definition hoare_triple_val (P : Assertion) (e : A.yul_expr) (Q : ValAssertion) : Prop :=
     forall f env fenv state res env' fenv' state',
-      eval_yul f e env fenv state = (res, env', fenv', state', Yul_Running) ->
+      eval_yul f e env fenv state false = (res, env', fenv', state', Yul_Running) ->
       P env fenv state ->
       Q res env' fenv' state'.
-
     Notation "<< P >> e << Q >>" := (hoare_triple_val P e Q) (at level 90, e at next level).
 
-    Fixpoint asignar_vars (ns : list string) (vs : list D.value_t) (e : A.yul_env) : option A.yul_env :=
-      match ns, vs with
-      | [], [] => Some e
-      | n::ns', v::vs' => asignar_vars ns' vs' ((n, v) :: e)
-      | _, _ => None
-      end.
 
-    Lemma asignar_equiv : forall (ns : list string) (vs : list D.value_t) (e : yul_env),
-    (fix asignar (ns0 : list string) (vs0 : list D.value_t) (e0 : yul_env) {struct ns0} : option yul_env :=
-      match ns0 with
-      | [] => match vs0 with
-              | [] => Some e0
-              | _ :: _ => None
-              end
-      | n :: ns' =>
-          match vs0 with
-          | [] => None
-          | v :: vs' => asignar ns' vs' ((n, v) :: e0)
-			    end
-      end) ns vs e = asignar_vars ns vs e.
-    Proof.
-    induction ns as [|n ns' IH]; intros [|v vs'] e; simpl; auto.
-    Qed.
-
+    (*Regla de Hoare para declaraciones*)
     Theorem hoare_let : forall (P : Assertion) (Q : Assertion) nombres valor (R : ValAssertion),
       << P >> valor << R >> ->
       (forall res env fenv state, R res env fenv state -> 
-          match asignar_vars nombres res env with
+          match agregar_vars nombres res env with
 	       	| Some nuevo_env => Q nuevo_env fenv state
           | None => False
           end) ->
@@ -106,14 +95,21 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       destruct f as [|f'].
 			- simpl in Heval. inversion Heval.
       - simpl in Heval.
-        destruct (eval_yul f' valor env fenv state) as [[[[valores env_i] fenv_i] state_i] st] eqn:Heval'.
+        revert Heval.
+        (* Evaluamos el 'valor' que queremos asignar *)
+        destruct (eval_yul f' valor env fenv state false) as [[[[valores env_i] fenv_i] state_i] st] eqn:Heval'.
+        intro Heval.
         destruct st; try discriminate.
+        (* precondición R sobre los valores evaluados *)
         assert (HR : R valores env_i fenv_i state_i).
 				eapply Hvalor; eauto.
+        (* garantía (Hmatch) de que si añadimos las variables al entorno, se cumplirá Q *)
         pose proof (Hassign valores env_i fenv_i state_i HR) as Hmatch.
-        destruct (asignar_vars nombres valores env_i) as [nuevo_env |] eqn:Hv.
-      	+ rewrite asignar_equiv in Heval.
-          rewrite Hv in Heval.
+        revert Heval.
+        (* inyección de las variables en la memoria de Coq *)
+        destruct (agregar_vars nombres valores env_i) as [nuevo_env |] eqn:Hv.
+        intro Heval.
+      	+ (* inyección fue exitosa: el número de variables coincide con el de valores *)
           inversion Heval; subst.
           exact Hmatch.
         + contradiction.
@@ -131,6 +127,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         | None => False
         end.
 
+    (* Regla de la consecuencia *)
     Theorem hoare_consequence : forall (P P' Q Q' : Assertion) e,
       {{ P' }} e {{ Q' }} ->
       P ->> P' ->
@@ -166,6 +163,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       intros env fenv state H. exact H.
     Qed.
 
+    (*Regla de Hoare para condicionales*)
     Theorem hoare_if : forall P Q (R : ValAssertion) cond inst,
       << P >> cond << R >> ->
       (forall res env fenv state, R res env fenv state -> is_true res = true ->
@@ -179,18 +177,19 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       destruct f as [|f'].
       - simpl in Heval. inversion Heval.
       - simpl in Heval.
-        destruct (eval_yul f' cond env fenv state) as [[[[res_c env_c] fenv_c] state_c] st_c] eqn:Heval_c.
+        destruct (eval_yul f' cond env fenv state false) as [[[[res_c env_c] fenv_c] state_c] st_c] eqn:Heval_c.
         destruct st_c; try discriminate.
         assert (HR : R res_c env_c fenv_c state_c).
         eapply Hcond; eauto.
         destruct (is_true res_c) eqn:Hbool.
-        destruct (eval_list f' inst env_c fenv_c state_c) as [[[[res_i env_i] fenv_i] state_i] st_i] eqn:Heval_i.
+        destruct (eval_list f' inst env_c fenv_c state_c false) as [[[[res_i env_i] fenv_i] state_i] st_i] eqn:Heval_i.
         destruct st_i; inversion Heval; subst.
         eapply Htrue; eauto.
         inversion Heval; subst.
         apply (Hfalse res_c env' fenv' state'); auto.
     Qed.
 
+    (*Regla de Hoare para YulConst *)
 		Theorem hoare_const : forall (P : Assertion) (v : D.value_t),
       << P >> YulConst v << fun res env fenv state => res = [v] /\ P env fenv state >>.
     Proof.
@@ -202,7 +201,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       - simpl in Heval. inversion Heval. subst. split. reflexivity. exact Hpre.
     Qed.
 
-
+    (*Regla de Hoare para YulVar*)
 		Theorem hoare_var : forall (P : Assertion) nom,
       (forall env fenv state, P env fenv state ->
          exists v, buscar_variable nom env = Some v) ->
@@ -220,6 +219,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
 				+ inversion Heval.
 		Qed.
 
+    (*Regla de Hoare para YulFunc*)
 		Theorem hoare_func : forall (P : Assertion) nom params rets inst,
       {{ P }} YulFunc nom params rets inst  {{ fun env fenv state =>
            P env (tl fenv) state /\
@@ -232,14 +232,15 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       split. exact Hpre. simpl. reflexivity.
     Qed.
 		
+    (*Regla de Hoare para YulCall*)
 		Theorem hoare_call : forall (P : Assertion) (nom : string) (args : list yul_expr) (Q : Assertion),
 			(forall f env fenv state vals env_a fenv_a state_a,
-				eval_argumentos f args env fenv state = (vals, env_a, fenv_a, state_a, Yul_Running) ->
+				eval_argumentos f args env fenv state false = (vals, env_a, fenv_a, state_a, Yul_Running) ->
 				P env fenv state ->
 				match buscar_funcion nom fenv_a with
 				| Some func =>
 						forall env_post fenv_post state_post st_post res_func,
-						eval_list f (f_inst func) (combinar_params (f_params func) vals) fenv_a state_a = (res_func, env_post, fenv_post, state_post, st_post) ->
+						eval_list f (f_inst func) (combinar_params (f_params func) vals ++ List.map (fun r => (r, D.default_value)) (f_ret func)) fenv_a state_a false = (res_func, env_post, fenv_post, state_post, st_post) ->
 						(st_post = Yul_Running \/ st_post = Yul_Leave) ->
 						Q env_a fenv_a state_post
 				| None => False
@@ -250,16 +251,35 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
 			unfold hoare_triple.
 			intros f env fenv state res env' fenv' state' Heval Hpre.
 			destruct f as [|f']; simpl in Heval; [discriminate|].
-			destruct (eval_argumentos f' args env fenv state) as [[[[vals env_a] fenv_a] state_a] st_args] eqn:Hargs.
+			destruct (eval_argumentos f' args env fenv state false) as [[[[vals env_a] fenv_a] state_a] st_args] eqn:Hargs.
 			destruct st_args; try discriminate.
 			assert (H_call := H f' env fenv state vals env_a fenv_a state_a Hargs Hpre).
 			destruct (buscar_funcion nom fenv_a) as [func|] eqn:Hfunc; [|contradiction].
-			destruct (eval_list f' (f_inst func) (combinar_params (f_params func) vals) fenv_a state_a) as [[[[res_func env_post] fenv_post] state_post] st_post] eqn:Hlist.
+			destruct (eval_list f' (f_inst func) (combinar_params (f_params func) vals ++ List.map (fun r => (r, D.default_value)) (f_ret func)) fenv_a state_a false) as [[[[res_func env_post] fenv_post] state_post] st_post] eqn:Hlist.
 			destruct st_post; inversion Heval; subst.
 			- eapply H_call; eauto.
 			- eapply H_call; eauto.
 		Qed.
 		
+    (*Regla de Hoare para YulBlock*)
+		Theorem hoare_block : forall (P Q : Assertion) inst,
+			(forall env_pre fenv_pre state_pre,
+				P env_pre fenv_pre state_pre ->
+				{{{ fun e fe s => e = env_pre /\ fe = fenv_pre /\ s = state_pre }}} 
+				inst 
+				{{{ fun e' fe' s' => Q (restringe_env e' env_pre) fe' s' }}}) ->
+			{{ P }} YulBlock inst {{ Q }}.
+		Proof.
+			intros P Q inst H.
+			unfold hoare_triple, hoare_triple_list.
+			intros f env fenv state res env' fenv' state' Heval Hpre.
+			destruct f; simpl in Heval; [discriminate|].
+			destruct (eval_list f inst env fenv state false) as [[[[res_b env_b] fenv_b] state_b] st_b] eqn:Hb.
+			destruct st_b; inversion Heval; subst.
+			- eapply H; eauto.
+		Qed.
+		
+    (*Regla de Hoare para YulSwitch*)
     Theorem hoare_switch : forall (P Q : Assertion) (R : ValAssertion)
       cond casos def,
       << P >> cond << R >> ->
@@ -269,12 +289,10 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
           R res env_c fenv_c state_c ->
           D.eqb (hd D.default_value res) val_caso = true ->
           {{{ fun e fe s => R res e fe s }}} cuerpo_caso {{{ fun e' fe' s' => Q (restringe_env e' env_c) fe' s' }}}) ->
-       
       (forall res env_c fenv_c state_c,
         R res env_c fenv_c state_c ->
         forallb (fun '(vc, _) => negb (D.eqb (hd D.default_value res) vc)) casos = true ->
         {{{ fun e fe s => R res e fe s }}} def {{{ fun e' fe' s' => Q (restringe_env e' env_c) fe' s' }}}) ->
-
       {{ P }} YulSwitch cond casos def {{ Q }}.
     Proof.
       intros P Q R cond casos def Hcond Hcasos Hdef.
@@ -283,7 +301,7 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       destruct f.
       + simpl in Heval. inversion Heval.
       + simpl in Heval.   
-        destruct (eval_yul f cond env fenv state) as [[[[res_c env_c] fenv_c] state_c] st_c] eqn:Heval_c.
+        destruct (eval_yul f cond env fenv state false) as [[[[res_c env_c] fenv_c] state_c] st_c] eqn:Heval_c.
         destruct st_c; try discriminate.
         assert (H : R res_c env_c fenv_c state_c).
         {eapply Hcond. eauto. exact Hpre. }
@@ -294,11 +312,11 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         clear Hdef.
         revert Hcasos Hdef_c Heval.
         induction casos as [| [vc cc] casos' IHcasos]; intros Hcasos Hdef_c Heval.
-        - destruct (eval_list f def env_c fenv_c state_c) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
+        - destruct (eval_list f def env_c fenv_c state_c false) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
           destruct ctrld; inversion Heval; subst.
           eapply Hdef_c; eauto.
         - destruct (D.eqb v_eval vc) eqn:Hmatch.
-          ** destruct (eval_list f cc env_c fenv_c state_c) as [[[[rc ec] fec] sc] ctrc] eqn:Hcc.
+          ** destruct (eval_list f cc env_c fenv_c state_c false) as [[[[rc ec] fec] sc] ctrc] eqn:Hcc.
             destruct ctrc; inversion Heval; subst.
             change (match res_c with | [] => D.default_value | v :: _ => v end) with v_eval in Heval.
             rewrite Hmatch in Heval.
@@ -330,43 +348,44 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
                exact Heval.
     Qed.
 
+    (*Regla de Hoare para YulFor*)
     Lemma hoare_bucle : forall (I Q : Assertion) cond cuerpo post,
       (forall f e fe s rc ec fec sc,
           I e fe s ->
-          eval_yul f cond e fe s = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e fe s false = (rc, ec, fec, sc, Yul_Running) ->
           I ec fec sc) ->
       (* cond = false *)
       (forall f e fe s rc ec fec sc,
           I e fe s ->
-          eval_yul f cond e fe s = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e fe s false = (rc, ec, fec, sc, Yul_Running) ->
           is_true rc = false ->
           Q ec fec sc) ->
       (* break en cuerpo *)
       (forall f env_orig rc ec fec sc rb eb feb sb,
           I ec fec sc ->
           is_true rc = true ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, Yul_Break) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, Yul_Break) ->
           Q (restringe_env (restringe_env eb ec) env_orig) feb sb) ->
       (* break en post *)
       (forall f env_orig rc ec fec sc rb eb feb sb rp ep fep sp ctrlb,
           I ec fec sc ->
           is_true rc = true ->
           (ctrlb = Yul_Running \/ ctrlb = Yul_Continue) ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, ctrlb) ->
-          eval_list f post (restringe_env eb ec) feb sb = (rp, ep, fep, sp, Yul_Break) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, ctrlb) ->
+          eval_list f post (restringe_env eb ec) feb sb false = (rp, ep, fep, sp, Yul_Break) ->
           Q (restringe_env (restringe_env eb ec) env_orig) feb sb) ->
       (forall f e_i fe_i s_i rc ec fec sc rb eb feb sb rp ep fep sp ctrlb ctrlp,
           I e_i fe_i s_i ->
-          eval_yul f cond e_i fe_i s_i = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e_i fe_i s_i false = (rc, ec, fec, sc, Yul_Running) ->
           is_true rc = true ->
           (ctrlb = Yul_Running \/ ctrlb = Yul_Continue) ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, ctrlb) ->
-          eval_list f post (restringe_env eb ec) feb sb = (rp, ep, fep, sp, ctrlp) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, ctrlb) ->
+          eval_list f post (restringe_env eb ec) feb sb false = (rp, ep, fep, sp, ctrlp) ->
           (ctrlp = Yul_Running \/ ctrlp = Yul_Continue) ->
           I (restringe_env ep (restringe_env eb ec)) fep sp) ->
       forall n env_orig e fe s res env' fenv' state',
         I e fe s ->
-        eval_bucle cond cuerpo post env_orig n e fe s =
+        eval_bucle cond cuerpo post env_orig n e fe s false =
           (res, env', fenv', state', Yul_Running) ->
         Q env' fenv' state'.
     Proof.
@@ -375,12 +394,12 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         intros env_orig e fe s res env' fenv' state' HI Heval.
       - simpl in Heval. inversion Heval.
       - cbn [eval_bucle] in Heval.
-        destruct (eval_yul n cond e fe s) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
+        destruct (eval_yul n cond e fe s false) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
         destruct ctrlc; try inversion Heval.
         assert (HIec : I ec fec sc) by (eapply Hcond_inv; eauto).
         revert Heval.
         destruct (is_true rc) eqn:Hrc; intro Heval.
-        + destruct (eval_list n cuerpo ec fec sc) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+        + destruct (eval_list n cuerpo ec fec sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
           destruct ctrlb.
           * destruct (eval_list n post (restringe_env eb ec) feb sb) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
             destruct ctrlp.
@@ -414,44 +433,73 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         + inversion Heval; subst.
           exact (Hfalse n e fe s rc env' fenv' state' HI Hc Hrc). 
     Qed.
-      
- 
+    Lemma buscar_restringe : forall x env1 env2 v,
+      Sem.buscar_variable x env1 = Some v ->
+      Sem.buscar_variable x env2 <> None ->
+      Sem.buscar_variable x (Sem.restringe_env env1 env2) = Some v.
+    Proof.
+      intros x env1 env2 v H1 H2.
+      unfold Sem.restringe_env.
+      induction env1 as [| [k val] env1' IH].
+      - simpl in H1. discriminate.
+      - simpl in H1. simpl.
+        destruct (string_dec x k) as [Eq | Neq].
+        + inversion H1; subst.
+          destruct (existsb (fun '(m, _) => String.eqb k m) env2) eqn:E.
+          * simpl. destruct (string_dec k k) as [_ | Neqk]; [| exfalso; apply Neqk; reflexivity].
+            reflexivity.
+          * assert (Hin: existsb (fun '(m, _) => String.eqb k m) env2 = true).
+            { clear -H2. induction env2 as [| [k2 v2] env2'].
+              - simpl in H2. exfalso. apply H2. reflexivity.
+              - simpl in *. destruct (string_dec k k2) as [Eq2 | Neq2].
+                + subst. destruct (String.eqb k2 k2) eqn:E3; [reflexivity | apply String.eqb_neq in E3; exfalso; apply E3; reflexivity].
+                + apply not_eq_sym in Neq2. apply String.eqb_neq in Neq2.
+                  destruct (String.eqb k k2); [reflexivity | apply IHenv2'; assumption].
+            }
+            rewrite Hin in E. discriminate.
+        + destruct (existsb (fun '(m, _) => String.eqb k m) env2) eqn:Ek.
+          * simpl. destruct (string_dec x k) as [Eq | _].
+            -- exfalso. apply Neq. exact Eq.
+            -- apply IH. assumption.
+          * apply IH. assumption.
+    Qed.
+
     Theorem hoare_for : forall (P I Q : Assertion)
       init cond post cuerpo,
       {{{ P }}} init {{{ I }}} ->
       (*Hcond*)
       (forall f e fe s rc ec fec sc,
           I e fe s ->
-          eval_yul f cond e fe s = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e fe s false = (rc, ec, fec, sc, Yul_Running) ->
           I ec fec sc) ->
       (*Hfalse*)
       (forall f e fe s rc ec fec sc,
           I e fe s ->
-          eval_yul f cond e fe s = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e fe s false = (rc, ec, fec, sc, Yul_Running) ->
           is_true rc = false ->
           Q ec fec sc) ->
       (*Hbreak*)
       (forall f env_orig rc ec fec sc rb eb feb sb,
           I ec fec sc ->
           is_true rc = true ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, Yul_Break) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, Yul_Break) ->
           Q (restringe_env (restringe_env eb ec) env_orig) feb sb) ->
       (*Hbreak'*)
       (forall f env_orig rc ec fec sc rb eb feb sb rp ep fep sp ctrlb,
           I ec fec sc ->
           is_true rc = true ->
           (ctrlb = Yul_Running \/ ctrlb = Yul_Continue) ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, ctrlb) ->
-          eval_list f post (restringe_env eb ec) feb sb = (rp, ep, fep, sp, Yul_Break) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, ctrlb) ->
+          eval_list f post (restringe_env eb ec) feb sb false = (rp, ep, fep, sp, Yul_Break) ->
           Q (restringe_env (restringe_env eb ec) env_orig) feb sb) ->
       (*H'*)
       (forall f e_i fe_i s_i rc ec fec sc rb eb feb sb rp ep fep sp ctrlb ctrlp,
           I e_i fe_i s_i ->
-          eval_yul f cond e_i fe_i s_i = (rc, ec, fec, sc, Yul_Running) ->
+          eval_yul f cond e_i fe_i s_i false = (rc, ec, fec, sc, Yul_Running) ->
           is_true rc = true ->
           (ctrlb = Yul_Running \/ ctrlb = Yul_Continue) ->
-          eval_list f cuerpo ec fec sc = (rb, eb, feb, sb, ctrlb) ->
-          eval_list f post (restringe_env eb ec) feb sb = (rp, ep, fep, sp, ctrlp) ->
+          eval_list f cuerpo ec fec sc true = (rb, eb, feb, sb, ctrlb) ->
+          eval_list f post (restringe_env eb ec) feb sb false = (rp, ep, fep, sp, ctrlp) ->
           (ctrlp = Yul_Running \/ ctrlp = Yul_Continue) ->
           I (restringe_env ep (restringe_env eb ec)) fep sp) ->
       {{ P }} YulFor init cond post cuerpo {{ Q }}.
@@ -462,10 +510,49 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
       destruct f.
       + simpl in Heval; inversion Heval.
       + simpl in Heval; inversion Heval.
-        destruct (eval_list f init env fenv state) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
+        destruct (eval_list f init env fenv state false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
         destruct ctrli; try inversion Heval.
         assert (HI : I ei fei si) by (eapply H; eauto).
         eapply hoare_bucle; eauto.
     Qed.
-      
-	End YulHoare.
+
+    (** [fuel_en H] avanza un nivel de fuel en la hipótesis [H].
+        Busca la primera llamada a [eval_yul], [eval_list] o [eval_argumentos]
+        cuyo argumento de fuel sea una variable, la destruye en [O]
+        (descartado por [discriminate]) y [S], simplificando. *)
+    Ltac fuel_en H :=
+      match type of H with
+      | context [eval_yul ?f _ _ _ _ _] =>
+        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
+      | context [eval_list ?f _ _ _ _ _] =>
+        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
+      | context [eval_argumentos ?f _ _ _ _ _] =>
+        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
+      end.
+
+    (** [rec_fuel_en H] repite [fuel_en H] hasta que falle. *)
+    Ltac rec_fuel_en H := repeat fuel_en H.
+
+    (** [eval_expr_en H Hvar] evalúa completamente una expresión en la
+        hipótesis [H], usando [Hvar].Repite si es necesario (lectura + asignación) *)
+    Ltac eval_expr_en H Hvar :=
+      rec_fuel_en H H;
+      rewrite Hvar in H;
+      simpl in H;
+      rec_fuel_en H H;
+      try (rewrite Hvar in H; simpl in H; rec_fuel_en H H).
+
+    (** [resuelve_buscar] resuelve goals de la forma
+        [buscar_variable "X" (("X", v) :: ...) = Some v].*)
+    Ltac resuelve_buscar :=
+      try unfold restringe_env;
+      simpl;
+      unfold buscar_variable;
+      match goal with
+      | |- context [string_dec ?s1 ?s2] =>
+        destruct (string_dec s1 s2); [reflexivity | contradiction]
+      | |- ?x = ?x => reflexivity
+      | |- Some _ = Some _ => f_equal; reflexivity
+      end.
+
+ 	End YulHoare.
