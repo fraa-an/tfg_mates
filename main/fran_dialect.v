@@ -694,6 +694,7 @@ Module EVM_opcode.
     | MSTORE
     | SLOAD
     | SSTORE
+    | CALLDATALOAD
     .
     
     Definition eq_dec: forall (a b: t), {a = b} + {a <> b}.
@@ -838,6 +839,12 @@ Module EVM_opcode.
                    ([], state', Status.Running)
                | _ => ([], state, Status.Error "SSTORE expects 2 input")
                end
+      | CALLDATALOAD => match inputs with
+               | [offset] =>
+                   let v := EVMMemorySegment.get_word state.(EVMState.call_data_seg) offset in
+                   ([v], state, Status.Running)
+               | _ => ([], state, Status.Error "CALLDATALOAD expects 1 input")
+               end
     end. 
 
     Definition show (op: t): string :=
@@ -872,6 +879,7 @@ Module EVM_opcode.
       | MSTORE => "MSTORE"
       | SLOAD => "SLOAD"
       | SSTORE => "SSTORE"
+      | CALLDATALOAD => "CALLDATALOAD"
       end.
 
 End EVM_opcode.
@@ -935,6 +943,7 @@ Module FranEVM_Dialect <: DIALECT.
     | EVM_opcode.MSTORE => false
     | EVM_opcode.SLOAD => false
     | EVM_opcode.SSTORE => false
+    | EVM_opcode.CALLDATALOAD => false
     end.
 
   Ltac solve_binary_op op msg args :=
