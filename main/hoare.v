@@ -471,22 +471,37 @@ Module YulHoare (D : DIALECT) (A : AST_INTERFACE D).
         eapply hoare_bucle; [exact Hcond | exact Hfalse | exact Hbreak | exact H' | exact HI | exact Hb].
     Qed.
 
+    (** Tácticas auxiliares para resolver estados de terminación imposibles *)
+    Ltac solve_zero H :=
+      discriminate H ||
+      (inversion H; subst;
+       match goal with
+       | [ Hcontra : Yul_Error _ = Yul_Running |- _ ] => discriminate Hcontra
+       | [ Hcontra : Yul_Error _ = Yul_Continue |- _ ] => discriminate Hcontra
+       | [ Hcontra : Yul_Error _ = Yul_Break |- _ ] => discriminate Hcontra
+       | [ Hcontra : Yul_Error _ = Yul_Leave |- _ ] => discriminate Hcontra
+       | [ Hcontra : Yul_Running = Yul_Error _ |- _ ] => discriminate Hcontra
+       | [ Hcontra : Yul_Error _ = Yul_Running \/ Yul_Error _ = Yul_Continue |- _ ] =>
+           destruct Hcontra as [Hc|Hc]; discriminate Hc
+       end).
+
     (** [fuel_en H] avanza un nivel de fuel en la hipótesis [H].
-        Busca la primera llamada a [eval_yul], [eval_list] o [eval_argumentos]
-        cuyo argumento de fuel sea una variable, la destruye en [O]
-        (descartado por [discriminate]) y [S], simplificando. *)
+        Si encuentra un constructor, lo destruye y simplifica. *)
     Ltac fuel_en H :=
+      simpl in H;
       match type of H with
-      | context [eval_yul ?f _ _ _ _ _] =>
-        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
-      | context [eval_list ?f _ _ _ _ _] =>
-        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
-      | context [eval_argumentos ?f _ _ _ _ _] =>
-        is_var f; destruct f; [simpl in H; discriminate | simpl in H]
+      | context [eval_bucle ?x _ _ _ _ _ _ _ _] =>
+          destruct x; [ solve_zero H | simpl in H]
+      | context [eval_list ?x _ _ _ _ _] =>
+          destruct x; [ solve_zero H | simpl in H]
+      | context [eval_yul ?x _ _ _ _ _] =>
+          destruct x; [ solve_zero H | simpl in H]
+      | context [eval_argumentos ?x _ _ _ _ _] =>
+          destruct x; [ solve_zero H | simpl in H]
       end.
 
     (** [rec_fuel_en H] repite [fuel_en H] hasta que falle. *)
-    Ltac rec_fuel_en H := repeat fuel_en H.
+    Ltac rec_fuel_en H := repeat (fuel_en H).
 
     (** [eval_expr_en H Hvar] evalúa completamente una expresión en la
         hipótesis [H], usando [Hvar].Repite si es necesario (lectura + asignación) *)

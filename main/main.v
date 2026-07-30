@@ -73,33 +73,7 @@ Definition Q (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Diale
   - Hbreak': el post no produce break
   - H'   : el cuerpo y el post mantienen I
 *)
-Ltac solve_zero H :=
-  discriminate H ||
-  (inversion H; subst;
-   match goal with
-   | [ Hcontra : Sem.Yul_Error _ = Sem.Yul_Running |- _ ] => discriminate Hcontra
-   | [ Hcontra : Sem.Yul_Error _ = Sem.Yul_Continue |- _ ] => discriminate Hcontra
-   | [ Hcontra : Sem.Yul_Error _ = Sem.Yul_Break |- _ ] => discriminate Hcontra
-   | [ Hcontra : Sem.Yul_Error _ = Sem.Yul_Leave |- _ ] => discriminate Hcontra
-   | [ Hcontra : Sem.Yul_Running = Sem.Yul_Error _ |- _ ] => discriminate Hcontra
-   | [ Hcontra : Sem.Yul_Error _ = Sem.Yul_Running \/ Sem.Yul_Error _ = Sem.Yul_Continue |- _ ] =>
-       destruct Hcontra as [Hc|Hc]; discriminate Hc
-   end).
 
-Ltac mi_fuel H :=
-  simpl in H;
-  match type of H with
-  | context [Sem.eval_bucle ?x _ _ _ _ _ _ _ _] =>
-      destruct x; [ solve_zero H | simpl in H]
-  | context [Sem.eval_list ?x _ _ _ _ _] =>
-      destruct x; [ solve_zero H | simpl in H]
-  | context [Sem.eval_yul ?x _ _ _ _ _] =>
-      destruct x; [ solve_zero H | simpl in H]
-  | context [Sem.eval_argumentos ?x _ _ _ _ _] =>
-      destruct x; [ solve_zero H | simpl in H]
-  end.
-
-Ltac reduce_fuel H := repeat (mi_fuel H).
 
 Theorem for_example :
   {{ fun e fe s => True }}
@@ -109,7 +83,7 @@ Proof.
   eapply hoare_for with (I := I).
   - (*Hinit*)
     intros env_pre fenv_pre state_pre _ f e fe s res e' fe' s' Hinit _.
-    reduce_fuel Hinit.
+    rec_fuel_en Hinit.
     destruct (Sem.buscar_variable "X" e) as [val|] eqn:Hvar in Hinit.
     + simpl in Hinit. inversion Hinit.
     + simpl in Hinit. inversion Hinit; subst.
@@ -120,7 +94,7 @@ Proof.
       * change (U32.val (U32.to_t 0%Z)) with 0%Z. lia.
   - (*Hcond*)
     intros f e fe s rc ec fec sc HI Hc.
-    reduce_fuel Hc.
+    rec_fuel_en Hc.
     destruct (Sem.buscar_variable "X" e) as [val|] eqn:Hvar in Hc.
     + simpl in Hc. inversion Hc; subst. exact HI.
     + simpl in Hc. inversion Hc.
@@ -133,21 +107,21 @@ Proof.
   - (*H'*)
     intros f e_i fe_i s_i rc ec fec sc rb eb feb sb rp ep fep sp ctrlb ctrlp.
     intros H_I H_cond H_rc H_ctrlb H_cuerpo H_post H_ctrlp.
-    reduce_fuel H_cond.
+    rec_fuel_en H_cond.
     destruct (Sem.buscar_variable "X" e_i) as [val_i|] eqn:Hvar_i in H_cond.
     + simpl in H_cond. inversion H_cond. subst ec fec sc.
-      reduce_fuel H_post.
+      rec_fuel_en H_post.
       unfold post in H_post. simpl in H_post. inversion H_post; subst.
       destruct H_I as [val [Hb Hle]].
-      (* Usar reduce_fuel hasta que se atasque en buscar_variable *)
-      reduce_fuel H_cuerpo.
+      (* Usar rec_fuel_en hasta que se atasque en buscar_variable *)
+      rec_fuel_en H_cuerpo.
       (* Ahora reemplazar buscar_variable "X" e_i con Some val *)
       rewrite Hb in H_cuerpo.
       (* Sustituir actualizar_vars para desatascarlo *)
       unfold Sem.actualizar_vars in H_cuerpo. simpl in H_cuerpo.
       rewrite Hb in H_cuerpo.
       (* Y seguir reduciendo el fuel hasta el final *)
-      reduce_fuel H_cuerpo.
+      rec_fuel_en H_cuerpo.
       simpl in H_cuerpo. inversion H_cuerpo; subst.
       
       simpl in Hvar_i. rewrite Hb in Hvar_i. injection Hvar_i as Heq_vi. subst val_i.
