@@ -17,52 +17,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
     Import A.
     Import Sem.
 
-    (*Corrección de búsqueda de variable en entorno*)
-    Lemma existsb_env_in : forall (env : A.yul_env) (n : string) (v : D.value_t), In (n, v) env -> existsb (fun '(m, _) => String.eqb n m) env = true.
-    Proof.
-      (*Inducción sobre el entorno*)
-      induction env as [| [n' v'] resto IH]; intros n v Hin.
-      - (*Hin: In (n,v) [], lo que es imposible*) contradiction.
-      - simpl. destruct Hin as [Heq | Hin].
-        + (*Heq: (n',v')=(n,v): la variable está en la cabeza*) 
-          inversion Heq; subst. rewrite String.eqb_refl. reflexivity.
-        + (*Hin: In (n,v) resto: la variable está en la cola*) 
-          apply IH in Hin.
-          destruct (String.eqb n n').
-          * reflexivity.
-          * exact Hin.
-    Qed.
 
-
-    (*Corrección del filtrado en entornos de restringe_env: si todas las variables de env2 están en env1, el filtro no borra ninguna variable*)
-    Lemma filter_env_id : forall (env1 env2 : A.yul_env), (forall n v, In (n, v) env1 -> existsb (fun '(m, _) => String.eqb n m) env2 = true) ->
-        filter (fun '(n, _) => existsb (fun '(m, _) => String.eqb n m) env2) env1 = env1.
-    Proof.
-      (*Inducción sobre env1*)
-      induction env1 as [| [k v'] resto IH]; intros env2 H.
-      - (*filter sobre [] = []*) reflexivity.
-      - simpl.
-        assert (H_h : existsb (fun '(m, _) => String.eqb k m) env2 = true).
-        { apply (H k v'). left. reflexivity. }
-        rewrite H_h. 
-        (*(k,v')::filter...resto=(k,v')::resto*)
-        f_equal. (*filter...resto=resto*)
-        apply IH. (*aplica IH*)
-        intros n' v'' Hin. (*Hin: In (n',v'') resto*)
-        apply (H n' v''). (*la cabeza del entorno no coincide con (n',v'')-> debe coincidir el resto -> aplica Hin*)
-        right. exact Hin.
-    Qed.
-
-    (*Si se restringe un entorno a sí mismo, se obtiene el propio entorno*)
-    Lemma restringe_env_mismo : forall (env : A.yul_env), restringe_env env env = env.
-    Proof.
-      intros env.
-      unfold restringe_env.
-      apply filter_env_id.
-      intros n v Hin.
-      apply (existsb_env_in env n v).
-      exact Hin.
-    Qed.
 
     (*Dos expresiones son equivalentes si para el mismo estado, entornos y fuel, producen el mismo resultado*)
     Definition expr_equiv (e1 e2 : yul_expr) : Prop :=
@@ -186,8 +141,8 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       (*eval_bucle no puede devolver un estado de control break/continue: la ejecución de un bucle
        siempre termina o en estado Running o con error. Si dentro del bucle (en el cuerpo) hay break/continue,
        se trata dentro del bucle *)
-      (forall cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl,
-         eval_bucle cond cuerpo post env_orig f ei fei si en_bucle 
+      (forall cond cuerpo post ei fei si en_bucle res env' fenv' state' ctrl,
+         eval_bucle cond cuerpo post f ei fei si en_bucle 
            = (res, env', fenv', state', ctrl) ->
          ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
     Proof.
@@ -206,8 +161,8 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
         eval_argumentos g args env fenv state false = (res, env', fenv', state', ctrl) ->
         ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
       (*Pe: propiedad sobre eval_bucle*)
-      set (Pb := fun g => forall cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl,
-        eval_bucle cond cuerpo post env_orig g ei fei si en_bucle = (res, env', fenv', state', ctrl) ->
+      set (Pb := fun g => forall cond cuerpo post ei fei si en_bucle res env' fenv' state' ctrl,
+        eval_bucle cond cuerpo post g ei fei si en_bucle = (res, env', fenv', state', ctrl) ->
         ctrl <> Yul_Break /\ ctrl <> Yul_Continue).
       assert (IHe : forall g, g < f -> Pe g) by (intros g Hg; exact (proj1 (IH g Hg))).
       assert (IHl : forall g, g < f -> Pl g) by (intros g Hg; exact (proj1 (proj2 (IH g Hg)))).
@@ -222,7 +177,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
           simpl in Heval. inversion Heval. subst. split; discriminate.
         + intros args env fenv state res env' fenv' state' ctrl Heval.
           simpl in Heval. inversion Heval. subst. split; discriminate.
-        + intros cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl Heval.
+        + intros cond cuerpo post ei fei si en_bucle res env' fenv' state' ctrl Heval.
           simpl in Heval. inversion Heval. subst. split; discriminate.
       - (* f = S f' *)
         assert (Hf' : f' < S f') by lia.
@@ -258,7 +213,7 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
             destruct ctrlc; try (exfalso; apply (proj1 Hxc); reflexivity); try (exfalso; apply (proj2 Hxc); reflexivity); try (inversion Heval; subst; split; discriminate).
             destruct (is_true rc).
             -- (*rc=true*)
-              destruct (eval_list f' inst ec fec sc false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
+              destruct (eval_list f' inst (abrir_entorno_vars ec) (hoist_funcs inst (abrir_entorno_funcs fec)) sc false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
               pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hi) as Hxi.
               destruct ctrli; try (exfalso; apply (proj1 Hxi); reflexivity); try (exfalso; apply (proj2 Hxi); reflexivity); try (inversion Heval; subst; split; discriminate).
             -- (*rc=false*)
@@ -270,20 +225,23 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
             revert Heval.
             induction casos as [| [vc cc] casos' IHcasos].
             -- simpl.
-               destruct (eval_list f' default ec fec sc false) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
+               destruct (eval_list f' default (abrir_entorno_vars ec) (hoist_funcs default (abrir_entorno_funcs fec)) sc false) as [[[[rd ed] fed] sd] ctrld] eqn:Hd.
                intro Heval. pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hd) as Hxd.
                destruct ctrld; try (exfalso; apply (proj1 Hxd); reflexivity); try (exfalso; apply (proj2 Hxd); reflexivity); try (inversion Heval; subst; split; discriminate).
             -- simpl.
                destruct (D.eqb (match rc with v :: _ => v | [] => D.default_value end) vc).
-               ++ destruct (eval_list f' cc ec fec sc false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+               ++ destruct (eval_list f' cc (abrir_entorno_vars ec) (hoist_funcs cc (abrir_entorno_funcs fec)) sc false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
                   intro Heval. pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
                   destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); try (inversion Heval; subst; split; discriminate).
                ++ apply IHcasos.
           * (*YulFor*)
-            destruct (eval_list f' ini env fenv state false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
+            destruct (eval_list f' ini (abrir_entorno_vars env) (hoist_funcs ini (abrir_entorno_funcs fenv)) state false) as [[[[ri ei] fei] si] ctrli] eqn:Hi.
             pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hi) as Hxi.
             destruct ctrli; try (exfalso; apply (proj1 Hxi); reflexivity); try (exfalso; apply (proj2 Hxi); reflexivity); try (inversion Heval; subst; split; discriminate).
-            apply (IHb f' Hf' cond inst post env ei fei si false res env' fenv' state' ctrl Heval).
+            destruct (eval_bucle cond inst post f' ei fei si false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            pose proof (IHb f' Hf' cond inst post ei fei si false rb eb feb sb ctrlb Hb) as Hxb.
+            destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); try (inversion Heval; subst; split; discriminate).
+
           * (*YulFunc*)
             inversion Heval; subst; split; discriminate.
           * (*YulCall*)
@@ -291,11 +249,11 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
             pose proof (IHa f' Hf' _ _ _ _ _ _ _ _ _ Ha) as Hxa.
             destruct ctrla; try (exfalso; apply (proj1 Hxa); reflexivity); try (exfalso; apply (proj2 Hxa); reflexivity); try (inversion Heval; subst; split; discriminate).
             destruct (buscar_funcion nombre fea) as [y|]; try (inversion Heval; subst; split; discriminate).
-            destruct (eval_list f' (f_inst y) (combinar_params (f_params y) ra ++ List.map (fun r => (r, D.default_value)) (f_ret y)) fea sa false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            destruct (eval_list f' (f_inst y) (combinar_params (f_params y) ra ++ List.map (fun r => (r, D.default_value)) (f_ret y)) (hoist_funcs (f_inst y) fea) sa false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
             pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
             destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); try (inversion Heval; subst; split; discriminate).
           * (*YulBlock*)
-            destruct (eval_list f' inst_b env fenv state false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            destruct (eval_list f' inst_b (abrir_entorno_vars env) (hoist_funcs inst_b (abrir_entorno_funcs fenv)) state false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
             pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hb) as Hxb.
             destruct ctrlb; try (exfalso; apply (proj1 Hxb); reflexivity); try (exfalso; apply (proj2 Hxb); reflexivity); inversion Heval; subst; split; discriminate.
           * (*YulBreak fuera del cuerpo de un bucle -> produce Yul_Error*)
@@ -329,27 +287,27 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
             pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hh) as Hxh.
             destruct ctrlh; try (exfalso; apply (proj1 Hxh); reflexivity); try (exfalso; apply (proj2 Hxh); reflexivity); try (inversion Heval; subst; split; discriminate).
         + (* eval_bucle *)
-          intros cond cuerpo post env_orig ei fei si en_bucle res env' fenv' state' ctrl Heval.
+          intros cond cuerpo post ei fei si en_bucle res env' fenv' state' ctrl Heval.
           cbn [eval_bucle] in Heval. (*reescribe eval_bucle en Heval*)
           destruct (eval_yul f' cond ei fei si false) as [[[[rc ec] fec] sc] ctrlc] eqn:Hc.
           pose proof (IHe f' Hf' _ _ _ _ _ _ _ _ _ Hc) as Hxc.
           destruct ctrlc; try (exfalso; apply (proj1 Hxc); reflexivity); try (exfalso; apply (proj2 Hxc); reflexivity); try (inversion Heval; subst; split; discriminate).
           destruct (is_true rc) eqn:Htrue.
           * (*rc=true por Htrue*)
-            destruct (eval_list f' cuerpo ec fec sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+            destruct (eval_list f' cuerpo (abrir_entorno_vars ec) (hoist_funcs cuerpo (abrir_entorno_funcs fec)) sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
             destruct ctrlb.
             -- (*Running -> se ejecuta post*)
-              destruct (eval_list f' post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+              destruct (eval_list f' post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
               pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hp) as Hxp.
               destruct ctrlp; try (exfalso; apply (proj1 Hxp); reflexivity); try (exfalso; apply (proj2 Hxp); reflexivity); try (inversion Heval; subst; split; discriminate).
-              apply (IHb f' Hf' cond cuerpo post env_orig (restringe_env ep (restringe_env eb ec)) fep sp false res env' fenv' state' ctrl Heval).
+              apply (IHb f' Hf' cond cuerpo post (cerrar_entorno_vars ep) (cerrar_entorno_funcs fep) sp false res env' fenv' state' ctrl Heval).
             -- (*Break*)
               inversion Heval; subst; split; discriminate.
             -- (*Continue -> se ejecuta post*)
-              destruct (eval_list f' post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+              destruct (eval_list f' post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
               pose proof (IHl f' Hf' _ _ _ _ _ _ _ _ _ Hp) as Hxp.
               destruct ctrlp; try (exfalso; apply (proj1 Hxp); reflexivity); try (exfalso; apply (proj2 Hxp); reflexivity); try (inversion Heval; subst; split; discriminate).
-              apply (IHb f' Hf' cond cuerpo post env_orig (restringe_env ep (restringe_env eb ec)) fep sp false res env' fenv' state' ctrl Heval).
+              apply (IHb f' Hf' cond cuerpo post (cerrar_entorno_vars ep) (cerrar_entorno_funcs fep) sp false res env' fenv' state' ctrl Heval).
             -- (*Leave*)
               inversion Heval; subst; split; discriminate.
             -- (*Error*)
@@ -378,12 +336,12 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
       (forall f env fenv state res env' fenv' state',
          eval_list f cuerpo env fenv state true 
            <> (res, env', fenv', state', Yul_Break)) ->
-      forall n env e fe s res env' fenv' state' en_bucle,
-        eval_bucle cond cuerpo post env n e fe s en_bucle = (res, env', fenv', state', Yul_Running) -> False.
+      forall n e fe s res env' fenv' state' en_bucle,
+        eval_bucle cond cuerpo post n e fe s en_bucle = (res, env', fenv', state', Yul_Running) -> False.
     Proof.
       intros cond post cuerpo Hcond_equiv Hcuerpo.
       (*Inducción sobre fuel*)
-      induction n as [|n IH]; intros env e fe s res env' fenv' state' en_bucle Heval.
+      induction n as [|n IH]; intros e fe s res env' fenv' state' en_bucle Heval.
       - (*n=0*)
         simpl in Heval. inversion Heval.
       - (*n>0*)
@@ -397,29 +355,29 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
           - contradiction.
           - exact Htrue. }
         rewrite Htrue' in Heval.
-        destruct (eval_list n cuerpo ec fec sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb. (*ejecución cuerpo*)
+        destruct (eval_list n cuerpo (abrir_entorno_vars ec) (hoist_funcs cuerpo (abrir_entorno_funcs fec)) sc true) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb. (*ejecución cuerpo*)
         destruct ctrlb.
         + (*Running -> ejecuta post*)
-          destruct (eval_list n post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+          destruct (eval_list n post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
           destruct ctrlp.
           * (*Running -> nueva iteración*)
-            exact (IH env (restringe_env ep (restringe_env eb ec)) fep sp res env' fenv' state' false Heval).
+            exact (IH (cerrar_entorno_vars ep) (cerrar_entorno_funcs fep) sp res env' fenv' state' false Heval).
           * (*Break -> imposible en post -> absurdo*) 
-            exfalso. exact (proj1 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Break Hp) eq_refl).
+            exfalso. exact (proj1 (Pl post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb rp ep fep sp Yul_Break Hp) eq_refl).
           * (*Continue -> imposible en post -> absurdo*) 
-            exfalso. exact (proj2 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Continue Hp) eq_refl).
+            exfalso. exact (proj2 (Pl post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb rp ep fep sp Yul_Continue Hp) eq_refl).
           * (*Error*)
             inversion Heval.
           * (*Leave*)
             inversion Heval.
         + (*Break en cuerpo -> contradicción con la hipótesis*)
-          exfalso. exact (Hcuerpo n ec fec sc rb eb feb sb Hb).
+          exfalso. exact (Hcuerpo n (abrir_entorno_vars ec) (hoist_funcs cuerpo (abrir_entorno_funcs fec)) sc rb eb feb sb Hb).
         + (*Continue -> ejecuta post y siguiente iteración*)
-          destruct (eval_list n post (restringe_env eb ec) feb sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
+          destruct (eval_list n post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb false) as [[[[rp ep] fep] sp] ctrlp] eqn:Hp.
           destruct ctrlp.
-          * exact (IH env (restringe_env ep (restringe_env eb ec)) fep sp res env' fenv' state' false Heval).
-          * exfalso. exact (proj1 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Break Hp) eq_refl).
-          * exfalso. exact (proj2 (Pl post (restringe_env eb ec) feb sb rp ep fep sp Yul_Continue Hp) eq_refl).
+          * exact (IH (cerrar_entorno_vars ep) (cerrar_entorno_funcs fep) sp res env' fenv' state' false Heval).
+          * exfalso. exact (proj1 (Pl post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb rp ep fep sp Yul_Break Hp) eq_refl).
+          * exfalso. exact (proj2 (Pl post (abrir_entorno_vars (cerrar_entorno_vars eb)) (hoist_funcs post (abrir_entorno_funcs (cerrar_entorno_funcs feb))) sb rp ep fep sp Yul_Continue Hp) eq_refl).
           * inversion Heval.
           * inversion Heval.
         + (*Error*)
@@ -450,8 +408,10 @@ Module YulEquivalences (D : DIALECT) (A : AST_INTERFACE D).
         + (*sin fuel para evaluar condición*)
           simpl in Heval. inversion Heval.
         + (*se aplican eval_list_vacia por init y bucle_no_running*)
-          rewrite (eval_list_vacia (S f2) env [] state en_bucle) in Heval; [| lia].
-          eapply (bucle_no_running cond post cuerpo Hcond Hcuerpo (S f2) env env [] state res env' fenv' state' en_bucle Heval).
+          rewrite (eval_list_vacia (S f2) (abrir_entorno_vars env) (abrir_entorno_funcs []) state en_bucle) in Heval; [| lia].
+          destruct (eval_bucle cond cuerpo post (S f2) (abrir_entorno_vars env) (abrir_entorno_funcs []) state false) as [[[[rb eb] feb] sb] ctrlb] eqn:Hb.
+          destruct ctrlb; try (inversion Heval; subst; discriminate).
+          eapply (bucle_no_running cond post cuerpo Hcond Hcuerpo (S f2) (abrir_entorno_vars env) (abrir_entorno_funcs []) state rb eb feb sb false Hb).
     Qed.
 
 End YulEquivalences.

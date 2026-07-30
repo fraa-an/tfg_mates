@@ -44,6 +44,7 @@ Module FranEVM_Dialect_ext <: PARSER_DIALECT.
         else if string_dec s "mstore" then Some EVM_opcode.MSTORE
         else if string_dec s "sload" then Some EVM_opcode.SLOAD
         else if string_dec s "sstore" then Some EVM_opcode.SSTORE
+        else if string_dec s "calldataload" then Some EVM_opcode.CALLDATALOAD
         else None.
 
     (*Parseo de números hexadecimales*)
