@@ -1,3 +1,14 @@
+(***********************************************************************
+ * FICHERO: ejemplos.v
+ * CONTENIDO: Contiene una función auxiliar (`evaluar_evm`) que
+ * evalúa el estado de la EVM tras la ejecución del programa que recibe 
+ * como dato de entrada.
+ * Contiene código Yul (representado en el AST) y su posterior 
+ * certificación mediante los teoremas de `hoare.v`. 
+ * El ejemplo más complejo es `for_example`, que demuestra paso a paso 
+ * la corrección de un bucle iterativo.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Bool.
 From Stdlib Require Import ZArith.ZArith.
