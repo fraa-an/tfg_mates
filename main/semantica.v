@@ -1,3 +1,12 @@
+(***********************************************************************
+ * FICHERO: semantica.v
+ * CONTENIDO: Implementa la semántica operacional de paso largo del 
+ * lenguaje Yul. La función de evaluación utiliza una variable `fuel` para 
+ * asegurar la terminación en Rocq. Este módulo gestiona de forma precisa 
+ * el estado, la memoria y el entorno de variables, así como la evaluación 
+ * recursiva de expresiones complejas.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Lists.List.
 From Stdlib Require Import Lia.
