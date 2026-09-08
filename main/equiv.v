@@ -1,3 +1,10 @@
+(***********************************************************************
+ * FICHERO: equiv.v
+ * CONTENIDO: Módulo dedicado a la demostración de 
+ * equivalencias estructurales entre distintas expresiones del lenguaje 
+ * Yul. También incluye el modelado matemático y la comprobación formal 
+ * de programas divergentes (bucles infinitos).
+ ***********************************************************************)
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Lists.List.
 From Stdlib Require Import Wf_nat.
