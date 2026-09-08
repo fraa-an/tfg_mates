@@ -1,3 +1,11 @@
+(***********************************************************************
+ * FICHERO: ast.v
+ * CONTENIDO: Este archivo define el Árbol Sintáctico Abstracto (AST) 
+ * para el lenguaje Yul. Proporciona los tipos de datos inductivos 
+ * fundamentales (expresiones, variables, constantes, for, if, 
+ * switch).
+ ***********************************************************************)
+   
 From Stdlib Require Import Strings.String.
 Require Import LenguajeYul.dialect.
 
