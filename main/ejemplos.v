@@ -21,6 +21,7 @@ Module Sem := Hoare.Sem.
 Module Par := YulParser FranEVM_Dialect_ext FranAST.
 Module Equiv := YulEquivalences FranEVM_Dialect_ext FranAST.
 Import Hoare.
+Import FranAST.
 
 (*Función auxiliar: parsea y ejecuta código Yul dado como string*)
 Definition evaluar_evm (code : string) :=
@@ -42,6 +43,86 @@ Compute evaluar_evm "{ let v := 1 let zero := 0 sstore(zero, v) }".
 *)
 Compute evaluar_evm "{ function power(base, n) -> result { result := 1 for {} gt(n, 0) {} { result := mul(result, base) n := sub(n, 1) } } let r := power(2, 3) }".
 
+
+
+Example equivalent_assertion1 : forall (v : U32.t),
+  (fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> v ] 
+  <<->> 
+  (fun e fe s => Z.le (U32.val v) 5).
+Proof.
+  split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
+	- destruct H as [val [Heq Hp]]. 
+	  inversion Heq; subst.
+		exact Hp.
+	- eauto.
+Qed.
+
+Example equivalent_assertion2 : forall (v : U32.t),
+  (fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> U32.add v U32.one ] 
+  <<->> 
+  (fun e fe s => Z.le (U32.val (U32.add v U32.one)) 5).
+Proof.
+	split; unfold assert_implies, assertion_sub; intros env fenv state H; simpl in *.
+	- destruct H as [val [Hneq Hp]].
+		inversion Hneq; subst.
+		exact Hp.
+	- eauto.
+Qed.
+
+Example hoare_asgn_examples2 :
+	exists P,
+		{{ P }}
+			YulLet ("X" :: nil) (YulConst (U32.to_t 3))
+		{{ fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ Z.le 0 (U32.val val) /\ Z.le (U32.val val) 5 }}.
+Proof.
+	exists (fun e fe s => existsb (fun '(m, _) => String.eqb "X" m) e = false).
+	apply hoare_let with (R := fun res e fe s => 
+    exists val, 
+    res = (val)::nil /\ 
+    Z.le 0 (U32.val val) /\ 
+    Z.le (U32.val val) 5 /\
+    existsb (fun '(m, _) => String.eqb "X" m) e = false).
+  - unfold hoare_triple, hoare_triple_val.
+	  intros f env fenv state res env' fenv' state' Heval Hpre.
+		destruct f; [discriminate|].
+		inversion Heval; subst.
+		exists (U32.to_t 3).
+		split. reflexivity. unfold U32.val, U32.to_t. simpl.
+    unfold U32.modulus. rewrite Z.mod_small; [|lia]. split; [lia|].
+    split; [lia|]. exact Hpre.
+	- intros res env fenv state [val [Heq [H1 [H2 Hex]]]].
+    subst.
+	  destruct (Sem.agregar_vars ("X" :: nil) (val::nil) env) eqn:H.
+		* exists val. split; [|split; assumption].
+            cbn in H. 
+            assert (H_none: Sem.buscar_variable "X" env = None).
+            { clear - Hex. induction env as [| [m v] env' IH].
+              - reflexivity.
+              - change (existsb (fun '(m0, _) => String.eqb "X" m0) ((m, v) :: env')) with (String.eqb "X" m || existsb (fun '(m0, _) => String.eqb "X" m0) env') in Hex.
+                apply Bool.orb_false_iff in Hex. destruct Hex as [H_eq Hex'].
+                cbn [Sem.buscar_variable]. destruct (string_dec "X" m) as [e | e].
+                + apply String.eqb_eq in e. rewrite e in H_eq. discriminate H_eq.
+                + apply IH. exact Hex'.
+            }
+            rewrite H_none in H.
+            cbn in H.
+            inversion H; subst.
+            cbn [Sem.buscar_variable]. destruct (string_dec "X" "X"); [reflexivity|contradiction].
+		* cbn in H.
+      assert (H_none: Sem.buscar_variable "X" env = None).
+      { clear - Hex. induction env as [| [m v] env' IH].
+      - reflexivity.
+      - change (existsb (fun '(m0, _) => String.eqb "X" m0) ((m, v) :: env')) with (String.eqb "X" m || existsb (fun '(m0, _) => String.eqb "X" m0) env') in Hex.
+        apply Bool.orb_false_iff in Hex. destruct Hex as [H_eq Hex'].
+        cbn [Sem.buscar_variable]. destruct (string_dec "X" m) as [e | e].
+        + apply String.eqb_eq in e. rewrite e in H_eq. discriminate H_eq.
+        + apply IH. exact Hex'.
+      }
+      rewrite H_none in H.
+      cbn in H.
+      discriminate H.
+	Qed.
+
 (*
   Demostración formal de un for que incrementa X hasta 3.
   AST del programa:
@@ -60,15 +141,15 @@ Definition cuerpo := FranAST.YulAsignar ("X"%string :: nil)
 Definition I (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Dialect_ext.dialect_state_t) : Prop :=
   exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val <= 3.
 
-(*Postcondición: X ≥ 3*)
+(*Postcondición: True (trivial)*)
 Definition Q (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Dialect_ext.dialect_state_t) : Prop :=
   True.
 
 (*
   La prueba utiliza el lema hoare_for de hoare.v:
   - H    : init establece I
-  - Hcond: cond verdadera implica I se mantiene para la lectura de X
-  - Hfalse: cond falsa implica Q (X ≥ 3)
+  - Hcond: cond verdadera implica I
+  - Hfalse: cond falsa implica Q
   - Hbreak: el cuerpo no produce break
   - Hbreak': el post no produce break
   - H'   : el cuerpo y el post mantienen I
@@ -140,4 +221,3 @@ Proof.
          ** discriminate H_rc.
     + simpl in H_cond. inversion H_cond.
 Qed.
-
