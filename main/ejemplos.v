@@ -44,7 +44,6 @@ Compute evaluar_evm "{ let v := 1 let zero := 0 sstore(zero, v) }".
 Compute evaluar_evm "{ function power(base, n) -> result { result := 1 for {} gt(n, 0) {} { result := mul(result, base) n := sub(n, 1) } } let r := power(2, 3) }".
 
 
-
 Example equivalent_assertion1 : forall (v : U32.t),
   (fun e fe s => exists val, Sem.buscar_variable "X" e = Some val /\ Z.le (U32.val val) 5) [ "X" |-> v ] 
   <<->> 
@@ -126,11 +125,18 @@ Proof.
 (*
   Demostración formal de un for que incrementa X hasta 3.
   AST del programa:
-    for { let X := 0 } lt(X, 3) {} { X := add(X, 1) }
+    Precondición: X=0 en el entorno inicial
+
+    for {} lt(X, 3) {} { X := add(X, 1) }
 
   Postcondición: X ≥ 3 en el entorno final.
 *)
-Definition init   := FranAST.YulLet ("X"%string :: nil) (FranAST.YulConst (U32.to_t 0%Z)) :: nil.
+
+(*Precondición: X declarada antes del bucle con valor 0 *)
+Definition P (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Dialect_ext.dialect_state_t) : Prop :=
+  exists val, Sem.buscar_variable "X"%string e = Some val /\ U32.val val = 0%Z.
+
+Definition init   := ([] : list FranAST.yul_expr).
 Definition cond   := FranAST.YulOp EVM_opcode.LT (FranAST.YulVar "X"%string :: FranAST.YulConst (U32.to_t 3%Z) :: nil).
 Definition post   := ([] : list FranAST.yul_expr).
 Definition cuerpo := FranAST.YulAsignar ("X"%string :: nil)
@@ -139,11 +145,14 @@ Definition cuerpo := FranAST.YulAsignar ("X"%string :: nil)
 
 (*Invariante: existe un valor val en X tal que val < 3*)
 Definition I (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Dialect_ext.dialect_state_t) : Prop :=
-  exists val, Sem.buscar_variable "X" e = Some val /\ U32.val val <= 3.
+  exists val rest_e marker_val, 
+    e = ("|"%string, marker_val) :: rest_e /\ 
+    Sem.buscar_variable "X"%string rest_e = Some val /\ 
+    (0<=U32.val val <= 3)%Z.
 
-(*Postcondición: True (trivial)*)
+(*Postcondición: existe un valor val en X tal que val >= 3*)
 Definition Q (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Dialect_ext.dialect_state_t) : Prop :=
-  True.
+  exists val, Sem.buscar_variable "X"%string e = Some val /\ U32.val val >= 3%Z.
 
 (*
   La prueba utiliza el lema hoare_for de hoare.v:
@@ -155,69 +164,79 @@ Definition Q (e : FranAST.yul_env) (fe : FranAST.yul_fun_env) (s : FranEVM_Diale
   - H'   : el cuerpo y el post mantienen I
 *)
 
-
 Theorem for_example :
-  {{ fun e fe s => True }}
+  {{ P }}
     FranAST.YulFor init cond post cuerpo
   {{ Q }}.
 Proof.
   eapply hoare_for with (I := I).
-  - (*Hinit*)
-    intros env_pre fenv_pre state_pre _ f e fe s res e' fe' s' Hinit _.
-    rec_fuel_en Hinit.
-    destruct (Sem.buscar_variable "X" e) as [val|] eqn:Hvar in Hinit.
-    + simpl in Hinit. inversion Hinit.
-    + simpl in Hinit. inversion Hinit; subst.
-      exists (U32.to_t 0%Z). split.
-      * unfold Sem.buscar_variable.
-        destruct (string_dec "X" "|") as [|Hneq]; [discriminate|].
-        destruct (string_dec "X" "X") as [Heq|]; [reflexivity|contradiction].
-      * change (U32.val (U32.to_t 0%Z)) with 0%Z. lia.
-  - (*Hcond*)
+  - (* Hinit *)
+    intros env_pre fenv_pre state_pre HP f env_in fenv_in state_in res env_out fenv_out state_out Heval Heq.
+    destruct HP as [val_x [Hvar_x Hval_x]].
+    destruct Heq as [Heq_env [Heq_fenv Heq_state]]. subst.
+    rec_fuel_en Heval. simpl in Heval. inversion Heval; subst.
+    exists val_x.
+    exists env_pre.
+    exists FranEVM_Dialect_ext.default_value. 
+    split. { unfold FranEVM_Dialect_ext.default_value. reflexivity. }
+    split. { exact Hvar_x. } { lia. }
+  - (* Hcond *)
     intros f e fe s rc ec fec sc HI Hc.
-    rec_fuel_en Hc.
-    destruct (Sem.buscar_variable "X" e) as [val|] eqn:Hvar in Hc.
-    + simpl in Hc. inversion Hc; subst. exact HI.
-    + simpl in Hc. inversion Hc.
-  - (*Hfalse*)
+    destruct HI as [val_x [rest_e [marker_val [Heq [Hvar Hval]]]]]. subst e.
+    rec_fuel_en Hc. simpl in Hc. rewrite Hvar in Hc.
+    inversion Hc; subst.
+    exists val_x.
+    exists rest_e.
+    exists marker_val. 
+    split. { reflexivity. } 
+    split. { exact Hvar. } { exact Hval. }
+  - (* Hfalse *)
     intros f e fe s rc ec fec sc HI Hc Hf.
-    constructor.
-  - (*Hbreak*)
+    destruct HI as [val_x [rest_e [marker_val [Heq [Hvar Hval]]]]]. subst e.
+    rec_fuel_en Hc. simpl in Hc. rewrite Hvar in Hc.
+    inversion Hc; subst.
+    unfold Sem.is_true, FranEVM_Dialect_ext.is_true_value, U32.lt in Hf.
+    destruct (U32.val val_x <? U32.val (U32.to_t 3%Z))%Z eqn:Hlt.
+    + simpl in Hf. discriminate Hf.
+    + apply Z.ltb_ge in Hlt. change (U32.val (U32.to_t 3%Z)) with 3%Z in Hlt.
+      exists val_x. split.
+      * simpl. exact Hvar.
+      * (*
+          Hlt: 3<= U32.val val_x, y el objetivo a probar es U32.val val_x >=3.
+          No se puede aplicar "exact Hlt" por ser tener '<=' y '>=' definiciones
+          inductivas distintas, pese a tener el mismo significado -> se aplica lia. 
+      *)
+        lia.
+  - (* Hbreak *)
     intros f rc ec fec sc rb eb feb sb HI H_rc Hbreak.
-    constructor.
-  - (*H'*)
+    destruct HI as [val_x [rest_e [marker_val [Heq [Hvar Hval]]]]]. subst ec.
+    rec_fuel_en Hbreak. simpl in Hbreak. rewrite Hvar in Hbreak.
+    unfold Sem.actualizar_vars in Hbreak. simpl in Hbreak. rewrite Hvar in Hbreak.
+    rec_fuel_en Hbreak. simpl in Hbreak. inversion Hbreak.
+  - (* H' *)
     intros f e_i fe_i s_i rc ec fec sc rb eb feb sb rp ep fep sp ctrlb ctrlp.
     intros H_I H_cond H_rc H_ctrlb H_cuerpo H_post H_ctrlp.
-    rec_fuel_en H_cond.
-    destruct (Sem.buscar_variable "X" e_i) as [val_i|] eqn:Hvar_i in H_cond.
-    + simpl in H_cond. inversion H_cond. subst ec fec sc.
-      rec_fuel_en H_post.
-      unfold post in H_post. simpl in H_post. inversion H_post; subst.
-      destruct H_I as [val [Hb Hle]].
-      (* Usar rec_fuel_en hasta que se atasque en buscar_variable *)
-      rec_fuel_en H_cuerpo.
-      (* Ahora reemplazar buscar_variable "X" e_i con Some val *)
-      rewrite Hb in H_cuerpo.
-      (* Sustituir actualizar_vars para desatascarlo *)
-      unfold Sem.actualizar_vars in H_cuerpo. simpl in H_cuerpo.
-      rewrite Hb in H_cuerpo.
-      (* Y seguir reduciendo el fuel hasta el final *)
-      rec_fuel_en H_cuerpo.
-      simpl in H_cuerpo. inversion H_cuerpo; subst.
-      
-      simpl in Hvar_i. rewrite Hb in Hvar_i. injection Hvar_i as Heq_vi. subst val_i.
-      exists (U32.add val (U32.to_t 1%Z)). split.
-      ++ simpl. erewrite Sem.buscar_reemplazar_mismo; [reflexivity|exact Hb].
-      ++ unfold Sem.is_true, FranEVM_Dialect_ext.is_true_value, U32.lt in H_rc.
-         change (U32.val (U32.to_t 3%Z)) with 3%Z in H_rc.
-         destruct val as [v Hv]. simpl in *.
-         destruct (v <? 3)%Z eqn:Hlt_b in H_rc.
-         ** unfold U32.add, U32.to_t in *. 
-            replace (1 mod U32.modulus)%Z with 1%Z in * by reflexivity.
-            unfold U32.modulus, U32.Valid in *.
-            replace (Z.pow_pos 2 32) with 4294967296%Z in * by reflexivity.
-            simpl in *.
-            apply Z.ltb_lt in Hlt_b. rewrite Z.mod_small; lia.
-         ** discriminate H_rc.
-    + simpl in H_cond. inversion H_cond.
+    destruct H_I as [val_x [rest_e [marker_val [Heq [Hvar Hval]]]]]. subst e_i.
+    rec_fuel_en H_cond. simpl in H_cond. rewrite Hvar in H_cond. inversion H_cond; subst.
+    rec_fuel_en H_post. simpl in H_post. inversion H_post; subst.
+    rec_fuel_en H_cuerpo. simpl in H_cuerpo. rewrite Hvar in H_cuerpo.
+    unfold Sem.actualizar_vars in H_cuerpo. simpl in H_cuerpo. rewrite Hvar in H_cuerpo.
+    rec_fuel_en H_cuerpo. simpl in H_cuerpo. inversion H_cuerpo; subst.
+    simpl.
+    exists (U32.add val_x (U32.to_t 1%Z)).
+    exists (Sem.reemplazar_var "X"%string (U32.add val_x (U32.to_t 1%Z)) rest_e).
+    exists marker_val.
+    split. { reflexivity. }
+    split.
+    + eapply Sem.buscar_reemplazar_mismo. exact Hvar.
+    + unfold Sem.is_true, FranEVM_Dialect_ext.is_true_value, U32.lt in H_rc.
+      change (U32.val (U32.to_t 3%Z)) with 3%Z in H_rc.
+      destruct (U32.val val_x <? 3)%Z eqn:Hlt_b in H_rc.
+      * unfold U32.add, U32.to_t, U32.modulus in *.
+        simpl in *. 
+        replace (Z.pow_pos 2 32) with 4294967296%Z in * by reflexivity.
+        replace (1 mod 4294967296%Z) with 1%Z in * by reflexivity.
+        apply Z.ltb_lt in Hlt_b.
+        rewrite Z.mod_small; lia.
+      * discriminate H_rc.
 Qed.
