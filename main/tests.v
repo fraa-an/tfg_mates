@@ -1,3 +1,10 @@
+(***********************************************************************
+ * FICHERO: tests.v
+ * CONTENIDO: Unidad de pruebas unitarias. Su propósito es 
+ * "validar" empíricamente que tanto el parser como la semántica operacional 
+ * se comportan como dicta la especificación formal antes de demostrarlo formalmente.
+ ***********************************************************************)
+
 Require Import Strings.String.
 Require Import Lists.List.
 Import ListNotations.
