@@ -1,3 +1,12 @@
+(***********************************************************************
+ * FICHERO: fran_dialect_parser.v
+ * CONTENIDO: Implementa las reglas léxicas y sintácticas específicas para
+ * el dialecto Yul definido en este TFG. Parametriza el parser con el
+ * dialecto definido por `fran_dialect.v`, permitiendo traducir programas
+ * de Yul que contienen los opcodes del dialecto a los tipos inductivos que 
+ * luego serán evaluados y verificados.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Bool.
 From Stdlib Require Import ZArith.ZArith.
