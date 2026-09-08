@@ -1,3 +1,11 @@
+(***********************************************************************
+ * FICHERO: hoare.v
+ * CONTENIDO: Define la semántica axiomática del lenguaje Yul mediante la 
+ * implementación de las ternas de Hoare ({{ P }} c {{ Q }}). 
+ * Contiene la formulación y demostración rigurosa de reglas de inferencia 
+ * para las instrucciones del lenguaje.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Lists.List.
 Import ListNotations.
