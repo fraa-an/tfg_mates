@@ -1,3 +1,8 @@
+(***********************************************************************
+ * FICHERO: misc.v
+ * CONTENIDO: Necesario para `dialect.v`. 
+ ***********************************************************************)
+
 From Stdlib Require Import Bool.Bool.
 From Stdlib Require Import Logic.Classical_Pred_Type.
 From Stdlib Require Import List.
