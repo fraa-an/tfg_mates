@@ -1,3 +1,8 @@
+(***********************************************************************
+ * FICHERO: dialect.v
+ * CONTENIDO: Define la interfaz de un dialecto de la EVM.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 From Stdlib Require Import Bool.Bool.
 From Stdlib Require Import List.
