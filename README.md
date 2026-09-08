@@ -33,7 +33,7 @@ Para explorar o compilar las demostraciones de este proyecto es necesario dispon
 Para comprobar las demostraciones, basta con ejecutar el compilador de Rocq en orden de dependencias o abrir los archivos en un entorno compatible. En el desarrollo de este proyecto, se ha utilizado VSCode con **VsRocq** (versión 2.4.3 de vsrocq-language-server).
 
 ### Ejemplos de evaluación:
-Para ejecutar el parser con el programa "{ let x := 2 }".
+Para ejecutar el analizador sintáctico con el programa "{ let x := 2 }":
  ```
 Require Import main.parser.
 From Stdlib Require Import Strings.String.
