@@ -1,3 +1,9 @@
+(***********************************************************************
+ * FICHERO: fran_dialect.v
+ * CONTENIDO: Este archivo define los opcodes de la EVM 
+ * soportados en el proyecto.
+ ***********************************************************************)
+   
 From Stdlib Require Strings.String.
 From Stdlib Require Lists.List.
 From Stdlib Require Ascii.
