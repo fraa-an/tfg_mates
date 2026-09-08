@@ -1,3 +1,9 @@
+(***********************************************************************
+ * FICHERO: parser.v
+ * CONTENIDO: Contiene el análisis léxico y sintáctico (parser). 
+ * Transforma cadenas de texto plano (strings) en estructuras del AST.
+ ***********************************************************************)
+
 From Stdlib Require Import Strings.String.
 Open Scope string_scope.
 From Stdlib Require Import Ascii.
